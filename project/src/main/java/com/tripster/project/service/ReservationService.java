@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReservationsService {
+public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
     public Reservation findOne(Long id) {
