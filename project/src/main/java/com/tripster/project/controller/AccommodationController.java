@@ -54,4 +54,17 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodation, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+
+        Accommodation accommodation = accommodationService.findOne(id);
+
+        if (accommodation != null) {
+            accommodationService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
