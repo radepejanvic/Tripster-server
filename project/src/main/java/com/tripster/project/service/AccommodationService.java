@@ -15,7 +15,7 @@ public class AccommodationService {
     @Autowired
     private AccommodationRepository accommodationRepository;
 
-    public Accommodation findOne(Integer id) {
+    public Accommodation findOne(Long id) {
         return accommodationRepository.findById(id).orElseGet(null);
     }
 
@@ -31,7 +31,7 @@ public class AccommodationService {
         return accommodationRepository.save(Accommodation);
     }
 
-    public void remove(Integer id) {
+    public void remove(Long id) {
         accommodationRepository.deleteById(id);
     }
 }
