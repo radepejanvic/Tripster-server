@@ -2,6 +2,8 @@ package com.tripster.project.model;
 
 import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.model.enums.UserType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
+@Entity
 public class User {
+
+    @Id
     private Long id;
     private String email;
     private String password;
