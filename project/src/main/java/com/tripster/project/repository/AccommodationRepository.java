@@ -1,4 +1,7 @@
 package com.tripster.project.repository;
 
-public class AccommodationRepository implements IAccommodationRepository {
+import com.tripster.project.model.Accommodation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 }
