@@ -1,13 +1,9 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Reservation;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-public interface ReservationRepository {
-    Collection<Reservation> findAll();
-    Reservation create(Reservation reservation);
-    Reservation findOne(Long id);
-    Reservation update(Reservation reservation);
-    void delete(Long id);
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 }
