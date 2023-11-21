@@ -42,4 +42,16 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodation, HttpStatus.CREATED);
     }
 
+    @PutMapping(consumes = "application/json")
+    public ResponseEntity<Accommodation> updateCourse(@RequestBody Accommodation accommodation) {
+        Accommodation acc = accommodationService.findOne(accommodation.getId());
+
+        if (acc == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        acc.setName(accommodation.getName());
+        accommodationService.save(acc);
+        return new ResponseEntity<>(accommodation, HttpStatus.OK);
+    }
+
 }
