@@ -1,6 +1,7 @@
 package com.tripster.project.model;
 
 import com.tripster.project.model.enums.ReservationStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -8,17 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 public class Reservation {
-    // TODO: Add @Id tag when dependency is added
     @Id
     private Long id;
-    private LocalDate start;
-    private LocalDate end;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private int duration;
     private int guests;
     private double price;
