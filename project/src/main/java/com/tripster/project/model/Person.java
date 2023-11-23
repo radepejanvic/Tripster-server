@@ -1,7 +1,6 @@
 package com.tripster.project.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,11 +10,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Person {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String surname;
+
+    @Column(nullable = false)
     private String phone;
-    // TODO: Add OneToOne relationship with User
-    // TODO: Add OneToOne relationship with Address
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Address address;
 }
