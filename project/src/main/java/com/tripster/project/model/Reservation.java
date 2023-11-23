@@ -1,9 +1,7 @@
 package com.tripster.project.model;
 
 import com.tripster.project.model.enums.ReservationStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,16 +15,33 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Reservation {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "startDate", nullable = false)
+    private LocalDate start;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "endDate", nullable = false)
+    private LocalDate end;
+
     private int duration;
+
     private int guests;
+
     private double price;
+
+    @Enumerated(EnumType.STRING)
     private ReservationStatus status;
-    // TODO: Link with Guest using OR mapper
-    //private Guest guest;
-    // TODO: Link with Accommodation using OR mapper
-    //private Accommodation accommodation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accommodation_id")
+    private Accommodation accommodation;
 }

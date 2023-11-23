@@ -4,30 +4,26 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Columns;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class Address {
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String country;
+    private String name;
 
     @Column(nullable = false)
-    private String city;
+    private String surname;
 
     @Column(nullable = false)
-    private String zipCode;
+    private String phone;
 
-    @Column(nullable = false)
-    private String street;
-
-    @Column(nullable = false)
-    private String number;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Address address;
 }
