@@ -2,6 +2,7 @@ package com.tripster.project.dto;
 
 import com.tripster.project.model.Address;
 import com.tripster.project.model.Host;
+import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.AmenityType;
 
@@ -33,4 +34,6 @@ public class AccommodationDTO {
     private AccommodationType accommodationType;
 
     private boolean automaticReservation;
+
+    private AccommodationStatus accommodationStatus;
 }
