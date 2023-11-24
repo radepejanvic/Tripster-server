@@ -1,33 +1,28 @@
 package com.tripster.project.model;
 
+import com.tripster.project.model.enums.NotificationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Columns;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class Address {
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String country;
+    private String text;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String city;
+    private NotificationStatus status;
 
-    @Column(nullable = false)
-    private String zipCode;
-
-    @Column(nullable = false)
-    private String street;
-
-    @Column(nullable = false)
-    private String number;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private User user;
 }

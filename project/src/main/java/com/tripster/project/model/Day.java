@@ -4,30 +4,29 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Columns;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class Address {
+public class Day {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
-    private String country;
+    private LocalDate date;
 
     @Column(nullable = false)
-    private String city;
+    private double price;
 
-    @Column(nullable = false)
-    private String zipCode;
+    private boolean isAvailable;
 
-    @Column(nullable = false)
-    private String street;
-
-    @Column(nullable = false)
-    private String number;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "accommodation_id")
+    private Accommodation accommodation;
 }
