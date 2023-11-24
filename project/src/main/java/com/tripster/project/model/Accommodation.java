@@ -35,8 +35,6 @@ public class Accommodation {
 
     private List<Ammenity> amenities;
 
-    private File photo;
-
     private int minCap;
 
     private int maxCap;
