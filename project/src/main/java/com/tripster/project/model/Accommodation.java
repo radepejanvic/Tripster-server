@@ -2,14 +2,13 @@ package com.tripster.project.model;
 
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
-import com.tripster.project.model.enums.Ammenity;
+import com.tripster.project.model.enums.AmenityType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.File;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +32,8 @@ public class Accommodation {
 
     private String description;
 
-    private List<Ammenity> amenities;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AmenityType> amenities;
 
     private int minCap;
 

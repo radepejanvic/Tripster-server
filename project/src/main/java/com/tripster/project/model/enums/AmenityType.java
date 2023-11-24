@@ -1,5 +1,5 @@
 package com.tripster.project.model.enums;
 
-public enum Ammenity {
+public enum AmenityType {
     WIFI, KITCHEN, PARKING
 }
