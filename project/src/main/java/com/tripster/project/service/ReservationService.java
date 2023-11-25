@@ -17,9 +17,7 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     public Reservation findOne(Long id) {
         Reservation res = reservationRepository.findById(id).orElseGet(null);
-        //return ReservationDTOMapper.fromReservationToDTO(reservationRepository.findById(id).orElseGet(null));
         return res;
-        //return ReservationDTOMapper.fromReservationToDTO(res);
     }
     public List<Reservation> findAll() {
         return reservationRepository.findAll();

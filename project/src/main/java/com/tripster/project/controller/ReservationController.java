@@ -31,9 +31,9 @@ public class ReservationController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Reservation> get(@PathVariable Long id) {
+    public ResponseEntity<ReservationDTO> get(@PathVariable Long id) {
 
-        Reservation reservationDTO = reservationService.findOne(id);
+        ReservationDTO reservationDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(id));
 
         // course must exist
         if (reservationDTO == null) {
@@ -49,9 +49,9 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
 
-    /*@PutMapping(consumes = "application/json")
+    @PutMapping(consumes = "application/json")
     public ResponseEntity<ReservationDTO> update(@RequestBody ReservationDTO reservationDTO) {
-        ReservationDTO resDTO = reservationService.findOne(reservationDTO.getId());
+        ReservationDTO resDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(reservationDTO.getId()));
 
         if (resDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,11 +59,10 @@ public class ReservationController {
         reservationService.save(resDTO);
         return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
     }
-*/
-    /*@DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        ReservationDTO reservation = reservationService.findOne(id);
+        ReservationDTO reservation = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(id));
 
         if (reservation != null) {
             reservationService.remove(id);
@@ -71,7 +70,7 @@ public class ReservationController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }*/
+    }
 
 }
 
