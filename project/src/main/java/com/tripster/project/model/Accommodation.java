@@ -42,7 +42,7 @@ public class Accommodation {
     private int cancelDuration;
 
     @Enumerated(EnumType.STRING)
-    private AccommodationType accommodationType;
+    private AccommodationType type;
 
     private boolean automaticReservation;
 

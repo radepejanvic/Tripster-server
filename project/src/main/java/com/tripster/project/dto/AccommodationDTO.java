@@ -35,9 +35,9 @@ public class AccommodationDTO {
 
     private int cancelDuration;
 
-    private AccommodationType accommodationType;
+    private AccommodationType type;
 
     private boolean automaticReservation;
 
-    private AccommodationStatus accommodationStatus;
+    private AccommodationStatus status;
 }
