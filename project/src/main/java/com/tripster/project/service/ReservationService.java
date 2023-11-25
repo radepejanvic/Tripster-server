@@ -1,5 +1,7 @@
 package com.tripster.project.service;
 
+import com.tripster.project.dtos.ReservationDTO;
+import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,10 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
     public Reservation findOne(Long id) {
-        return reservationRepository.findById(id).orElseGet(null);
+        Reservation res = reservationRepository.findById(id).orElseGet(null);
+        //return ReservationDTOMapper.fromReservationToDTO(reservationRepository.findById(id).orElseGet(null));
+        return res;
+        //return ReservationDTOMapper.fromReservationToDTO(res);
     }
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
@@ -22,8 +27,10 @@ public class ReservationService {
     public Page<Reservation> findAll(Pageable page ) {
         return reservationRepository.findAll(page);
     }
-    public Reservation save(Reservation reservation) {
-        return  reservationRepository.save(reservation);
+    public ReservationDTO save(ReservationDTO reservationDTO) {
+        Reservation res = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
+        res = reservationRepository.save(res);
+        return ReservationDTOMapper.fromReservationToDTO(res);
     }
     public void remove(Long id) {
         reservationRepository.deleteById(id);

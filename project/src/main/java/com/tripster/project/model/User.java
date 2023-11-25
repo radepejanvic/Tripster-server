@@ -28,10 +28,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private UserType userType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

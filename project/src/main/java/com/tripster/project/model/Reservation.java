@@ -31,7 +31,7 @@ public class Reservation {
 
     private int duration;
 
-    private int guests;
+    private int guestsNo;
 
     private double price;
 
@@ -42,7 +42,7 @@ public class Reservation {
     @JoinColumn(name = "guest_id")
     private Guest guest;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodation;
 }

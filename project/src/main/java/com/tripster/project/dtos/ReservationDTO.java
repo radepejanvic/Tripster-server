@@ -2,32 +2,52 @@ package com.tripster.project.dtos;
 
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
-import com.tripster.project.model.enums.ReservationStatus;
+import com.tripster.project.model.enums.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 public class ReservationDTO {
-    @Id
+    //Reservation info
     private Long id;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "startDate", nullable = false)
     private LocalDate start;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "endDate", nullable = false)
     private LocalDate end;
     private int duration;
     private int guestsNo;
     private double price;
-    @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
-    private Guest guest;
-    private Accommodation accommodation;
+    //Guest info
+    private Long guestUserId;
+    private String guestUserEmail;
+    private String guestUserPassword;
+    private UserType guestUserType;
+    private UserStatus guestUserStatus;
+    private String guestUserPhone;
 
+    //Basic accommodation info
+    private Long accmId;
+    private String accmName;
+    //Accommodation owner info
+    private String accmOwnerEmail;
+    private String accmOwnerName;
+    private String accmOwnerSurname;
+    private String accmOwnerPhone;
+
+    //Accommodation details info
+    private List<Ammenity> amenities;
+    private File photo;
+    private int minCap;
+    private int maxCap;
+    private int cancelDuration;
+    @Enumerated(EnumType.ORDINAL)
+    private AccommodationType accommodationType;
+    private AccommodationStatus accommodationStatus;
 }

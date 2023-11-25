@@ -24,7 +24,7 @@ public class Accommodation {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Host owner;
 
@@ -43,11 +43,11 @@ public class Accommodation {
 
     private int cancelDuration;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private AccommodationType accommodationType;
 
     private boolean automaticReservation;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private AccommodationStatus status;
 }
