@@ -5,10 +5,14 @@ import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.AmenityType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.util.List;
 
+@Getter
+@Setter
 public class AccommodationDTO {
 
     private Long id;

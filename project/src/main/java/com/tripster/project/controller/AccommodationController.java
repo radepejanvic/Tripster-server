@@ -1,5 +1,7 @@
 package com.tripster.project.controller;
 
+import com.tripster.project.dto.AccommodationDTO;
+import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,54 +19,60 @@ public class AccommodationController {
     @Autowired
     private AccommodationService accommodationService;
 
+    // Need to make role-specific getAll
     @GetMapping
-    public ResponseEntity<List<Accommodation>> getCourses() {
+    public ResponseEntity<List<Accommodation>> getAccommodations() {
         List<Accommodation> accommodations = accommodationService.findAll();
         return new ResponseEntity<>(accommodations, HttpStatus.OK);
     }
 
+    // Host: when he opens the form for update
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Accommodation> getCourse(@PathVariable Long id) {
+    public ResponseEntity<AccommodationDTO> getAccommodation(@PathVariable Long id) {
 
         Accommodation accommodation = accommodationService.findOne(id);
 
-        // course must exist
         if (accommodation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(accommodation, HttpStatus.OK);
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.OK);
     }
 
+    // Host: when he opens the form for registering new accommodation
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Accommodation> saveCourse(@RequestBody Accommodation accommodation) {
-        accommodation = accommodationService.save(accommodation);
-        return new ResponseEntity<>(accommodation, HttpStatus.CREATED);
+    public ResponseEntity<AccommodationDTO> saveAccommodation(@RequestBody AccommodationDTO dto) {
+        accommodationService.save(AccommodationDTOMapper.fromDTOtoAccommodation(dto));
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    // Host: when he opens the form for update
     @PutMapping(consumes = "application/json")
-    public ResponseEntity<Accommodation> updateCourse(@RequestBody Accommodation accommodation) {
-        Accommodation acc = accommodationService.findOne(accommodation.getId());
+    public ResponseEntity<AccommodationDTO> updateAccommodation(@RequestBody AccommodationDTO dto) {
+        Accommodation accommodation = accommodationService.findOne(dto.getId());
 
-        if (acc == null) {
+        if (accommodation == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        acc.setName(accommodation.getName());
-        accommodationService.save(acc);
-        return new ResponseEntity<>(accommodation, HttpStatus.OK);
+
+        accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
+        accommodationService.save(accommodation);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    // Host:
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
 
         Accommodation accommodation = accommodationService.findOne(id);
 
         if (accommodation != null) {
             accommodationService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
