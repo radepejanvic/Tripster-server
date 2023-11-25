@@ -26,4 +26,7 @@ public class Person {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Address address;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private User user;
 }
