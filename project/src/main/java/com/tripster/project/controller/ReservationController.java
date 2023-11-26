@@ -37,6 +37,24 @@ public class ReservationController {
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+    @GetMapping(value = "/guest/{id}")
+    public ResponseEntity<List<ReservationDTO>> getAllForGuest(@PathVariable Long id) {
+        List<Reservation> reservations = reservationService.getAllForGuest(id);
+        List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
+        for (Reservation res : reservations) {
+            dtos.add(ReservationDTOMapper.fromReservationToDTO(res));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+    /*@GetMapping(value = "/host/{id}")
+    public ResponseEntity<List<ReservationDTO>> getAllForHost(@PathVariable Long id) {
+        List<Reservation> reservations = reservationService.getAllForGuest(id);
+        List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
+        for (Reservation res : reservations) {
+            dtos.add(ReservationDTOMapper.fromReservationToDTO(res));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }*/
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReservationDTO> get(@PathVariable Long id) {
