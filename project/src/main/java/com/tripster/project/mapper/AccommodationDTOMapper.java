@@ -5,6 +5,7 @@ import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Address;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.User;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Component;
 public class AccommodationDTOMapper {
 
     public static Accommodation fromDTOtoAccommodation(AccommodationDTO dto) {
+
         Accommodation accommodation = new Accommodation();
+        Address address = new Address();
+
         accommodation.setId(dto.getId());
         accommodation.setName(dto.getName());
         accommodation.setOwner(dto.getOwner());
@@ -23,25 +27,44 @@ public class AccommodationDTOMapper {
         accommodation.setMaxCap(dto.getMaxCap());
         accommodation.setCancelDuration(dto.getCancelDuration());
         accommodation.setType(dto.getType());
-//        accommodation.setAutomaticReservation(dto.getsAutomaticReservation());
         accommodation.setStatus(dto.getStatus());
+//        accommodation.setAutomaticReservation(dto.getsAutomaticReservation());
+
+        address.setCountry(dto.getCountry());
+        address.setCity(dto.getCity());
+        address.setStreet(dto.getStreet());
+        address.setNumber(dto.getNumber());
+        address.setZipCode(dto.getZipCode());
+
+        accommodation.setAddress(address);
+
         return accommodation;
     }
 
     public static AccommodationDTO fromAccommodationToDTO(Accommodation accommodation) {
+
         AccommodationDTO dto = new AccommodationDTO();
+        Address address = accommodation.getAddress();
+
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
         dto.setOwner(accommodation.getOwner());
         dto.setDescription(accommodation.getDescription());
-        //        dto.setPhoto(accommodation.getPhoto());
         dto.setAmenities(accommodation.getAmenities());
         dto.setMinCap(accommodation.getMinCap());
         dto.setMaxCap(accommodation.getMaxCap());
         dto.setCancelDuration(accommodation.getCancelDuration());
         dto.setType(accommodation.getType());
-//        dto.setAutomaticReservation(accommodation.getsAutomaticReservation());
         dto.setStatus(accommodation.getStatus());
+        //        dto.setPhoto(accommodation.getPhoto());
+//        dto.setAutomaticReservation(accommodation.getsAutomaticReservation());
+
+        dto.setCountry(address.getCountry());
+        dto.setCity(address.getCity());
+        dto.setStreet(address.getStreet());
+        dto.setNumber(address.getNumber());
+        dto.setZipCode(address.getZipCode());
+
         return dto;
     }
 

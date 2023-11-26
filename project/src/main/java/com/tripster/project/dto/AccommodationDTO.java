@@ -21,8 +21,6 @@ public class AccommodationDTO {
 
     private Host owner;
 
-    private Address address;
-
     private String description;
 
     private Set<Amenity> amenities;
@@ -38,4 +36,14 @@ public class AccommodationDTO {
     private boolean automaticReservation;
 
     private AccommodationStatus status;
+
+    private String country;
+
+    private String city;
+
+    private String zipCode;
+
+    private String street;
+
+    private String number;
 }
