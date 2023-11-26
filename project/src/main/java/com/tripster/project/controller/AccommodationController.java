@@ -1,9 +1,6 @@
 package com.tripster.project.controller;
 
-import com.tripster.project.dto.AccommodationCardAdminDTO;
-import com.tripster.project.dto.AccommodationCardGuestDTO;
-import com.tripster.project.dto.AccommodationCardHostDTO;
-import com.tripster.project.dto.AccommodationDTO;
+import com.tripster.project.dto.*;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
@@ -109,6 +106,12 @@ public class AccommodationController {
         accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodationService.save(accommodation);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<PriceDTO> updateAccommodation(@PathVariable Long accommodationId, @RequestBody PriceDTO dto) {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

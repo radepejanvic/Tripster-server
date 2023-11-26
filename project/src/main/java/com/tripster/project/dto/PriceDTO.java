@@ -14,5 +14,4 @@ public class PriceDTO {
     private LocalDate start;
     private LocalDate end;
     private double price;
-    
 }
