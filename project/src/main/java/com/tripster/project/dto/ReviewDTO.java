@@ -1,8 +1,6 @@
 package com.tripster.project.dto;
 
-import com.tripster.project.model.User;
 import com.tripster.project.model.enums.ReviewStatus;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AccommodationReviewDTO {
+public class ReviewDTO {
 
     private Long id;
 

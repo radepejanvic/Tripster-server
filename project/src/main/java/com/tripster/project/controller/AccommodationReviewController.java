@@ -1,18 +1,11 @@
 package com.tripster.project.controller;
 
-import com.tripster.project.dto.AccommodationCardAdminDTO;
-import com.tripster.project.dto.AccommodationDTO;
-import com.tripster.project.dto.AccommodationReviewDTO;
-import com.tripster.project.mapper.AccommodationDTOMapper;
-import com.tripster.project.mapper.AccommodationReviewDTOMapper;
-import com.tripster.project.model.Accommodation;
+import com.tripster.project.dto.ReviewDTO;
+import com.tripster.project.mapper.ReviewDTOMapper;
 import com.tripster.project.model.AccommodationReview;
-import com.tripster.project.model.Host;
 import com.tripster.project.service.AccommodationReviewService;
-import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,20 +23,20 @@ public class AccommodationReviewController {
     private IUserService userService;
 
     @GetMapping(value = "/{accommodationId}")
-    public ResponseEntity<List<AccommodationReviewDTO>> getReviews(@PathVariable Long accommodationId) {
+    public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long accommodationId) {
         List<AccommodationReview> reviews = accommodationReviewService.findAll();
 
-        List<AccommodationReviewDTO> dtos = reviews.stream()
-                .map(AccommodationReviewDTOMapper::fromAccommodationReviewToDTO)
+        List<ReviewDTO> dtos = reviews.stream()
+                .map(ReviewDTOMapper::fromAccommodationReviewToDTO)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<AccommodationReviewDTO> saveAccommodation(@RequestBody AccommodationReviewDTO dto) {
+    public ResponseEntity<ReviewDTO> saveAccommodation(@RequestBody ReviewDTO dto) {
 
-        AccommodationReview review = AccommodationReviewDTOMapper.fromDTOToAccommodationReview(dto);
+        AccommodationReview review = ReviewDTOMapper.fromDTOToAccommodationReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
         accommodationReviewService.save(review);
 
