@@ -2,14 +2,15 @@ package com.tripster.project.model;
 
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
-import com.tripster.project.model.enums.Ammenity;
+import com.tripster.project.model.enums.AmenityType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.File;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,14 +29,15 @@ public class Accommodation {
     @JoinColumn(name = "owner_id")
     private Host owner;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Address address;
+
+    private String shortDescription;
 
     private String description;
 
-    private List<Ammenity> amenities;
-
-    private File photo;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Amenity> amenities;
 
     private int minCap;
 
@@ -44,10 +46,16 @@ public class Accommodation {
     private int cancelDuration;
 
     @Enumerated(EnumType.STRING)
-    private AccommodationType accommodationType;
+    private AccommodationType type;
 
     private boolean automaticReservation;
 
     @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime timeStamp;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Day> calendar;
 }
