@@ -4,6 +4,7 @@ import com.tripster.project.dto.ReviewDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
 import com.tripster.project.model.AccommodationReview;
 import com.tripster.project.service.AccommodationReviewService;
+import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ public class AccommodationReviewController {
 
     @Autowired
     private AccommodationReviewService accommodationReviewService;
+    @Autowired
+    private AccommodationService accommodationService;
     @Autowired
     private IUserService userService;
 
@@ -38,6 +41,7 @@ public class AccommodationReviewController {
 
         AccommodationReview review = ReviewDTOMapper.fromDTOToAccommodationReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
+        review.setAccommodation(accommodationService.findOne(dto.getReviewedId()));
         accommodationReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

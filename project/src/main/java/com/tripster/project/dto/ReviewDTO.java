@@ -20,4 +20,6 @@ public class ReviewDTO {
 
     private Long reviewerId;
 
+    private Long reviewedId;
+
 }

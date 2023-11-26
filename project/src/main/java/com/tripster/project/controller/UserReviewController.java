@@ -38,6 +38,7 @@ public class UserReviewController {
 
         UserReview review = ReviewDTOMapper.fromDTOToUserReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
+        review.setReviewedUser(userService.findOne(dto.getReviewedId()));
         userReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
