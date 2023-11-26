@@ -20,15 +20,16 @@ public class AccommodationDTOMapper {
 
         accommodation.setId(dto.getId());
         accommodation.setName(dto.getName());
-        accommodation.setOwner(dto.getOwner());
+//        accommodation.setOwner(dto.getOwner());
+        accommodation.setShortDescription(dto.getShortDescription());
         accommodation.setDescription(dto.getDescription());
         accommodation.setAmenities(dto.getAmenities());
         accommodation.setMinCap(dto.getMinCap());
         accommodation.setMaxCap(dto.getMaxCap());
         accommodation.setCancelDuration(dto.getCancelDuration());
         accommodation.setType(dto.getType());
+        accommodation.setAutomaticReservation(dto.isAutomaticReservation());
         accommodation.setStatus(dto.getStatus());
-//        accommodation.setAutomaticReservation(dto.getsAutomaticReservation());
 
         address.setCountry(dto.getCountry());
         address.setCity(dto.getCity());
@@ -48,17 +49,18 @@ public class AccommodationDTOMapper {
 
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
-        dto.setOwner(accommodation.getOwner());
+        dto.setOwnerId(accommodation.getOwner().getId());
+        dto.setShortDescription(accommodation.getShortDescription());
         dto.setDescription(accommodation.getDescription());
         dto.setAmenities(accommodation.getAmenities());
         dto.setMinCap(accommodation.getMinCap());
         dto.setMaxCap(accommodation.getMaxCap());
         dto.setCancelDuration(accommodation.getCancelDuration());
         dto.setType(accommodation.getType());
+        dto.setAutomaticReservation(accommodation.isAutomaticReservation());
         dto.setStatus(accommodation.getStatus());
         //        dto.setPhoto(accommodation.getPhoto());
-//        dto.setAutomaticReservation(accommodation.getsAutomaticReservation());
-
+//
         dto.setCountry(address.getCountry());
         dto.setCity(address.getCity());
         dto.setStreet(address.getStreet());

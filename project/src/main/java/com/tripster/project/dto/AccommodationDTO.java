@@ -2,6 +2,7 @@ package com.tripster.project.dto;
 
 import com.tripster.project.model.Address;
 import com.tripster.project.model.Amenity;
+import com.tripster.project.model.Day;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
@@ -19,7 +20,19 @@ public class AccommodationDTO {
 
     private String name;
 
-    private Host owner;
+    private Long ownerId;
+
+    private String country;
+
+    private String city;
+
+    private String zipCode;
+
+    private String street;
+
+    private String number;
+
+    private String shortDescription;
 
     private String description;
 
@@ -37,13 +50,5 @@ public class AccommodationDTO {
 
     private AccommodationStatus status;
 
-    private String country;
-
-    private String city;
-
-    private String zipCode;
-
-    private String street;
-
-    private String number;
+    private Set<Day> calendar;
 }

@@ -6,6 +6,7 @@ import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Host;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,11 @@ public class AccommodationController {
     // Host: when he opens the form for registering new accommodation
     @PostMapping(consumes = "application/json")
     public ResponseEntity<AccommodationDTO> saveAccommodation(@RequestBody AccommodationDTO dto) {
-        accommodationService.save(AccommodationDTOMapper.fromDTOtoAccommodation(dto));
+
+        Accommodation accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
+        accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
+        accommodationService.save(accommodation);
+
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
@@ -102,6 +107,7 @@ public class AccommodationController {
         }
 
         accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
+        accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
