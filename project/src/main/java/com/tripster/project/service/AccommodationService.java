@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -34,4 +36,9 @@ public class AccommodationService {
     public void remove(Long id) {
         accommodationRepository.deleteById(id);
     }
+
+    public Collection<Object[]> findAllAvailableAccommodationsWithPrice(LocalDate start, LocalDate end, int numOfGuests) {
+        return accommodationRepository.findAllAvailableAccommodationsWithPrice(start, end, numOfGuests);
+    }
+
 }
