@@ -2,8 +2,8 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.ReviewDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
-import com.tripster.project.model.AccommodationReview;
-import com.tripster.project.service.AccommodationReviewService;
+import com.tripster.project.model.UserReview;
+import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "api/accommodations/reviews")
-public class AccommodationReviewController {
+@RequestMapping(value = "api/users/reviews")
+public class UserReviewController {
 
     @Autowired
-    private AccommodationReviewService accommodationReviewService;
+    private UserReviewService userReviewService;
     @Autowired
     private IUserService userService;
 
-    @GetMapping(value = "/{accommodationId}")
-    public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long accommodationId) {
-        List<AccommodationReview> reviews = accommodationReviewService.findAll();
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
+        List<UserReview> reviews = userReviewService.findAll();
 
         List<ReviewDTO> dtos = reviews.stream()
                 .map(ReviewDTOMapper::fromReviewToDTO)
@@ -36,9 +36,9 @@ public class AccommodationReviewController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReviewDTO> saveAccommodation(@RequestBody ReviewDTO dto) {
 
-        AccommodationReview review = ReviewDTOMapper.fromDTOToAccommodationReview(dto);
+        UserReview review = ReviewDTOMapper.fromDTOToUserReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
-        accommodationReviewService.save(review);
+        userReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -46,10 +46,10 @@ public class AccommodationReviewController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
 
-        AccommodationReview review = accommodationReviewService.findOne(id);
+        UserReview review = userReviewService.findOne(id);
 
         if (review != null) {
-            accommodationReviewService.remove(id);
+            userReviewService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
