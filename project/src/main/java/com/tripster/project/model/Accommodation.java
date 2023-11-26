@@ -29,14 +29,14 @@ public class Accommodation {
     @JoinColumn(name = "owner_id")
     private Host owner;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Address address;
 
     private String shortDescription;
 
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Amenity> amenities;
 
     private int minCap;
@@ -55,4 +55,7 @@ public class Accommodation {
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timeStamp;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Day> calendar;
 }
