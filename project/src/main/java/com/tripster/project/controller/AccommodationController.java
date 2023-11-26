@@ -1,5 +1,8 @@
 package com.tripster.project.controller;
 
+import com.tripster.project.dto.AccommodationCardAdminDTO;
+import com.tripster.project.dto.AccommodationCardGuestDTO;
+import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/accommodations")
@@ -19,11 +23,40 @@ public class AccommodationController {
     @Autowired
     private AccommodationService accommodationService;
 
-    // Need to make role-specific getAll
-    @GetMapping
-    public ResponseEntity<List<Accommodation>> getAccommodations() {
+    // Admin: when he opens the page for accommodation approval
+    @GetMapping(value = "/admin")
+    public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin() {
         List<Accommodation> accommodations = accommodationService.findAll();
-        return new ResponseEntity<>(accommodations, HttpStatus.OK);
+
+        List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
+                .map(AccommodationDTOMapper::fromAccommodationToAdminDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
+    }
+
+    // Host: when he opens the myAccommodations page
+    @GetMapping(value = "/host")
+    public ResponseEntity<List<AccommodationCardHostDTO>> getAccommodationsHost() {
+        List<Accommodation> accommodations = accommodationService.findAll();
+
+        List<AccommodationCardHostDTO> accommodationCards = accommodations.stream()
+                .map(AccommodationDTOMapper::fromAccommodationToHostDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
+    }
+
+    // Guest: when he searches for accommodations
+    @GetMapping(value = "/guest")
+    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest() {
+        List<Accommodation> accommodations = accommodationService.findAll();
+
+        List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
+                .map(AccommodationDTOMapper::fromAccommodationToGuestDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
 
     // Host: when he opens the form for update
