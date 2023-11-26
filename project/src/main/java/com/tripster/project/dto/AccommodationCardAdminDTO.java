@@ -30,10 +30,8 @@ public class AccommodationCardAdminDTO {
 
     private AccommodationStatus status;
 
-    // TODO: Add to Model class
     private LocalDate timeStamp;
 
-    // TODO: Add to Model class
     private String shortDescription;
 
     private AccommodationType type;

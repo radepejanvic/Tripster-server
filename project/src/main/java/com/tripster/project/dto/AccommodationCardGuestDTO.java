@@ -23,7 +23,6 @@ public class AccommodationCardGuestDTO {
 
     private boolean isFreeCancellation;
 
-    // TODO: Add to Model class
     private String shortDescription;
 
     private AccommodationType type;

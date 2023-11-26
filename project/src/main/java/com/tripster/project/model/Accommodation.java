@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -30,6 +32,8 @@ public class Accommodation {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Address address;
 
+    private String shortDescription;
+
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -48,4 +52,7 @@ public class Accommodation {
 
     @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate timeStamp;
 }
