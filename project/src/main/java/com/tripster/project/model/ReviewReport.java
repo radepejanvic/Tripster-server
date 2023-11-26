@@ -8,6 +8,6 @@ import jakarta.persistence.OneToOne;
 public class ReviewReport extends Report{
     // TODO: Add OneToOne relationship with Review
 
-//    @OneToOne(fetch = FetchType.EAGER)
-//    private Review review;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Review review;
 }

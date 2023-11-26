@@ -50,6 +50,19 @@ public class AccommodationReviewController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
+
+        AccommodationReview review = accommodationReviewService.findOne(id);
+
+        if (review != null) {
+            accommodationReviewService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 
 
