@@ -1,12 +1,9 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Accommodation;
-import com.tripster.project.model.Host;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {

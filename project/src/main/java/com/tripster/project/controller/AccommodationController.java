@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sun.beans.introspect.PropertyInfo.Name.required;
-
 @RestController
 @RequestMapping(value = "api/accommodations")
 public class AccommodationController {
