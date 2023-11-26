@@ -1,6 +1,7 @@
 package com.tripster.project.service;
 
 import com.tripster.project.model.AccommodationReview;
+import com.tripster.project.model.UserReview;
 import com.tripster.project.repository.AccommodationReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,5 +34,9 @@ public class AccommodationReviewService {
 
     public void remove(Long id) {
         accommodationReviewRepository.deleteById(id);
+    }
+
+    public List<AccommodationReview> findAllByAccommodationId(Long accommodationId) {
+        return accommodationReviewRepository.findAllByAccommodationId(accommodationId);
     }
 }
