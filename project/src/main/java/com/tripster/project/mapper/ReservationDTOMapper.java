@@ -57,20 +57,20 @@ public class ReservationDTOMapper {
 
         //User info
         dto.setGuestUserId(res.getGuest().getId());
-        dto.setGuestUserEmail(res.getGuest().getEmail());
-        dto.setGuestUserType(res.getGuest().getUserType());
-        dto.setGuestUserStatus(res.getGuest().getStatus());
-        dto.setGuestUserPhone(res.getGuest().getPerson().getPhone());
+        dto.setGuestUserEmail(res.getGuest().getUser().getEmail());
+        dto.setGuestUserType(res.getGuest().getUser().getUserType());
+        dto.setGuestUserStatus(res.getGuest().getUser().getStatus());
+        dto.setGuestUserPhone(res.getGuest().getPhone());
 
         //Accommodation info
         dto.setAccmId(res.getAccommodation().getId());
         Accommodation acc = res.getAccommodation();
         dto.setAccmName(acc.getName());
         //Owner info
-        dto.setAccmOwnerEmail(res.getAccommodation().getOwner().getEmail());
-        dto.setAccmOwnerName(res.getAccommodation().getOwner().getPerson().getName());
-        dto.setAccmOwnerSurname(res.getAccommodation().getOwner().getPerson().getSurname());
-        dto.setAccmOwnerPhone(res.getAccommodation().getOwner().getPerson().getPhone());
+        dto.setAccmOwnerEmail(res.getAccommodation().getOwner().getUser().getEmail());
+        dto.setAccmOwnerName(res.getAccommodation().getOwner().getName());
+        dto.setAccmOwnerSurname(res.getAccommodation().getOwner().getSurname());
+        dto.setAccmOwnerPhone(res.getAccommodation().getOwner().getPhone());
         //Accommodation details info
         dto.setAmenities(res.getAccommodation().getAmenities());
         dto.setPhoto(res.getAccommodation().getPhoto());
