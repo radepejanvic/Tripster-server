@@ -5,6 +5,8 @@ import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Host;
+import com.tripster.project.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,13 +46,15 @@ public class AccommodationDTOMapper {
     }
 
     public static AccommodationCardAdminDTO fromAccommodationToAdminDTO(Accommodation accommodation) {
+        Host owner = accommodation.getOwner();
         AccommodationCardAdminDTO dto = new AccommodationCardAdminDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
 //        dto.setPhoto(accommodation.getPhoto());
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
         // TODO: Find the best way to get the Owner info
-//        dto.setOwnerName();
+        dto.setOwnerName(owner.getName() + owner.getSurname());
+//        dto.setOwnerEmail(owner.getUser().getEmail());
         dto.setStatus(accommodation.getStatus());
 //        dto.setTimeStamp(accommodation.getTimeStamp());
 //        dto.setShortDescription(accommodation.getShortDescription());

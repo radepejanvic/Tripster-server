@@ -26,6 +26,8 @@ public class AccommodationCardAdminDTO {
     // TODO: Concatenated owner name and surname
     private String ownerName;
 
+//    private String ownerEmail;
+
     private boolean isFreeCancellation;
 
     private AccommodationStatus status;
