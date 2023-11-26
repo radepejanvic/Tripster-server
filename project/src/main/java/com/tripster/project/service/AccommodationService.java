@@ -40,7 +40,7 @@ public class AccommodationService {
 //        return accommodationRepository.findAllAvailableAccommodationsWithPrice(start, end, numOfGuests);
 //    }
 
-    public List<Accommodation> findAllByOwner(Host host) {
-        return accommodationRepository.findAllByOwner(host);
+    public List<Accommodation> findAllByOwnerId(Long id) {
+        return accommodationRepository.findAllByOwnerId(id);
     }
 }

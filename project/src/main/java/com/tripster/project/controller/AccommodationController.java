@@ -7,6 +7,7 @@ import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class AccommodationController {
 
     @Autowired
     private AccommodationService accommodationService;
+    @Autowired
+    private IPersonService personService;
+
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // Admin: when he opens the page for accommodation approval
@@ -38,9 +42,8 @@ public class AccommodationController {
 
     // Host: when he opens the myAccommodations page
     @GetMapping(value = "/host/{hostId}")
-    public ResponseEntity<List<AccommodationCardHostDTO>> getAccommodationsHost() {
-
-        List<Accommodation> accommodations = accommodationService.findAllByOwner();
+    public ResponseEntity<List<AccommodationCardHostDTO>> getAccommodationsHost(@PathVariable Long hostId) {
+        List<Accommodation> accommodations = accommodationService.findAllByOwnerId(hostId);
 
         List<AccommodationCardHostDTO> accommodationCards = accommodations.stream()
                 .map(AccommodationDTOMapper::fromAccommodationToHostDTO)
