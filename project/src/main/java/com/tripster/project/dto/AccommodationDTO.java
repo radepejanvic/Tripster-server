@@ -1,6 +1,7 @@
 package com.tripster.project.dto;
 
 import com.tripster.project.model.Address;
+import com.tripster.project.model.Amenity;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
@@ -24,7 +25,7 @@ public class AccommodationDTO {
 
     private String description;
 
-    private Set<AmenityType> amenities;
+    private Set<Amenity> amenities;
 
     private int minCap;
 

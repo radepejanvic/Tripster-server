@@ -37,7 +37,7 @@ public class Accommodation {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AmenityType> amenities;
+    private Set<Amenity> amenities;
 
     private int minCap;
 
@@ -54,5 +54,5 @@ public class Accommodation {
     private AccommodationStatus status;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate timeStamp;
+    private LocalDateTime timeStamp;
 }
