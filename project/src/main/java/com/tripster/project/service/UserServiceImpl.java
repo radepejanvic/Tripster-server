@@ -1,12 +1,6 @@
 package com.tripster.project.service;
 
-import com.tripster.project.model.Address;
-import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
-import com.tripster.project.model.enums.UserStatus;
-import com.tripster.project.model.enums.UserType;
-import com.tripster.project.repository.AddressRepository;
-import com.tripster.project.repository.PersonRepository;
 import com.tripster.project.repository.UserRepository;
 import com.tripster.project.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private PersonRepository personRepository;
 
-    public User findOne(Long id) {
-        return userRepository.findById(id).orElseGet(null);
-    }
+    public User findOne(Long id) {return userRepository.findById(id).orElse(null);}
 
     public List<User> findAll() {
         return userRepository.findAll();
