@@ -27,7 +27,7 @@ public abstract class Review{
     @Enumerated(EnumType.STRING)
     private ReviewStatus status;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "reviewer_id")
-//    private User reviewer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id")
+    private User reviewer;
 }
