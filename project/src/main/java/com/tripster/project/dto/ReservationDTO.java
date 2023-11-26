@@ -1,6 +1,7 @@
 package com.tripster.project.dto;
 
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Amenity;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.enums.*;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,7 +44,7 @@ public class ReservationDTO {
     private String accmOwnerPhone;
 
     //Accommodation details info
-    private List<Ammenity> amenities;
+    private Set<Amenity> amenities;
     private File photo;
     private int minCap;
     private int maxCap;

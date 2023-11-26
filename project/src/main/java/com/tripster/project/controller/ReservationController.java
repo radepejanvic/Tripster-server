@@ -2,13 +2,19 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.mapper.ReservationDTOMapper;
+import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Guest;
 import com.tripster.project.model.Reservation;
+import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.GuestServiceImpl;
 import com.tripster.project.service.ReservationService;
+import com.tripster.project.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,13 +23,19 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private GuestServiceImpl guestService;
+    @Autowired
+    private AccommodationService accommodationService;
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> get() {
-        //Ovde ispraviti
+    public ResponseEntity<List<ReservationDTO>> getAll() {
         List<Reservation> reservations = reservationService.findAll();
-        //List<ReservationDTO> reservationDTOS = ReservationDTOMapper.fromReservationToDTO(reservations.stream());
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+        List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
+        for (Reservation res : reservations) {
+            dtos.add(ReservationDTOMapper.fromReservationToDTO(res));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -39,21 +51,21 @@ public class ReservationController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<ReservationDTO> addNew(@RequestBody ReservationDTO reservationDTO) {
 
-        reservationService.save(ReservationDTOMapper.fromDTOtoReservation(reservationDTO));
-        //reservationDTO = ReservationDTOMapper.fromReservationToDTO();
-        return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
-    }
-    @PutMapping(consumes = "application/json")
-    public ResponseEntity<ReservationDTO> update(@RequestBody ReservationDTO reservationDTO) {
-        ReservationDTO resDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(reservationDTO.getId()));
-
-        if (resDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Reservation res = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
+        Accommodation acc = accommodationService.findOne(reservationDTO.getAccmId());
+        if (acc == null) {
+            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
         }
-        reservationService.save(ReservationDTOMapper.fromDTOtoReservation(resDTO));
-        return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
+        Guest guest = (Guest) guestService.findById(reservationDTO.getGuestUserId());
+        if (guest == null) {
+            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
+        }
+        res.setAccommodation(acc);
+        res.setGuest(guest);
+        reservationService.save(res);
+        return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

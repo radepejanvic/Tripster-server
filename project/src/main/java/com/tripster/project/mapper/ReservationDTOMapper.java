@@ -72,11 +72,11 @@ public class ReservationDTOMapper {
         dto.setAccmOwnerPhone(res.getAccommodation().getOwner().getPhone());
         //Accommodation details info
         dto.setAmenities(res.getAccommodation().getAmenities());
-        dto.setPhoto(res.getAccommodation().getPhoto());
+        //dto.setPhoto(res.getAccommodation().getPhoto());
         dto.setMaxCap(res.getAccommodation().getMaxCap());
         dto.setMinCap(res.getAccommodation().getMinCap());
         dto.setCancelDuration(res.getAccommodation().getCancelDuration());
-        dto.setAccommodationType(res.getAccommodation().getAccommodationType());
+        dto.setAccommodationType(res.getAccommodation().getType());
         dto.setAccommodationStatus(res.getAccommodation().getStatus());
 
         return dto;
