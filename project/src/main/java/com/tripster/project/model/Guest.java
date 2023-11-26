@@ -7,7 +7,7 @@ import jakarta.persistence.ManyToMany;
 import java.util.List;
 
 @Entity
-public class Guest extends User{
+public class Guest extends Person{
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Accommodation> favourites;
