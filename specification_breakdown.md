@@ -31,13 +31,13 @@ put
 delete
 ### 5. Kreiranje smeštaja
 ##### DTO: 
-- AccommodationRegisterDTO -> Accommodation(bez status) + Address
-- PriceDTO -> id + start + end + price
+- AccommodationDTO -> Accommodation(bez status) + **Address**
+- **PriceDTO -> id + start + end + price**
 - - moze biti vise ovih requestova ili lista da se prosledi u jednom
 ##### REQUEST: 
 - api/v1/accommodations
 post 
-- api/v1/days
+- **api/v1/days**
 post
 ### 6. Definisanje dostupnosti, cene smeštaja i roka za rezervaciju
 ##### DTO: 
@@ -47,8 +47,8 @@ post
 put
 ### 7. Odobravanje smeštaja
 ##### DTO: 
-- AccommodationCardDTO -> Id + name + image + distanceFromCenter + status + isFreeCancellation + Amenities + timeStamp
-- AccommodationStatusDTO -> Id + status
+- AccommodationCardAdminDTO -> Id + name + image + distanceFromCenter + status + isFreeCancellation + Amenities + timeStamp
+- **AccommodationStatusDTO -> Id + status**
 ##### REQUEST: 
 - /api/v1/accommodations
 get (/forApproval) 
@@ -63,7 +63,7 @@ put
 ### 8. Pregled i ažuriranje smeštaja
 #### DTO: 
 - AccommodationCardHostDTO -> Id + name + image + distanceFromCenter + status + isFreeCancellation + Amenities
-- RatingDTO -> rating + numOfReviews (na frontu zakljuciti da je Excellent)
+- **RatingDTO -> rating + numOfReviews (na frontu zakljuciti da je Excellent)**
 - ? mozda spojiti rejting sa podacima na kartici 
 #### REQUEST: 
 - /api/v1/accommodations
@@ -82,7 +82,7 @@ komplikovaniji upit od ovoga jer se proverava i dostupnost u kalendaru
 ```sql
         select a from Accommodations a where a.city = :city and :numOfGuests between(a.minCap, a.maxCap) and :startDate...;
 ```
-### 10. Detalji smeštaja
+### 10. Detalji smeštaja -> TODO
 ##### DTO: 
 - AccommodationInfoDTO: Id + name + shortDescription + description + Amenities + isFreeCancellation + Address
 - TODO: Images
@@ -136,7 +136,7 @@ put
 get(/{guestId})
 get(/{guestId?filter=value...})
 put (za otkazivanje)
-### 17. Komentarisanje i ocenjivanje vlasnika
+### 17. Komentarisanje i ocenjivanje vlasnika -> TODO
 ##### DTO:
 - [isto kao ReviewDTO](#10-detalji-smeštaja) (za priakz srednje ocene)
 - [isto kao RatingDTO](#8-pregled-i-ažuriranje-smeštaja) (za prikaz svih komentara)
@@ -145,13 +145,13 @@ put (za otkazivanje)
 post
 delete
 get(/{hostId})
-### 18. Prijavljivanje komentara i ocene
+### 18. Prijavljivanje komentara i ocene -> TODO
 ##### DTO:
 - ReviewReportDTO -> ReviewReport
 ##### REQUEST:
 - /api/v1/reports-reviews
 post
-### 19. Komentarisanje i ocenjivanje smeštaja
+### 19. Komentarisanje i ocenjivanje smeštaja -> TODO
 ##### DTO:
 - ReviewDTO -> Review
 ##### REQUEST:
@@ -159,7 +159,7 @@ post
 post
 put (odobravanje od strane admina)
 get(/{accommodationId})
-### 20. Odobravanje komentara i ocena
+### 20. Odobravanje komentara i ocena -> TODO
 ##### DTO:
 - ReviewApprovalDTO -> id + status
 ##### REQUEST:
@@ -167,7 +167,7 @@ get(/{accommodationId})
 delete
 - /api/v1/reviews-hosts
 delete
-### 21. Notifikacije
+### 21. Notifikacije -> TODO
 ? proveriti sa Popom
 ### 22. Prijavljivanje korisnika
 ##### DTO:
@@ -175,13 +175,13 @@ delete
 ##### REQUEST:
 - /api/v1/reports-users
 post
-### 23. Blokiranje korisnika
+### 23. Blokiranje korisnika -> TODO
 ##### DTO:
 - UserStatusDTO -> id + status
 ##### REQUEST:
 - /api/v1/users
-post
-### 24. Izveštaji
+put
+### 24. Izveštaji -> TODO
 ##### DTO:
 - ReviewApprovalDTO -> id + status
 ##### REQUEST:
