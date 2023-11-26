@@ -22,7 +22,7 @@ public class UserReviewService {
         return userReviewRepository.findAll();
     }
 
-    public Page<UserReview> findAll(Pageable page ) {
+    public Page<UserReview> findAll(Pageable page) {
         return userReviewRepository.findAll(page);
     }
 
@@ -34,4 +34,7 @@ public class UserReviewService {
         userReviewRepository.deleteById(id);
     }
 
+    public List<UserReview> findAllByReviewedId(Long reviewedId) {
+        return userReviewRepository.findAllByReviewedId(reviewedId);
+    }
 }

@@ -24,7 +24,7 @@ public class UserReviewController {
 
     @GetMapping(value = "/{userId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
-        List<UserReview> reviews = userReviewService.findAll();
+        List<UserReview> reviews = userReviewService.findAllByReviewedId(userId);
 
         List<ReviewDTO> dtos = reviews.stream()
                 .map(ReviewDTOMapper::fromReviewToDTO)

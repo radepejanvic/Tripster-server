@@ -12,5 +12,5 @@ public interface AccommodationReviewRepository extends JpaRepository<Accommodati
     @Query("select r from AccommodationReview r " +
             "join fetch r.accommodation a " +
             "where a.id = :accommodationId")
-    List<UserReview> findAllByAccommodationId(Long accommodationId);
+    List<AccommodationReview> findAllByAccommodationId(Long accommodationId);
 }
