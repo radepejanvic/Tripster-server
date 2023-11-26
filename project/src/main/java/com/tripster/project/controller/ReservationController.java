@@ -35,7 +35,6 @@ public class ReservationController {
 
         ReservationDTO reservationDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(id));
 
-        // course must exist
         if (reservationDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -45,7 +44,8 @@ public class ReservationController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
-        reservationDTO = reservationService.save(reservationDTO);
+
+        reservationDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.save(ReservationDTOMapper.fromDTOtoReservation(reservationDTO)));
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
 
@@ -56,7 +56,7 @@ public class ReservationController {
         if (resDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        reservationService.save(resDTO);
+        reservationService.save(ReservationDTOMapper.fromDTOtoReservation(resDTO));
         return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
     }
     @DeleteMapping(value = "/{id}")

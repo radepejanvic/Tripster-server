@@ -25,10 +25,10 @@ public class ReservationService {
     public Page<Reservation> findAll(Pageable page ) {
         return reservationRepository.findAll(page);
     }
-    public ReservationDTO save(ReservationDTO reservationDTO) {
-        Reservation res = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
-        res = reservationRepository.save(res);
-        return ReservationDTOMapper.fromReservationToDTO(res);
+    public Reservation save(Reservation reservationDTO) {
+        //Reservation res = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
+        Reservation res = reservationRepository.save(reservationDTO);
+        return res; //ReservationDTOMapper.fromReservationToDTO(res);
     }
     public void remove(Long id) {
         reservationRepository.deleteById(id);
