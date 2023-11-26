@@ -1,11 +1,13 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Host;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
@@ -15,5 +17,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " group by a" +
             " having totalDays = datediff(:start, :end)")
     Collection<Object[]> findAllAvailableAccommodationsWithPrice(LocalDate start, LocalDate end, int numOfGuests);
+
+    List<Accommodation> findAllByOwner(Host host);
 
 }

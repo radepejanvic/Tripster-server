@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,9 +37,10 @@ public class AccommodationController {
     }
 
     // Host: when he opens the myAccommodations page
-    @GetMapping(value = "/host")
+    @GetMapping(value = "/host/{hostId}")
     public ResponseEntity<List<AccommodationCardHostDTO>> getAccommodationsHost() {
-        List<Accommodation> accommodations = accommodationService.findAll();
+
+        List<Accommodation> accommodations = accommodationService.findAllByOwner();
 
         List<AccommodationCardHostDTO> accommodationCards = accommodations.stream()
                 .map(AccommodationDTOMapper::fromAccommodationToHostDTO)
@@ -55,11 +54,15 @@ public class AccommodationController {
     public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam String start, @RequestParam String end, @RequestParam int numOfGuests) {
 
 
-        List<AccommodationCardGuestDTO> accommodationCards = new ArrayList<>();
+        List<Accommodation> accommodations = accommodationService.findAll();
+        List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
+                .map(AccommodationDTOMapper::fromAccommodationToGuestDTO)
+                .collect(Collectors.toList());
 
-        for (Object[] o : accommodationService.findAllAvailableAccommodationsWithPrice(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter), numOfGuests)) {
-            accommodationCards.add(AccommodationDTOMapper.fromAccommodationToGuestDTO((Accommodation) o[0], (double) o[1]));
-        }
+
+//        for (Object[] o : accommodationService.findAllAvailableAccommodationsWithPrice(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter), numOfGuests)) {
+//            accommodationCards.add(AccommodationDTOMapper.fromAccommodationToGuestDTO((Accommodation) o[0], (double) o[1]));
+//        }
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
