@@ -10,6 +10,6 @@ public interface UserReviewRepository extends JpaRepository<UserReview, Long> {
 
     @Query("select r from UserReview r " +
             "join fetch r.reviewedUser u " +
-            "where u.id = :reviewdId")
+            "where u.id = :reviewedId")
     List<UserReview> findAllByReviewedId(Long reviewedId);
 }

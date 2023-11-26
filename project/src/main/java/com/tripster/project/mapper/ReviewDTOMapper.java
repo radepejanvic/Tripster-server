@@ -12,6 +12,7 @@ public class ReviewDTOMapper {
         dto.setId(review.getId());
         dto.setRate(review.getRate());
         dto.setComment(review.getComment());
+        dto.setStatus(review.getStatus());
         dto.setReviewerId(review.getReviewer().getId());
         return dto;
     }
@@ -21,6 +22,7 @@ public class ReviewDTOMapper {
         review.setId(dto.getId());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
+        review.setStatus(dto.getStatus());
         return review;
     }
 
@@ -29,6 +31,7 @@ public class ReviewDTOMapper {
         review.setId(dto.getId());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
+        review.setStatus(dto.getStatus());
         return review;
     }
 
