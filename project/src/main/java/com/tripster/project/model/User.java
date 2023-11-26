@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
 public class User {
 
@@ -33,9 +32,6 @@ public class User {
 
     @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Person person;
 
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 //    private List<Notification> notifications;
