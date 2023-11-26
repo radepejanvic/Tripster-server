@@ -10,6 +10,6 @@ import java.time.LocalDate;
 
 public interface DayRepository extends JpaRepository<Day, Long> {
 
-    @Query("select sum(d.price) from Day d where d.accommodation = :accommodation and d.date between :startDate and :endDate")
-    double sumPriceBetweenDates(Accommodation accommodation, LocalDate startDate, LocalDate endDate);
+    /*@Query("select sum(d.price) from Day d where d.accommodation = :accommodation and d.date between :startDate and :endDate")
+    double sumPriceBetweenDates(Accommodation accommodation, LocalDate startDate, LocalDate endDate);*/
 }

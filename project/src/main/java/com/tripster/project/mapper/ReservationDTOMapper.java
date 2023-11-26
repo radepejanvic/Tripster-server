@@ -8,12 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReservationDTOMapper {
-    /*private static ModelMapper modelMapper;
-    @Autowired
-    public ReservationDTOMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }*/
-
     public static Reservation fromDTOtoReservation(ReservationDTO dto) {
 
         Reservation reservation = new Reservation();

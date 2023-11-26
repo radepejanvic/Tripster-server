@@ -2,7 +2,7 @@ package com.tripster.project.service;
 
 import com.tripster.project.model.Reservation;
 import com.tripster.project.repository.ReservationRepository;
-import com.tripster.project.service.interfaces.IReservationService;
+import com.tripster.project.service.interfaces.IReservationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReservationService implements IReservationService {
+public class ReservationServiceImpl implements IReservationServiceImpl {
     @Autowired
     private ReservationRepository reservationRepository;
     public Reservation findOne(Long id) {

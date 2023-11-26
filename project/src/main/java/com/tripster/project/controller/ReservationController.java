@@ -7,8 +7,7 @@ import com.tripster.project.model.Guest;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.GuestServiceImpl;
-import com.tripster.project.service.ReservationService;
-import com.tripster.project.service.UserServiceImpl;
+import com.tripster.project.service.ReservationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import java.util.List;
 public class ReservationController {
 
     @Autowired
-    private ReservationService reservationService;
+    private ReservationServiceImpl reservationService;
     @Autowired
     private GuestServiceImpl guestService;
     @Autowired
