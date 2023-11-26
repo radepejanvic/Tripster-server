@@ -1,5 +1,5 @@
 
-package com.tripster.project.modelmapper;
+package com.tripster.project.mapper;
 
 import com.tripster.project.dto.PersonCruDTO;
 import com.tripster.project.model.*;

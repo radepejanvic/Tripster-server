@@ -1,7 +1,6 @@
-package com.tripster.project.modelmapper;
+package com.tripster.project.mapper;
 
 import com.tripster.project.dto.UserDTO;
-import com.tripster.project.dto.UserLoginDTO;
 import com.tripster.project.model.User;
 
 public class UserDTOMapper {

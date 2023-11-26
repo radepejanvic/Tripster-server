@@ -1,6 +1,7 @@
 package com.tripster.project.service;
 
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Host;
 import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,5 +34,13 @@ public class AccommodationService {
 
     public void remove(Long id) {
         accommodationRepository.deleteById(id);
+    }
+
+//    public Collection<Object[]> findAllAvailableAccommodationsWithPrice(LocalDate start, LocalDate end, int numOfGuests) {
+//        return accommodationRepository.findAllAvailableAccommodationsWithPrice(start, end, numOfGuests);
+//    }
+
+    public List<Accommodation> findAllByOwnerId(Long id) {
+        return accommodationRepository.findAllByOwnerId(id);
     }
 }
