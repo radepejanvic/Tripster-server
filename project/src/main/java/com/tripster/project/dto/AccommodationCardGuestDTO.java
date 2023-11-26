@@ -23,8 +23,6 @@ public class AccommodationCardGuestDTO {
 
     private boolean isFreeCancellation;
 
-    private AccommodationStatus status;
-
     // TODO: Add to Model class
     private String shortDescription;
 

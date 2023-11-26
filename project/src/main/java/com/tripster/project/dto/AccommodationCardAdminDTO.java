@@ -24,7 +24,7 @@ public class AccommodationCardAdminDTO {
     private float distanceFromCenter;
 
     // TODO: Concatenated owner name and surname
-    private String owner;
+    private String ownerName;
 
     private boolean isFreeCancellation;
 

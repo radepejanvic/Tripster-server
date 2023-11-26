@@ -3,11 +3,14 @@ package com.tripster.project.dto;
 import com.tripster.project.model.Amenity;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Set;
 
+@Getter
+@Setter
 public class AccommodationCardHostDTO {
     private Long id;
 
@@ -18,7 +21,7 @@ public class AccommodationCardHostDTO {
 
     private float distanceFromCenter;
 
-    private boolean isFreeCancellation;
+    private boolean freeCancellation;
 
     private AccommodationStatus status;
 
