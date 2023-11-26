@@ -2,10 +2,9 @@
 package com.tripster.project.modelmapper;
 
 import com.tripster.project.dto.PersonCruDTO;
-import com.tripster.project.model.Address;
-import com.tripster.project.model.Person;
-import com.tripster.project.model.User;
+import com.tripster.project.model.*;
 
+import com.tripster.project.model.enums.UserType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +13,12 @@ public class PersonCruDTOMapper {
 
     public static Person fromDTOtoPerson(PersonCruDTO personDTO) {
 
-        Person person = new Person();
+        Person person;
+        if(personDTO.getUserType().equals(UserType.GUEST)){
+                person = new Guest();
+        }else{
+                person = new Host();
+        }
 
         person.setName(personDTO.getName());
         person.setSurname(personDTO.getSurname());
@@ -46,7 +50,6 @@ public class PersonCruDTOMapper {
 
         personDTO.setId(person.getId());
         personDTO.setEmail(person.getUser().getEmail());
-        personDTO.setPassword(person.getUser().getPassword());
         personDTO.setUserType(person.getUser().getUserType());
         personDTO.setStatus(person.getUser().getStatus());
 
