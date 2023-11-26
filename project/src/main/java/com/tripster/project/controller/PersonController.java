@@ -5,16 +5,14 @@ import com.tripster.project.dto.UserDTO;
 import com.tripster.project.dto.UserLoginDTO;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
-import com.tripster.project.modelmapper.PersonCruDTOMapper;
-import com.tripster.project.modelmapper.UserDTOMapper;
+import com.tripster.project.mapper.PersonCruDTOMapper;
+import com.tripster.project.mapper.UserDTOMapper;
 import com.tripster.project.service.UserServiceImpl;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/person")
