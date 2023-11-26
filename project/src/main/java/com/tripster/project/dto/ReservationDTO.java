@@ -1,4 +1,4 @@
-package com.tripster.project.dtos;
+package com.tripster.project.dto;
 
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;

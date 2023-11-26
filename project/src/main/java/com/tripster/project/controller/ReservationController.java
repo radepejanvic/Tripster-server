@@ -1,18 +1,14 @@
 package com.tripster.project.controller;
 
-import com.tripster.project.dtos.ReservationDTO;
+import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.mapper.ReservationDTOMapper;
-import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Reservation;
-import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.ReservationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,10 +41,10 @@ public class ReservationController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
 
-        reservationDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.save(ReservationDTOMapper.fromDTOtoReservation(reservationDTO)));
+        reservationService.save(ReservationDTOMapper.fromDTOtoReservation(reservationDTO));
+        //reservationDTO = ReservationDTOMapper.fromReservationToDTO();
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
-
     @PutMapping(consumes = "application/json")
     public ResponseEntity<ReservationDTO> update(@RequestBody ReservationDTO reservationDTO) {
         ReservationDTO resDTO = ReservationDTOMapper.fromReservationToDTO(reservationService.findOne(reservationDTO.getId()));

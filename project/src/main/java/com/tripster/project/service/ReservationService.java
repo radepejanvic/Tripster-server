@@ -1,7 +1,5 @@
 package com.tripster.project.service;
 
-import com.tripster.project.dtos.ReservationDTO;
-import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;

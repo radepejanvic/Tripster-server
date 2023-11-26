@@ -1,6 +1,7 @@
 package com.tripster.project.model;
 
 import com.tripster.project.model.enums.ReservationStatus;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +51,7 @@ public class Reservation {
     @JoinColumn(name = "guest_id")
     private Guest guest;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodation;
 }

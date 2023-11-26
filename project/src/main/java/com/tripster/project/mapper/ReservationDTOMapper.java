@@ -1,11 +1,9 @@
 package com.tripster.project.mapper;
 
-import com.tripster.project.dtos.ReservationDTO;
+import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Reservation;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +19,7 @@ public class ReservationDTOMapper {
         Reservation reservation = new Reservation();
         //Reservation info
         reservation.setId(dto.getId());
+        reservation.setDeleted(false);
         reservation.setStart(dto.getStart());
         reservation.setEnd(dto.getEnd());
         reservation.setDuration(dto.getDuration());
