@@ -1,14 +1,13 @@
 package com.tripster.project.controller;
 
-import com.tripster.project.dto.AccommodationCardAdminDTO;
-import com.tripster.project.dto.AccommodationCardGuestDTO;
-import com.tripster.project.dto.AccommodationCardHostDTO;
-import com.tripster.project.dto.AccommodationDTO;
+import com.tripster.project.dto.*;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
+import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.sun.beans.introspect.PropertyInfo.Name.required;
 
 @RestController
 @RequestMapping(value = "api/accommodations")
@@ -111,6 +112,22 @@ public class AccommodationController {
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<PriceDTO> updateAccommodation(@PathVariable Long accommodationId, @RequestBody PriceDTO dto) {
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{accommodationId}/", consumes = "application/json")
+    public ResponseEntity<String> updateAccommodation(@PathVariable Long accommodationId, @PathParam("status") String status) {
+
+        Accommodation accommodation = accommodationService.findOne(accommodationId);
+        accommodation.setStatus(AccommodationStatus.valueOf(status));
+        accommodationService.save(accommodation);
+
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     // Host:
