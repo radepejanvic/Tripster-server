@@ -6,11 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-@NoArgsConstructor
-@MappedSuperclass
-public class Review {
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Review{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
