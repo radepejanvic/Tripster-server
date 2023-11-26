@@ -103,7 +103,7 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardGuestDTO fromAccommodationToGuestDTO(Accommodation accommodation) {
+    public static AccommodationCardGuestDTO fromAccommodationToGuestDTO(Accommodation accommodation, double price) {
         AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
@@ -113,7 +113,7 @@ public class AccommodationDTOMapper {
 //        dto.setShortDescription(accommodation.getShortDescription());
         dto.setType(accommodation.getType());
         // TODO: Find a way to add reservation filters to this DTO
-//        dto.setPrice();
+        dto.setPrice(price);
 //        dto.setDuration();
 //        dto.setNumOfGuests();
         // TODO: Find a way to resolve the Amenity issue

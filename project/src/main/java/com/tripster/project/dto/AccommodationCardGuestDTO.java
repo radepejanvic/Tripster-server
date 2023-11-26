@@ -1,9 +1,11 @@
 package com.tripster.project.dto;
 
+import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Amenity;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.File;
@@ -11,6 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class AccommodationCardGuestDTO {
     private Long id;
 
@@ -41,4 +44,5 @@ public class AccommodationCardGuestDTO {
     // TODO: Maybe add rating here too
 //    private float rating;
 //    private int numOfReviews;
+
 }

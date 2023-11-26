@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,7 @@ public class AccommodationController {
 
     @Autowired
     private AccommodationService accommodationService;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
@@ -48,12 +52,14 @@ public class AccommodationController {
 
     // Guest: when he searches for accommodations
     @GetMapping(value = "/guest")
-    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest() {
-        List<Accommodation> accommodations = accommodationService.findAll();
+    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam String start, @RequestParam String end, @RequestParam int numOfGuests) {
 
-        List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
-                .map(AccommodationDTOMapper::fromAccommodationToGuestDTO)
-                .collect(Collectors.toList());
+
+        List<AccommodationCardGuestDTO> accommodationCards = new ArrayList<>();
+
+        for (Object[] o : accommodationService.findAllAvailableAccommodationsWithPrice(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter), numOfGuests)) {
+            accommodationCards.add(AccommodationDTOMapper.fromAccommodationToGuestDTO((Accommodation) o[0], (double) o[1]));
+        }
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
