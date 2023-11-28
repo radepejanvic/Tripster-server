@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 public abstract class Review{
 
     @Id
