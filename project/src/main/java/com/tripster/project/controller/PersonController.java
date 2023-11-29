@@ -50,7 +50,7 @@ public class PersonController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PersonCruDTO> saveUser(@RequestBody PersonCruDTO dto) {
 
-        Person person = PersonCruDTOMapper.fromDTOtoPerson(dto);
+        Person person = PersonCruDTOMapper.fromDTOtoPerson(dto,"NEW");
         try {
             if (person.getUser().getUserType().equals(UserType.GUEST)){
                 person = guestService.save(person);
