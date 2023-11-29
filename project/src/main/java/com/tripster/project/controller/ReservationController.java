@@ -45,15 +45,16 @@ public class ReservationController {
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-    /*@GetMapping(value = "/host/{id}")
+    @GetMapping(value = "/host/{id}")
     public ResponseEntity<List<ReservationDTO>> getAllForHost(@PathVariable Long id) {
         List<Reservation> reservations = reservationService.getAllForGuest(id);
+        //Ovde gore treba da ide get all for host                     ^
         List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
         for (Reservation res : reservations) {
             dtos.add(ReservationDTOMapper.fromReservationToDTO(res));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
-    }*/
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ReservationDTO> get(@PathVariable Long id) {
@@ -84,6 +85,21 @@ public class ReservationController {
         reservationService.save(res);
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
+    @GetMapping(value = "/filter")
+    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam String startDateString, @RequestParam String endDateString, @RequestParam int numberOfGuests){
+        List<ReservationDTO> dummyResult = new ArrayList<ReservationDTO>();
+        //Dummy funkcija za sada koja treba da se napravi kasnije
+        //U njoj treba proveriti filtere da li dobro salje/hvata parametre
+        return new ResponseEntity<>(dummyResult, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/filter")
+    public ResponseEntity<Void> setStatus(@RequestParam String status, @RequestParam Long reservationId) {
+        //Ovde treba da se postavi status za odredjenu rezervaciju
+        //Brisanje apdejt itd...
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
