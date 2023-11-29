@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,7 +90,10 @@ public class AccommodationController {
 
         Accommodation accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
-        accommodationService.save(accommodation);
+
+        accommodationService.generateCalendar(LocalDate.now(), accommodation);
+
+//        accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }

@@ -39,10 +39,6 @@ public class AccommodationService {
         accommodationRepository.deleteById(id);
     }
 
-//    public Collection<Object[]> findAllAvailableAccommodationsWithPrice(LocalDate start, LocalDate end, int numOfGuests) {
-//        return accommodationRepository.findAllAvailableAccommodationsWithPrice(start, end, numOfGuests);
-//    }
-
     public List<Accommodation> findAllByOwnerId(Long id) {
         return accommodationRepository.findAllByOwnerId(id);
     }
@@ -69,13 +65,14 @@ public class AccommodationService {
         }
 
         LocalDate date;
-
-        while(!startDate.isAfter(startDate.plusYears(1))) {
+        LocalDate endDate = startDate.plusYears(1);
+        while(!startDate.isAfter(endDate)) {
             date = startDate;
             calendar.add(new Day(null, date, 0.0, true));
             startDate = startDate.plusDays(1);
         }
 
         accommodation.setCalendar(calendar);
+        save(accommodation);
     }
 }
