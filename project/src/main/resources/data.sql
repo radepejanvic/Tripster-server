@@ -64,6 +64,11 @@ insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) valu
 insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (4, 8, 'Manual rupt joint adhes', 4, 'ACTIVE');
 insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (5, 9, 'Periph ganglionect NEC', 5, 'REPORTED');
 
+insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (1, 1, 'Wide excision of lip les', 1, 'DELETED');
+insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (2, 1, 'Breast dx procedure NEC', 2, 'DELETED');
+insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (3, 1, 'Tonometry', 3, 'ACTIVE');
+insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (4, 2, 'Periph nerve div NEC', 4, 'ACTIVE');
+insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (5, 3, 'Thymectomy NOS', 5, 'ACTIVE');
 
 
 
