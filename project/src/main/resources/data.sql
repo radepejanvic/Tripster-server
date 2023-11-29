@@ -20,16 +20,16 @@ Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmai
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', 'k1EDPX5NHIJrQ68', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', 'admin', 1, 2);
 
-Insert Into guest (name, surname, phone, address_id, user_id) Values ('Guy.Johnston25@yahoo.com', 'Pmzy2OkXbgfeU13', '+(394) 04 360 5786', 1, 1);
-Insert Into guest (name, surname, phone, address_id, user_id) Values ('Elena23@gmail.com', 'CiA7YVOT8utTiY5', '+(019) 02 143 1435', 2, 2);
-Insert Into guest (name, surname, phone, address_id, user_id) Values ('Carrie.Goldner@hotmail.com', '2mgBQJn76ymkYKI', '+(053) 87 788 0503', 3, 3);
-Insert Into guest (name, surname, phone, address_id, user_id) Values ('Marlene.Kutch97@yahoo.com', 'QyYL9tRO9vAd8sH', '+(512) 23 527 0015', 4, 4);
-Insert Into guest (name, surname, phone, address_id, user_id) Values ('Darrin.Effertz@hotmail.com', '9Fo5m08rpoKVUSo', '+(444) 85 502 8396', 5, 5);
+insert into guest (name, surname, phone, address_id, user_id) values ('Diego', 'Wetherell', '574-692-4946', 1, 1);
+insert into guest (name, surname, phone, address_id, user_id) values ('Abagail', 'Mumbeson', '326-329-0219', 2, 2);
+insert into guest (name, surname, phone, address_id, user_id) values ('Kristofer', 'Selwood', '798-594-6840', 3, 3);
+insert into guest (name, surname, phone, address_id, user_id) values ('Tabitha', 'Gabriely', '270-128-5602', 4, 4);
+insert into guest (name, surname, phone, address_id, user_id) values ('Jane', 'Glassford', '980-847-8405', 5, 5);
 
-Insert Into host (name, surname, phone, address_id, user_id) Values ('Teri_DuBuque@hotmail.com', 'TcDZcVocoLDkRrO', '+(258) 44 184 2315', 6, 6);
-Insert Into host (name, surname, phone, address_id, user_id) Values ('Chelsea.Shields@yahoo.com', 'lgJ5y55G9b6cmLR', '+(511) 23 572 8526', 7, 7);
-Insert Into host (name, surname, phone, address_id, user_id) Values ('Dixie.Willms@hotmail.com', 'LtEQs49qrdjiMPY', '+(144) 61 233 4983', 8, 8);
-Insert Into host (name, surname, phone, address_id, user_id) Values ('Sandy57@yahoo.com', 'G2ldvVClsi4bD7b', '+(433) 77 678 9250', 9, 9);
+insert into host (name, surname, phone, address_id, user_id) values ('Wendall', 'Toppin', '344-293-3763', 6, 6);
+insert into host (name, surname, phone, address_id, user_id) values ('Olenka', 'Applewhaite', '349-989-0362', 7, 7);
+insert into host (name, surname, phone, address_id, user_id) values ('Beverlee', 'Potkins', '848-215-6921', 8, 8);
+insert into host (name, surname, phone, address_id, user_id) values ('Bobbee', 'January', '104-170-4066', 9, 9);
 
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Reilly-Volkman', 1, 'Burn of first degree of toe(s) (nail)', 'Revision of Autologous Tissue Substitute in Right Ear, Percutaneous Approach', 1, 'STUDIO', 'ACTIVE', 1, 3, 10, false);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Fisher and Sons', 1, 'Melanocytic nevi of unspecified lower limb, including hip', 'Removal of Spacer from Right Carpal Joint, Open Approach', 2, 'APARTMENT', 'ACTIVE', 1, 3, 20, false);
