@@ -62,4 +62,17 @@ public class GuestServiceImpl implements IPersonService {
     public void remove(Long id) {
         guestRepository.deleteById(id);
     }
+
+    @Override
+    public Person update(Person person) {
+        Person oldPerson = findById(person.getId());
+        if (oldPerson == null){
+            return null;
+        }
+        String pass = oldPerson.getUser().getPassword();
+        person.getUser().setPassword(pass);
+        person.getAddress().setId(oldPerson.getAddress().getId());
+        person.getUser().setId(oldPerson.getUser().getId());
+        return save(person);
+    }
 }

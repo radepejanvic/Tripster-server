@@ -1,5 +1,6 @@
 package com.tripster.project.service;
 
+import com.tripster.project.dto.PersonCruDTO;
 import com.tripster.project.model.*;
 import com.tripster.project.repository.AddressRepository;
 import com.tripster.project.repository.HostRepository;
@@ -8,6 +9,8 @@ import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +51,20 @@ public class HostServiceImpl implements IPersonService {
     public void remove(Long id) {
         hostRepository.deleteById(id);
     }
+
+    @Override
+    public Person update(Person person) {
+        Person oldPerson = findById(person.getId());
+        if (oldPerson == null){
+            return null;
+        }
+        String pass = oldPerson.getUser().getPassword();
+        person.getUser().setPassword(pass);
+        person.getAddress().setId(oldPerson.getAddress().getId());
+        person.getUser().setId(oldPerson.getUser().getId());
+        return save(person);
+    }
+
     @Override
     public List<Person> findAll() {
         return hostRepository.findAll().stream().map(host -> (Person) host).toList();
