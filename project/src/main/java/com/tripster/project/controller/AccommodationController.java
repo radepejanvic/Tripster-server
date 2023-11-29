@@ -7,7 +7,6 @@ import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -118,14 +117,15 @@ public class AccommodationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{accommodationId}/", consumes = "application/json")
-    public ResponseEntity<String> updateAccommodation(@PathVariable Long accommodationId, @PathParam("status") String status) {
+    @PatchMapping(consumes = "application/json")
+    public ResponseEntity<String> updateAccommodation(@RequestBody StatusDTO dto) {
 
-        Accommodation accommodation = accommodationService.findOne(accommodationId);
-        accommodation.setStatus(AccommodationStatus.valueOf(status));
+        Accommodation accommodation = accommodationService.findOne(dto.getId());
+        System.out.println(dto);
+        accommodation.setStatus(AccommodationStatus.valueOf(dto.getStatus()));
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(status, HttpStatus.OK);
+        return new ResponseEntity<>(dto.getStatus(), HttpStatus.OK);
     }
 
     // Host:
