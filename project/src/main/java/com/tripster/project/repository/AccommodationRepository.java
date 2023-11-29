@@ -1,6 +1,7 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.enums.AccommodationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,5 +21,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " join fetch a.owner o" +
             " where o.id = :ownerId")
     List<Accommodation> findAllByOwnerId(Long ownerId);
+    List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList);
 
 }

@@ -31,8 +31,8 @@ public class AccommodationController {
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
-    public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin() {
-        List<Accommodation> accommodations = accommodationService.findAll();
+    public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin(@RequestParam(required = false) List<AccommodationStatus> statusList ) {
+        List<Accommodation> accommodations = accommodationService.findByStatusIn(statusList);
 
         List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
                 .map(AccommodationDTOMapper::fromAccommodationToAdminDTO)
@@ -55,8 +55,7 @@ public class AccommodationController {
 
     // Guest: when he searches for accommodations
     @GetMapping(value = "/guest")
-    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam String start, @RequestParam String end, @RequestParam int numOfGuests) {
-
+    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) int numOfGuests) {
 
         List<Accommodation> accommodations = accommodationService.findAll();
         List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
