@@ -47,6 +47,10 @@ public class AccommodationService {
         return accommodationRepository.findAllByOwnerId(id);
     }
 
+    public List<Accommodation> findFavorites(Long guestId) {
+        return accommodationRepository.findFavorites(guestId);
+    }
+
     public List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList) {
         if (statusList == null || statusList.isEmpty()) {
             return findAll();
