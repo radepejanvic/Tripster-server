@@ -2,7 +2,7 @@ package com.tripster.project.service;
 
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
-import com.tripster.project.model.Host;
+import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,6 +46,13 @@ public class AccommodationService {
     public List<Accommodation> findAllByOwnerId(Long id) {
         return accommodationRepository.findAllByOwnerId(id);
     }
+
+    public List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList) {
+        if (statusList == null || statusList.isEmpty()) {
+            return findAll();
+        }
+        return accommodationRepository.findByStatusIn(statusList);
+    };
 
     public void generateCalendar(LocalDate startDate, Accommodation accommodation) {
 
