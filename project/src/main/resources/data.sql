@@ -47,5 +47,17 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('13/08/2023', '14/08/2023', 1, 30.0, 3, 3, 2, 'PENDING');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('12/08/2023', '17/08/2023', 5, 100.0, 4, 4, 3, 'PENDING');
 
+insert into notification (user_id, text, status) values (1, 'Exc of accessory spleen', 'SENT');
+insert into notification (user_id, text, status) values (1, 'Remove penetrat FB eye', 'READ');
+insert into notification (user_id, text, status) values (1, 'Other suture of tendon', 'READ');
+insert into notification (user_id, text, status) values (2, 'Remove penetrat cerv FB', 'SENT');
+insert into notification (user_id, text, status) values (2, 'Pacemaker impedance chck', 'SENT');
+insert into notification (user_id, text, status) values (3, 'Open reduc-dislocat NEC', 'READ');
+insert into notification (user_id, text, status) values (4, 'Arth/pros rem wo rep NOS', 'READ');
+insert into notification (user_id, text, status) values (5, 'Failed forceps', 'NEW');
+insert into notification (user_id, text, status) values (5, 'Disarticulation of wrist', 'SENT');
+insert into notification (user_id, text, status) values (6, 'Ligate thoracic duct', 'SENT');
+
+
 
 
