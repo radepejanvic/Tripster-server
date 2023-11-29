@@ -74,21 +74,29 @@ public class PersonController {
     @PutMapping(value = "/update",consumes = "application/json")
     public ResponseEntity<PersonCruDTO> update(@RequestBody PersonCruDTO personCruDTO){
 
-        Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO);
+        Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO,"UPDATE");
         Person oldPerson;
-        try {
+
             if (person.getUser().getUserType().equals(UserType.GUEST)){
                 oldPerson = guestService.findById(person.getId());
+                if (oldPerson == null){
+                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
+                }
                 guestService.save(person);
             }else{
                 oldPerson = hostService.findById(person.getId());
+                if (oldPerson == null){
+                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
+                }
+                String pass = oldPerson.getUser().getPassword();
+                person.getUser().setPassword(pass);
+                person.getAddress().setId(oldPerson.getAddress().getId());
+                person.getUser().setId(oldPerson.getUser().getId());
                 hostService.save(person);
             }
-        }catch (Exception exception){
-            return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.CREATED);
     }
+
 
 
 
