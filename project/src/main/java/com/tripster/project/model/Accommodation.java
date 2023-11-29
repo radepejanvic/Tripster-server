@@ -50,7 +50,7 @@ public class Accommodation {
 
     private boolean automaticReservation;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
 
     @Temporal(TemporalType.TIMESTAMP)
