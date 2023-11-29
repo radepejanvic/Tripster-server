@@ -58,6 +58,12 @@ insert into notification (user_id, text, status) values (5, 'Failed forceps', 'N
 insert into notification (user_id, text, status) values (5, 'Disarticulation of wrist', 'SENT');
 insert into notification (user_id, text, status) values (6, 'Ligate thoracic duct', 'SENT');
 
+insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (1, 6, 'Incise cerebral meninges', 1, 'REPORTED');
+insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (2, 6, 'Extracorpor hepat Assis', 2, 'REPORTED');
+insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (3, 7, 'Total esophagectomy', 3, 'REPORTED');
+insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (4, 8, 'Manual rupt joint adhes', 4, 'ACTIVE');
+insert into user_review (reviewer_id, reviewed_user_id, text, rate, status) values (5, 9, 'Periph ganglionect NEC', 5, 'REPORTED');
+
 
 
 
