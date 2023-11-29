@@ -10,8 +10,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-
-@Entity
 @MappedSuperclass
 public class Review{
 
