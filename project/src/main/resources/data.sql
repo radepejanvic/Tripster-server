@@ -10,19 +10,24 @@ Insert Into address (city, country, number, street, zip_code) Values ('Conroe', 
 Insert Into address (city, country, number, street, zip_code) Values ('McClureberg', 'Jordan', '84709', '2855 Daniel Ranch', '0738');
 
 
-Insert Into users (email, password, status, user_type) Values ('Holly.Lindgren@yahoo.com', '0NIi3giZFdoKjaY', 1, 0);
+Insert Into users (email, password, status, user_type) Values ('guest@hotmail.com', 'guest', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Ivan_Bogisich30@yahoo.com', 'JR78k9H69z5YzW_', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Judy_Gusikowski39@yahoo.com', 'to63t1QNRJLKIzl', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Kent83@gmail.com', 'ZXAKlKmJyxn3c_G', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Richard29@hotmail.com', 'ww6kPYJrr0d1A8D', 1, 0);
-Insert Into users (email, password, status, user_type) Values ('Douglas_Hackett51@yahoo.com', 'yKN6hINVha6fV3l', 1, 1);
+Insert Into users (email, password, status, user_type) Values ('host@hotmail.com', 'host', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Tammy.Nicolas88@gmail.com', 'fVzIvtOI4qM98UW', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmail.com', 'bEAVKuU_KlNeYdi', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', 'k1EDPX5NHIJrQ68', 1, 1);
-Insert Into users (email, password, status, user_type) Values ('Marilyn_Bogisich57@hotmail.com', 'GZj6mPX3VlfZcmU', 1, 1);
+Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', 'admin', 1, 2);
 
 Insert Into guest (name, surname, phone, address_id, user_id) Values ('Guy.Johnston25@yahoo.com', 'Pmzy2OkXbgfeU13', '+(394) 04 360 5786', 1, 1);
 Insert Into guest (name, surname, phone, address_id, user_id) Values ('Elena23@gmail.com', 'CiA7YVOT8utTiY5', '+(019) 02 143 1435', 2, 2);
 Insert Into guest (name, surname, phone, address_id, user_id) Values ('Carrie.Goldner@hotmail.com', '2mgBQJn76ymkYKI', '+(053) 87 788 0503', 3, 3);
 Insert Into guest (name, surname, phone, address_id, user_id) Values ('Marlene.Kutch97@yahoo.com', 'QyYL9tRO9vAd8sH', '+(512) 23 527 0015', 4, 4);
 Insert Into guest (name, surname, phone, address_id, user_id) Values ('Darrin.Effertz@hotmail.com', '9Fo5m08rpoKVUSo', '+(444) 85 502 8396', 5, 5);
+
+Insert Into host (name, surname, phone, address_id, user_id) Values ('Teri_DuBuque@hotmail.com', 'TcDZcVocoLDkRrO', '+(258) 44 184 2315', 6, 6);
+Insert Into host (name, surname, phone, address_id, user_id) Values ('Chelsea.Shields@yahoo.com', 'lgJ5y55G9b6cmLR', '+(511) 23 572 8526', 7, 7);
+Insert Into host (name, surname, phone, address_id, user_id) Values ('Dixie.Willms@hotmail.com', 'LtEQs49qrdjiMPY', '+(144) 61 233 4983', 8, 8);
+Insert Into host (name, surname, phone, address_id, user_id) Values ('Sandy57@yahoo.com', 'G2ldvVClsi4bD7b', '+(433) 77 678 9250', 9, 9);
