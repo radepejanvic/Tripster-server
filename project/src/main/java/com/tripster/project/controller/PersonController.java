@@ -75,24 +75,16 @@ public class PersonController {
     public ResponseEntity<PersonCruDTO> update(@RequestBody PersonCruDTO personCruDTO){
 
         Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO,"UPDATE");
-        Person oldPerson;
 
             if (person.getUser().getUserType().equals(UserType.GUEST)){
-                oldPerson = guestService.findById(person.getId());
-                if (oldPerson == null){
+                if (guestService.update(person) == null){
                     return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
                 }
                 guestService.save(person);
             }else{
-                oldPerson = hostService.findById(person.getId());
-                if (oldPerson == null){
+                if (hostService.update(person) == null){
                     return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
                 }
-                String pass = oldPerson.getUser().getPassword();
-                person.getUser().setPassword(pass);
-                person.getAddress().setId(oldPerson.getAddress().getId());
-                person.getUser().setId(oldPerson.getUser().getId());
-                hostService.save(person);
             }
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.CREATED);
     }
