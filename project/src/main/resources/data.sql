@@ -70,5 +70,10 @@ insert into accommodation_review (reviewer_id, accommodation_id, text, rate, sta
 insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (4, 2, 'Periph nerve div NEC', 4, 'ACTIVE');
 insert into accommodation_review (reviewer_id, accommodation_id, text, rate, status) values (5, 3, 'Thymectomy NOS', 5, 'ACTIVE');
 
+insert into user_report (reporter_id, reportee_id, reason) values (6, 1, 'Sutur capsul/ligamen arm');
+insert into user_report (reporter_id, reportee_id, reason) values (6, 2, 'Mouth biopsy NOS');
+insert into user_report (reporter_id, reportee_id, reason) values (7, 1, 'Tot abd colectmy NEC/NOS');
+insert into user_report (reporter_id, reportee_id, reason) values (8, 4, 'Simple suture of dura');
+insert into user_report (reporter_id, reportee_id, reason) values (9, 5, 'Intrcoronry thromb infus');
 
 
