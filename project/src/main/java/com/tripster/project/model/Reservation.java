@@ -28,7 +28,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "deleted")
-    private boolean deleted;
+    private boolean deleted = false;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "startDate", nullable = false)

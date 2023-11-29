@@ -20,10 +20,10 @@ public class UserReportDTOMapper {
         UserReportDTO dto = new UserReportDTO();
         dto.setId(userReport.getId());
         dto.setReason(userReport.getReason());
-        dto.setReporterId(dto.getReporterId());
-        dto.setReporterEmail(dto.getReporterEmail());
-        dto.setReporteeId(dto.getReporteeId());
-        dto.setReporteeEmail(dto.getReporteeEmail());
+        dto.setReporterId(userReport.getReporter().getId());
+        dto.setReporterEmail(userReport.getReporter().getEmail());
+        dto.setReporteeId(userReport.getReportee().getId());
+        dto.setReporteeEmail(userReport.getReportee().getEmail());
         return dto;
     }
 }
