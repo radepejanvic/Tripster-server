@@ -10,10 +10,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-
-@Entity
 @MappedSuperclass
-public abstract class Review{
+public class Review{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
