@@ -42,6 +42,10 @@ insert into accommodation (name, owner_id, short_description, description, addre
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Blanda, Herzog and Rohan', 8, 'Displ oblique fx shaft of l ulna, 7thR', 'Introduction of Radioactive Substance into Central Vein, Percutaneous Approach', 9, 'ROOM', 'ACTIVE', 1, 9, 19, true);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Gleichner, Toy and Stracke', 8, 'Poisoning by antiparkns drug/centr muscle-tone depr, undet', 'Control Bleeding in Upper Back, Percutaneous Endoscopic Approach', 10, 'STUDIO', 'ACTIVE', 7, 10, 10, false);
 
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('22/07/2023', '26/07/2023', 4, 120.0, 2, 1, 1, 'CANCELLED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('03/12/2022', '09/12/2022', 6, 240.0, 2, 2, 1, 'CANCELLED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('13/08/2023', '14/08/2023', 1, 30.0, 3, 3, 2, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('12/08/2023', '17/08/2023', 5, 100.0, 4, 4, 3, 'PENDING');
 
 
 
