@@ -11,13 +11,17 @@ import org.springframework.stereotype.Component;
 public class PersonCruDTOMapper {
 
 
-    public static Person fromDTOtoPerson(PersonCruDTO personDTO) {
+    public static Person fromDTOtoPerson(PersonCruDTO personDTO,String status) {
 
         Person person;
         if(personDTO.getUserType().equals(UserType.GUEST)){
                 person = new Guest();
         }else{
                 person = new Host();
+        }
+
+        if (status == "UPDATE"){
+            person.setId(personDTO.getId());
         }
 
         person.setName(personDTO.getName());

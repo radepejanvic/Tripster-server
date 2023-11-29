@@ -50,7 +50,7 @@ public class PersonController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PersonCruDTO> saveUser(@RequestBody PersonCruDTO dto) {
 
-        Person person = PersonCruDTOMapper.fromDTOtoPerson(dto);
+        Person person = PersonCruDTOMapper.fromDTOtoPerson(dto,"NEW");
         try {
             if (person.getUser().getUserType().equals(UserType.GUEST)){
                 person = guestService.save(person);
@@ -74,21 +74,21 @@ public class PersonController {
     @PutMapping(value = "/update",consumes = "application/json")
     public ResponseEntity<PersonCruDTO> update(@RequestBody PersonCruDTO personCruDTO){
 
-        Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO);
-        Person oldPerson;
-        try {
+        Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO,"UPDATE");
+
             if (person.getUser().getUserType().equals(UserType.GUEST)){
-                oldPerson = guestService.findById(person.getId());
+                if (guestService.update(person) == null){
+                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
+                }
                 guestService.save(person);
             }else{
-                oldPerson = hostService.findById(person.getId());
-                hostService.save(person);
+                if (hostService.update(person) == null){
+                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
+                }
             }
-        }catch (Exception exception){
-            return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.CREATED);
     }
+
 
 
 
