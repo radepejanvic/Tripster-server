@@ -9,12 +9,14 @@ import java.util.List;
 
 
 public interface IPersonService {
-    public Person save(Person person);
+    Person save(Person person);
 
-    public Person findByUser(User user);
-    public List<Person> findAll();
+     Person findByUser(User user);
+     List<Person> findAll();
 
-    public Page<Person> findAll(Pageable page);
-    public Person findById(Long id);
-    public void remove(Long id);
+     Page<Person> findAll(Pageable page);
+     Person findById(Long id);
+     void remove(Long id);
+
+     Person update(Person person);
 }
