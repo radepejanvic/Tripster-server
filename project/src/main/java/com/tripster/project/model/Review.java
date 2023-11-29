@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Entity
 @MappedSuperclass
-public abstract class Review{
+public class Review{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
