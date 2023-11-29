@@ -7,7 +7,6 @@ import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -32,8 +31,8 @@ public class AccommodationController {
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
-    public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin() {
-        List<Accommodation> accommodations = accommodationService.findAll();
+    public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin(@RequestParam(required = false) List<AccommodationStatus> statusList ) {
+        List<Accommodation> accommodations = accommodationService.findByStatusIn(statusList);
 
         List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
                 .map(AccommodationDTOMapper::fromAccommodationToAdminDTO)
@@ -56,8 +55,7 @@ public class AccommodationController {
 
     // Guest: when he searches for accommodations
     @GetMapping(value = "/guest")
-    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam String start, @RequestParam String end, @RequestParam int numOfGuests) {
-
+    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) Integer numOfGuests) {
 
         List<Accommodation> accommodations = accommodationService.findAll();
         List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
@@ -118,14 +116,15 @@ public class AccommodationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{accommodationId}/", consumes = "application/json")
-    public ResponseEntity<String> updateAccommodation(@PathVariable Long accommodationId, @PathParam("status") String status) {
+    @PatchMapping(consumes = "application/json")
+    public ResponseEntity<String> updateAccommodation(@RequestBody StatusDTO dto) {
 
-        Accommodation accommodation = accommodationService.findOne(accommodationId);
-        accommodation.setStatus(AccommodationStatus.valueOf(status));
+        Accommodation accommodation = accommodationService.findOne(dto.getId());
+        System.out.println(dto);
+        accommodation.setStatus(AccommodationStatus.valueOf(dto.getStatus()));
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(status, HttpStatus.OK);
+        return new ResponseEntity<>(dto.getStatus(), HttpStatus.OK);
     }
 
     // Host:
