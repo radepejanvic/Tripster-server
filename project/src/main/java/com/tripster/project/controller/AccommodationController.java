@@ -55,7 +55,7 @@ public class AccommodationController {
 
     // Guest: when he searches for accommodations
     @GetMapping(value = "/guest")
-    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) int numOfGuests) {
+    public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) Integer numOfGuests) {
 
         List<Accommodation> accommodations = accommodationService.findAll();
         List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
