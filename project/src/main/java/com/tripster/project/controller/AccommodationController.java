@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,6 @@ public class AccommodationController {
     @Autowired
     private IPersonService personService;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
@@ -69,6 +70,16 @@ public class AccommodationController {
 //        }
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/guest/filters")
+    public ResponseEntity<List<Object[]>> filterAccommodations(@RequestParam(required = false) String city, @RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) Integer numOfGuests) {
+
+
+
+        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests);
+
+        return new ResponseEntity<>(objects, HttpStatus.OK);
     }
 
     // Host: when he opens the form for update
