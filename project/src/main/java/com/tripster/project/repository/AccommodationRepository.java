@@ -19,7 +19,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " and d.date between :start and :end" +
             " and d.isAvailable = true " +
             " group by a.id " +
-            " having count(d.date)")
+            " having count(d.date) = :duration")
     List<Object[]> filterAll(String city, LocalDate start, LocalDate end, Integer duration, Integer numOfGuests);
 
     @Query("select a " +
