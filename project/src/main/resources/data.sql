@@ -31,6 +31,20 @@ insert into host (name, surname, phone, address_id, user_id) values ('Olenka', '
 insert into host (name, surname, phone, address_id, user_id) values ('Beverlee', 'Potkins', '848-215-6921', 8, 8);
 insert into host (name, surname, phone, address_id, user_id) values ('Bobbee', 'January', '104-170-4066', 9, 9);
 
+insert into amenity (type) values ('WIFI');
+insert into amenity (type) values ('KITCHEN');
+insert into amenity (type) values ('PARKING');
+insert into amenity (type) values ('AC');
+insert into amenity (type) values ('TV');
+insert into amenity (type) values ('SAFE');
+insert into amenity (type) values ('PET_FRIENDLY');
+insert into amenity (type) values ('FREE_CANCELLATION');
+insert into amenity (type) values ('POOL');
+insert into amenity (type) values ('BARBECUE');
+insert into amenity (type) values ('WASHING_MACHINE');
+insert into amenity (type) values ('SAUNA');
+insert into amenity (type) values ('JACUZZI');
+
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Reilly-Volkman', 1, 'Burn of first degree of toe(s) (nail)', 'Revision of Autologous Tissue Substitute in Right Ear, Percutaneous Approach', 1, 'STUDIO', 'ACTIVE', 1, 3, 10, false);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Fisher and Sons', 1, 'Melanocytic nevi of unspecified lower limb, including hip', 'Removal of Spacer from Right Carpal Joint, Open Approach', 2, 'APARTMENT', 'ACTIVE', 1, 3, 20, false);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation) values ('Pfeffer-Schmeler', 1, 'Corrosion of unsp degree of unspecified forearm, init encntr', 'Excision of Left Lower Lobe Bronchus, Percutaneous Endoscopic Approach, Diagnostic', 3, 'ROOM', 'ACTIVE', 1, 3, 30, true);
