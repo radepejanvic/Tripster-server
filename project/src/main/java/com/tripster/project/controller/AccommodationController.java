@@ -6,6 +6,7 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,9 @@ public class AccommodationController {
 
     @Autowired
     private AccommodationService accommodationService;
+    @Autowired
+    private AmenityService amenityService;
+
     @Qualifier("hostServiceImpl")
     @Autowired
     private IPersonService personService;
@@ -101,10 +105,11 @@ public class AccommodationController {
 
         Accommodation accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
+        accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
 
         accommodationService.generateCalendar(LocalDate.now(), accommodation);
 
-//        accommodationService.save(accommodation);
+        accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
