@@ -4,14 +4,28 @@ import com.tripster.project.dto.AccommodationCardAdminDTO;
 import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
-import com.tripster.project.model.Accommodation;
-import com.tripster.project.model.Address;
-import com.tripster.project.model.Host;
-import com.tripster.project.model.User;
+import com.tripster.project.model.*;
+import com.tripster.project.service.AmenityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class AccommodationDTOMapper {
+
+    private static Set<Long> fromAmenitiesToLongs(Set<Amenity> amenities) {
+
+        Set<Long> ids = new HashSet<>();
+
+        for (Amenity a : amenities) {
+            ids.add(a.getId());
+        }
+
+        return ids;
+    }
+
 
     public static Accommodation fromDTOtoAccommodation(AccommodationDTO dto) {
 
@@ -23,7 +37,7 @@ public class AccommodationDTOMapper {
 //        accommodation.setOwner(dto.getOwner());
         accommodation.setShortDescription(dto.getShortDescription());
         accommodation.setDescription(dto.getDescription());
-        accommodation.setAmenities(dto.getAmenities());
+//        accommodation.setAmenities(dto.getAmenities());
         accommodation.setMinCap(dto.getMinCap());
         accommodation.setMaxCap(dto.getMaxCap());
         accommodation.setCancelDuration(dto.getCancelDuration());
@@ -52,13 +66,13 @@ public class AccommodationDTOMapper {
         dto.setOwnerId(accommodation.getOwner().getId());
         dto.setShortDescription(accommodation.getShortDescription());
         dto.setDescription(accommodation.getDescription());
-        dto.setAmenities(accommodation.getAmenities());
         dto.setMinCap(accommodation.getMinCap());
         dto.setMaxCap(accommodation.getMaxCap());
         dto.setCancelDuration(accommodation.getCancelDuration());
         dto.setType(accommodation.getType());
         dto.setAutomaticReservation(accommodation.isAutomaticReservation());
         dto.setStatus(accommodation.getStatus());
+        dto.setAmenities(fromAmenitiesToLongs(accommodation.getAmenities()));
         //        dto.setPhoto(accommodation.getPhoto());
 //
         dto.setCountry(address.getCountry());
@@ -85,7 +99,7 @@ public class AccommodationDTOMapper {
 //        dto.setShortDescription(accommodation.getShortDescription());
         dto.setType(accommodation.getType());
         // TODO: Find a way to resolve the Amenity issue
-//        dto.setAmenities(accommodation.getAmenities());
+        dto.setAmenities(accommodation.getAmenities());
 
         return dto;
     }
