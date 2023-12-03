@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -77,11 +78,13 @@ public class AccommodationController {
     }
 
     @GetMapping(value = "/guest/filters")
-    public ResponseEntity<List<Object[]>> filterAccommodations(@RequestParam(required = false) String city, @RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) Integer numOfGuests) {
+    public ResponseEntity<List<Object[]>> filterAccommodations(@RequestParam(required = false) String city,
+                                                               @RequestParam(required = false) String start,
+                                                               @RequestParam(required = false) String end,
+                                                               @RequestParam(required = false) Integer numOfGuests,
+                                                               @RequestParam(required = false) Set<Long> amenities) {
 
-
-
-        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests);
+        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities);
 
         return new ResponseEntity<>(objects, HttpStatus.OK);
     }

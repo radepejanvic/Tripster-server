@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AccommodationService {
@@ -61,13 +62,20 @@ public class AccommodationService {
         return accommodationRepository.findByStatusIn(statusList);
     };
 
-    public List<Object[]> filterAll(String city, String start, String end, Integer numOfGuests) {
+    public List<Object[]> filterAll(String city, String start, String end, Integer numOfGuests, Set<Long> amenities) {
         LocalDate startDate = LocalDate.parse(start, formatter);
         LocalDate endDate = LocalDate.parse(end, formatter).minusDays(1);
 
         Integer duration = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
-        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests);
+        Integer amenitiesSize;
+        if (amenities == null) {
+            amenitiesSize = 0;
+        } else {
+            amenitiesSize = amenities.size();
+        }
+
+        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests, amenities, amenitiesSize);
     }
 
 
