@@ -18,7 +18,7 @@ public class AmenityService {
         return amenityRepository.findAll();
     }
 
-    public Set<Amenity> findByIdIn(List<Long> ids) {
+    public Set<Amenity> findByIdIn(Set<Long> ids) {
         return amenityRepository.findByIdIn(ids);
     }
 

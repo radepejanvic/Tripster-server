@@ -90,6 +90,6 @@ public class AccommodationService {
         }
 
         accommodation.setCalendar(calendar);
-        save(accommodation);
+//        save(accommodation);
     }
 }

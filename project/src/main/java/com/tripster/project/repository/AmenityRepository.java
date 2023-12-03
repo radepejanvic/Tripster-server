@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface AmenityRepository extends JpaRepository<Amenity, Long> {
 
-    Set<Amenity> findByIdIn(List<Long> ids);
+    Set<Amenity> findByIdIn(Set<Long> ids);
 
 }
