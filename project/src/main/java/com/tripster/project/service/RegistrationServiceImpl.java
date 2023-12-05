@@ -7,6 +7,7 @@ import com.tripster.project.model.User;
 import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.model.enums.UserType;
 import com.tripster.project.service.interfaces.*;
+import com.tripster.project.utils.VerificationEmailBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
