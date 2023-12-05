@@ -1,6 +1,7 @@
 package com.tripster.project.service;
 
 import com.tripster.project.model.User;
+import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.repository.UserRepository;
 import com.tripster.project.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class UserServiceImpl implements IUserService {
     public User findByEmailAndPassword(String email, String password) {
         User user = userRepository.findByEmailAndPassword(email,password);
         return user;
+    }
+
+    @Override
+    public int updateStatus(Long id, UserStatus status) {
+        return userRepository.updateStatus(id,status);
     }
 
 }
