@@ -18,12 +18,15 @@ public class Photo {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String type;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodationId;
 
     @Transient
-    private String path = id + "/" + name + "_" + accommodationId;
+    private String path = accommodationId + "/" + name + "_" + id + "." + type;
 
 
 }
