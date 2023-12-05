@@ -36,7 +36,7 @@ public class Accommodation {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Amenity> amenities;
 
     private int minCap;
