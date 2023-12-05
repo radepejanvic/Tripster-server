@@ -1,21 +1,24 @@
 package com.tripster.project.service.interfaces;
 
 import com.tripster.project.model.User;
+import com.tripster.project.model.enums.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface IUserService {
-    public User findOne(Long id);
+    User findOne(Long id);
 
-    public List<User> findAll();
+    List<User> findAll();
 
-    public Page<User> findAll(Pageable page);
+    Page<User> findAll(Pageable page);
 
-    public User save(User User);
+    User save(User User);
 
-    public void remove(Long id);
+    void remove(Long id);
 
-    public User findByEmailAndPassword(String email,String password);
+    User findByEmailAndPassword(String email,String password);
+
+    int updateStatus(Long id, UserStatus status);
 }
