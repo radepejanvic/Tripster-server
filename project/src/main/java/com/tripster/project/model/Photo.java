@@ -22,4 +22,8 @@ public class Photo {
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodationId;
 
+    @Transient
+    private String path = id + "/" + name + "_" + accommodationId;
+
+
 }
