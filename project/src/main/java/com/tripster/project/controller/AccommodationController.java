@@ -6,6 +6,7 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,8 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,11 +28,13 @@ public class AccommodationController {
 
     @Autowired
     private AccommodationService accommodationService;
+    @Autowired
+    private AmenityService amenityService;
+
     @Qualifier("hostServiceImpl")
     @Autowired
     private IPersonService personService;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
@@ -70,6 +77,18 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/guest/filters")
+    public ResponseEntity<List<Object[]>> filterAccommodations(@RequestParam(required = false) String city,
+                                                               @RequestParam(required = false) String start,
+                                                               @RequestParam(required = false) String end,
+                                                               @RequestParam(required = false) Integer numOfGuests,
+                                                               @RequestParam(required = false) Set<Long> amenities) {
+
+        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities);
+
+        return new ResponseEntity<>(objects, HttpStatus.OK);
+    }
+
     // Host: when he opens the form for update
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccommodationDTO> getAccommodation(@PathVariable Long id) {
@@ -89,6 +108,10 @@ public class AccommodationController {
 
         Accommodation accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
+        accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
+
+        accommodationService.generateCalendar(LocalDate.now(), accommodation);
+
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

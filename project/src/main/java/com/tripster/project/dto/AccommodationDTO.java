@@ -10,6 +10,7 @@ import com.tripster.project.model.enums.AmenityType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,7 +37,7 @@ public class AccommodationDTO {
 
     private String description;
 
-    private Set<Amenity> amenities;
+    private Set<Long> amenities;
 
     private int minCap;
 

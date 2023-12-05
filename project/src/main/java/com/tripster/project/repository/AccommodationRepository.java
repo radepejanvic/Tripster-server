@@ -5,22 +5,33 @@ import com.tripster.project.model.enums.AccommodationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-//    @Query("select a, sum(d.price) as totalPrice, count(d) as totalDays" +
-//            " from Accommodation a join fetch a.calendar d on d.accommodation = a" +
-//            " where :numOfGuests between a.minCap and a.maxCap and d.date between :start and :end and d.isAvailable = true" +
-//            " group by a" +
-//            " having totalDays = datediff(:start, :end)")
-//    List<Object[]> findAllAvailableAccommodationsWithPrice(LocalDate start, LocalDate end, int numOfGuests);
+    @Query(value = "select a.id, count(d.date) , sum(d.price)"+
+            " from Accommodation a " +
+            " join a.calendar d" +
+            " join a.address ad" +
+            " where (:city = null or ad.city = :city)" +
+            " and (:numOfGuests = null or :numOfGuests between a.minCap and a.maxCap)" +
+            " and d.date between :start and :end" +
+            " and d.isAvailable = true" +
+            " and (:amenitiesSize = 0 or :amenitiesSize = (select count(am.id) from a.amenities am where am.id in :amenities))" +
+            " group by a.id" +
+            " having count(d.date) = :duration")
+    List<Object[]> filterAll(String city, LocalDate start, LocalDate end, Integer duration, Integer numOfGuests, Set<Long> amenities, Integer amenitiesSize);
+
 
     @Query("select a " +
             " from Accommodation a" +
             " join fetch a.owner o" +
             " where o.id = :ownerId")
     List<Accommodation> findAllByOwnerId(Long ownerId);
+
+
     List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList);
 
     @Query("select a" +
