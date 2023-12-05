@@ -18,10 +18,7 @@ public class Photo {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String directory;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodationId;
 
