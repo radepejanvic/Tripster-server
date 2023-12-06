@@ -14,4 +14,10 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
             " where a.id = :accommodationId")
     List<Photo> findAllByAccommodationId(Long accommodationId);
 
+    @Query("select count(p)" +
+            " from Photo p" +
+            " join p.accommodation a " +
+            " where a.id = :accommodationId and p.name = 'primary'")
+    int hasPrimary(Long accommodationId);
+
 }
