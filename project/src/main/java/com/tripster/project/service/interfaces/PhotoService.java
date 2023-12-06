@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PhotoService {
 
-    List<Photo> findAllByAccommodationId(Long accommodationId);
+    List<Photo> findByAccommodationId(Long accommodationId);
 
 }

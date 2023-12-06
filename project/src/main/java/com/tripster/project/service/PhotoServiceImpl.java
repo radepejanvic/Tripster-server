@@ -14,8 +14,8 @@ public class PhotoServiceImpl implements PhotoService {
     @Autowired
     private PhotoRepository photoRepository;
 
-    public List<Photo> findAllByAccommodationId(Long accommodationId) {
-        return photoRepository.findAllByAccommodationId(accommodationId);
+    public List<Photo> findByAccommodationId(Long accommodationId) {
+        return photoRepository.findByAccommodationId(accommodationId);
     }
 
 }
