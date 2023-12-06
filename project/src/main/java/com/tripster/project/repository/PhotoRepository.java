@@ -10,7 +10,8 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     @Query("select p" +
             " from Photo p" +
-            " where p.accommodationId = :accommodationId")
-    List<Photo> findByAccommodationId(Long accommodationId);
+            " join p.accommodation a" +
+            " where a.id = :accommodationId")
+    List<Photo> findAllByAccommodationId(Long accommodationId);
 
 }
