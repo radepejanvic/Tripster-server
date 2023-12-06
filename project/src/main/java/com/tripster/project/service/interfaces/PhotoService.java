@@ -9,9 +9,14 @@ import java.util.List;
 
 public interface PhotoService {
 
-    List<byte[]> findAllByAccommodationId(Long accommodationId);
+    Photo findOne(Long id);
 
     void save(MultipartFile photoFile, Photo photo) throws IOException;
+
+    void remove(Long id, String path);
+
+    List<byte[]> findAllByAccommodationId(Long accommodationId);
+
 
     boolean hasPrimary(Long accommodationId);
 

@@ -27,6 +27,10 @@ public class PhotoServiceImpl implements PhotoService {
     @Value(value="${photos}")
     private String directory;
 
+    public Photo findOne(Long id) {
+        return photoRepository.findById(id).orElse(null);
+    }
+
     public List<byte[]> findAllByAccommodationId(Long accommodationId) {
 
         List<byte[]> bytes = new ArrayList<>();
@@ -58,6 +62,16 @@ public class PhotoServiceImpl implements PhotoService {
         }
 
         Files.copy(photoFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    @Transactional
+    @Override
+    public void remove(Long id, String path) {
+
+        File photoFile = new File(directory + "/" + path);
+        photoFile.delete();
+
+        photoRepository.deleteById(id);
     }
 
     @Override
