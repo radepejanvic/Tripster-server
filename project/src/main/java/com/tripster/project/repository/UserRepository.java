@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+import java.util.Optional;
 
-    User findByEmailAndPassword (String email,String password);
+public interface UserRepository extends JpaRepository<User,Long> {
 
     @Transactional
     @Modifying
@@ -18,4 +18,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "where u.id = :id")
     int updateStatus(Long id, UserStatus status);
 
+     Optional<User> findByEmail(String username);
 }

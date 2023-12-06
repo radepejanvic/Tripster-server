@@ -1,6 +1,6 @@
 package com.tripster.project.service;
 
-import com.tripster.project.dto.PersonCruDTO;
+
 import com.tripster.project.model.ConfirmationToken;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
@@ -12,10 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,7 +28,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private IPersonService  hostService;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
