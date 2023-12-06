@@ -1,13 +1,12 @@
 package com.tripster.project.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Photo {
 
@@ -15,14 +14,23 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false)
     private String name;
 
+    @NonNull
     @Column(nullable = false)
-    private String directory;
+    private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @NonNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
-    private Accommodation accommodationId;
+    private Accommodation accommodation;
+
+    @Transient
+    public String  getPath() {
+        return accommodation.getId() + "_" + name + "_" + id + "." + type;
+    };
+
 
 }
