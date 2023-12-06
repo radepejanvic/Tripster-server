@@ -23,10 +23,12 @@ public class Photo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
-    private Accommodation accommodationId;
+    private Accommodation accommodation;
 
     @Transient
-    private String path = accommodationId + "/" + name + "_" + id + "." + type;
+    public String  getPath() {
+        return "/" + accommodation.getId() + "/" + name + "_" + id + "." + type;
+    };
 
 
 }
