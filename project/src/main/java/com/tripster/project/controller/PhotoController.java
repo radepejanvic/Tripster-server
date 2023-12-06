@@ -49,4 +49,17 @@ public class PhotoController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deletePhoto(@PathVariable Long id) {
+
+        Photo photo = photoService.findOne(id);
+
+        if (photo != null) {
+            photoService.remove(id, photo.getPath());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
