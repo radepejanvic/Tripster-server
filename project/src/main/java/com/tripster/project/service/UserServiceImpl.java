@@ -6,7 +6,6 @@ import com.tripster.project.repository.UserRepository;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -20,6 +19,11 @@ public class UserServiceImpl implements  UserService {
     @Override
     public User findOne(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+       return userRepository.findByEmail(username);
     }
 
     @Override
