@@ -33,6 +33,9 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
 
+    public boolean isDisabled(){
+        return (!status.equals(UserStatus.ACTIVE));
+    }
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 //    private List<Notification> notifications;
 }
