@@ -8,11 +8,13 @@ import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.model.enums.UserType;
 import com.tripster.project.service.interfaces.*;
 import com.tripster.project.utils.VerificationEmailBuilder;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -41,8 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Transactional
     @Override
-    public String register(Person person)  {
-//        TODO: email validator
+    public String register(Person person) throws MessagingException {
 
         if (person.getUser().getUserType().equals(UserType.GUEST)){
             person = guestService.save(person);
