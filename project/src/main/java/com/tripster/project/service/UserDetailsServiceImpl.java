@@ -23,7 +23,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         if(!ret.isEmpty()){
             return org.springframework.security.core.userdetails.User.withUsername(username)
                     .password(ret.get().getPassword())
-                    .roles(ret.get().getUserType().toString()).build();
+                    .roles(ret.get().getUserType().toString())
+                    .disabled(ret.get().isDisabled())
+                    .build();
         }
         throw new UsernameNotFoundException("User not found with this username: "+username);
     }
