@@ -3,6 +3,7 @@ package com.tripster.project.service;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.AccommodationStatus;
+import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
@@ -62,7 +63,7 @@ public class AccommodationService {
         return accommodationRepository.findByStatusIn(statusList);
     };
 
-    public List<Object[]> filterAll(String city, String start, String end, Integer numOfGuests, Set<Long> amenities) {
+    public List<Object[]> filterAll(String city, String start, String end, Integer numOfGuests, Set<Long> amenities, Double minPrice, Double maxPrice, AccommodationType type) {
         LocalDate startDate = LocalDate.parse(start, formatter);
         LocalDate endDate = LocalDate.parse(end, formatter).minusDays(1);
 
@@ -75,7 +76,7 @@ public class AccommodationService {
             amenitiesSize = amenities.size();
         }
 
-        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests, amenities, amenitiesSize);
+        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests, amenities, amenitiesSize, minPrice, maxPrice, type);
     }
 
 

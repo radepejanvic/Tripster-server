@@ -2,6 +2,7 @@ package com.tripster.project.repository;
 
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.enums.AccommodationStatus;
+import com.tripster.project.model.enums.AccommodationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,13 +18,15 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " join a.address ad" +
             " where (:city = null or ad.city = :city)" +
             " and (:numOfGuests = null or :numOfGuests between a.minCap and a.maxCap)" +
+            " and (:type = null or a.type = :type)" +
             " and d.date between :start and :end" +
             " and d.isAvailable = true" +
             " and (:amenitiesSize = 0 or :amenitiesSize = (select count(am.id) from a.amenities am where am.id in :amenities))" +
             " group by a.id" +
-            " having count(d.date) = :duration")
-    List<Object[]> filterAll(String city, LocalDate start, LocalDate end, Integer duration, Integer numOfGuests, Set<Long> amenities, Integer amenitiesSize);
-
+            " having count(d.date) = :duration" +
+            " and (:minPrice = null or sum(d.price) >= :minPrice)" +
+            " and (:maxPrice = null or sum(d.price) <= :maxPrice)")
+    List<Object[]> filterAll(String city, LocalDate start, LocalDate end, Integer duration, Integer numOfGuests, Set<Long> amenities, Integer amenitiesSize, Double minPrice, Double maxPrice, AccommodationType type);
 
     @Query("select a " +
             " from Accommodation a" +

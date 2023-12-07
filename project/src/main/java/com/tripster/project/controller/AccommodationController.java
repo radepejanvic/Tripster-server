@@ -5,6 +5,7 @@ import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
+import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -82,9 +83,12 @@ public class AccommodationController {
                                                                @RequestParam(required = false) String start,
                                                                @RequestParam(required = false) String end,
                                                                @RequestParam(required = false) Integer numOfGuests,
-                                                               @RequestParam(required = false) Set<Long> amenities) {
+                                                               @RequestParam(required = false) Set<Long> amenities,
+                                                               @RequestParam(required = false) Double minPrice,
+                                                               @RequestParam(required = false) Double maxPrice,
+                                                               @RequestParam(required = false) AccommodationType type) {
 
-        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities);
+        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities, minPrice, maxPrice, type);
 
         return new ResponseEntity<>(objects, HttpStatus.OK);
     }
