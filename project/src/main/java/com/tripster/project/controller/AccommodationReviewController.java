@@ -5,7 +5,7 @@ import com.tripster.project.mapper.ReviewDTOMapper;
 import com.tripster.project.model.AccommodationReview;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
-import com.tripster.project.service.interfaces.IUserService;
+import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AccommodationReviewController {
     @Autowired
     private AccommodationService accommodationService;
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @GetMapping(value = "/{accommodationId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long accommodationId) {

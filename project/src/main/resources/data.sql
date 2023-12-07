@@ -90,5 +90,6 @@ insert into user_report (reporter_id, reportee_id, reason) values (2, 1, 'Tot ab
 insert into user_report (reporter_id, reportee_id, reason) values (3, 4, 'Simple suture of dura');
 insert into user_report (reporter_id, reportee_id, reason) values (2, 5, 'Intrcoronry thromb infus');
 
-
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
 

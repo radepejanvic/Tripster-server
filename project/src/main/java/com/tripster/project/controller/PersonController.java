@@ -11,11 +11,12 @@ import com.tripster.project.mapper.PersonCruDTOMapper;
 import com.tripster.project.mapper.UserDTOMapper;
 import com.tripster.project.service.UserServiceImpl;
 import com.tripster.project.service.interfaces.IPersonService;
-import com.tripster.project.service.interfaces.IUserService;
+import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.List;
 public class PersonController {
     
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Qualifier("guestServiceImpl")
     @Autowired
@@ -36,6 +37,7 @@ public class PersonController {
     @Autowired
     private IPersonService  hostService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<PersonCruDTO>> getAll(){
 
@@ -45,30 +47,6 @@ public class PersonController {
         List<PersonCruDTO> personCruDTOS = persons.stream()
                 .map(PersonCruDTOMapper::fromPersonToDTO).toList();
         return new ResponseEntity<>(personCruDTOS, HttpStatus.OK);
-    }
-
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<PersonCruDTO> saveUser(@RequestBody PersonCruDTO dto) {
-
-        Person person = PersonCruDTOMapper.fromDTOtoPerson(dto,"NEW");
-        try {
-            if (person.getUser().getUserType().equals(UserType.GUEST)){
-                person = guestService.save(person);
-            }else{
-                person = hostService.save(person);
-            }
-        }catch (Exception exception){
-            return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.CREATED);
-    }
-
-    @PostMapping(value = "/login",consumes = "application/json")
-    public ResponseEntity<UserDTO> login(@RequestBody UserLoginDTO userLoginDTO){
-
-        User user = userService.findByEmailAndPassword(userLoginDTO.getEmail(), userLoginDTO.getPassword());
-        UserDTO userDTO= UserDTOMapper.fromUsertoUserDTO(user);
-        return new ResponseEntity<>(userDTO,HttpStatus.FOUND);
     }
 
     @PutMapping(value = "/update",consumes = "application/json")
@@ -91,7 +69,7 @@ public class PersonController {
 
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 

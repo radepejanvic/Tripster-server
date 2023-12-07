@@ -7,7 +7,7 @@ import com.tripster.project.model.AccommodationReviewReport;
 import com.tripster.project.model.User;
 import com.tripster.project.service.AccommodationReviewReportServiceImpl;
 import com.tripster.project.service.AccommodationReviewService;
-import com.tripster.project.service.interfaces.IUserService;
+import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class AccommodationReviewReportController {
     @Autowired
     private AccommodationReviewReportServiceImpl accommodationReviewReportService;
     @Autowired
-    private IUserService userService;
+    private UserService userService;
     @Autowired
     private AccommodationReviewService accommodationReviewService;
 
