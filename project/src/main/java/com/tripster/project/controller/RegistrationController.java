@@ -7,6 +7,7 @@ import com.tripster.project.model.enums.UserType;
 import com.tripster.project.service.interfaces.ConfirmationTokenService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.RegistrationService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,13 @@ public class RegistrationController {
     public ResponseEntity<String> register(@RequestBody PersonCruDTO dto) {
 
         Person person = PersonCruDTOMapper.fromDTOtoPerson(dto,"NEW");
-        String token = registrationService.register(person);
+        String token = "";
+
+        try {
+            token = registrationService.register(person);
+        } catch (MessagingException e) {
+            return new ResponseEntity<>(token,HttpStatus.CONFLICT);
+        }
 
         return new ResponseEntity<>(token, HttpStatus.CREATED);
     }

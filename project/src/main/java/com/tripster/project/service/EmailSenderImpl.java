@@ -23,19 +23,16 @@ public class EmailSenderImpl implements EmailSender {
 
     @Override
     @Async
-    public void send(String to, String subject, String body) {
+    public void send(String to, String subject, String body) throws MessagingException {
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(body, true);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setFrom(email);
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            throw new IllegalStateException("failed to send email");
-        }
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper =
+                new MimeMessageHelper(mimeMessage, "utf-8");
+        helper.setText(body, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setFrom(email);
+        mailSender.send(mimeMessage);
+
     }
 }
