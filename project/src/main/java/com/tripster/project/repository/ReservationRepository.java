@@ -3,8 +3,8 @@ package com.tripster.project.repository;
 import com.tripster.project.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -22,5 +22,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "WHERE owner.id = :hostId"
              )
     public List<Reservation> getAllForHost(Long hostId);
+    @Query("SELECT res FROM Reservation res " +
+            "WHERE  (( :start < res.start and res.start < :end ) or (:start < res.end and res.end < :end)) ")
+    public List<Reservation> getAllInDateRange(LocalDate start, LocalDate end);
     
 }

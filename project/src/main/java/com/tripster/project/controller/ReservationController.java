@@ -5,6 +5,7 @@ import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Reservation;
+import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.GuestServiceImpl;
 import com.tripster.project.service.ReservationServiceImpl;
@@ -13,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/reservations")
@@ -85,18 +88,30 @@ public class ReservationController {
         reservationService.save(res);
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
-    @GetMapping(value = "/filter")
-    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam String startDateString, @RequestParam String endDateString){
-        List<ReservationDTO> dummyResult = new ArrayList<ReservationDTO>();
+    @GetMapping(value = "/dateRange")
+    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate){
+        //List<ReservationDTO> dummyResult = new ArrayList<ReservationDTO>();
         //Dummy funkcija za sada koja treba da se napravi kasnije
         //U njoj treba proveriti filtere da li dobro salje/hvata parametre
-        return new ResponseEntity<>(dummyResult, HttpStatus.OK);
+        //staviti ovde da stoje defaultni parametri filter pretrage
+        //defaultni se ipak trebaju staviti na frontu
+        List<Reservation> reservations = reservationService.getAllInDateRange(startDate, endDate);
+        List<ReservationDTO> dtos = reservations.stream()
+                .map(ReservationDTOMapper::fromReservationToDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/filter")
-    public ResponseEntity<Void> setStatus(@RequestParam String status, @RequestParam Long reservationId) {
-        //Ovde treba da se postavi status za odredjenu rezervaciju
-        //Brisanje apdejt itd...
+    @PutMapping(value = "/dateRange")
+    public ResponseEntity<Void> setStatus(@RequestParam ReservationStatus status, @RequestParam Long reservationId) {
+
+        Reservation reservation = reservationService.findOne(reservationId);
+        if (reservation == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        reservation.setStatus(status);
+        reservationService.save(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
