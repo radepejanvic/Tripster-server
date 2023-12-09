@@ -23,7 +23,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
              )
     public List<Reservation> getAllForHost(Long hostId);
     @Query("SELECT res FROM Reservation res " +
-            "WHERE  (( :start < res.start and res.start < :end ) or (:start < res.end and res.end < :end)) ")
-    public List<Reservation> getAllInDateRange(LocalDate start, LocalDate end);
+            "JOIN res.accommodation acc " +
+            "WHERE  ((( :start < res.start and res.start < :end ) or (:start < res.end and res.end < :end)) " +
+            "and acc.id = :accId) " +
+            "and res.status != 'REJECTED' " +
+            "and res.status != 'CANCELLED' ")
+    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId);
     
 }

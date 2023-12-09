@@ -83,19 +83,17 @@ public class ReservationController {
         if (guest == null) {
             return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
         }
+        //Ovde dodati proveru slobodnih datuma
+
         res.setAccommodation(acc);
         res.setGuest(guest);
         reservationService.save(res);
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
-    @GetMapping(value = "/dateRange")
-    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate){
-        //List<ReservationDTO> dummyResult = new ArrayList<ReservationDTO>();
-        //Dummy funkcija za sada koja treba da se napravi kasnije
-        //U njoj treba proveriti filtere da li dobro salje/hvata parametre
-        //staviti ovde da stoje defaultni parametri filter pretrage
-        //defaultni se ipak trebaju staviti na frontu
-        List<Reservation> reservations = reservationService.getAllInDateRange(startDate, endDate);
+    @GetMapping(value = "/dateRangeAccommodation")
+    public ResponseEntity<List<ReservationDTO>> dateRangeAccommodation(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate, @RequestParam Long accId){
+        //defaultni parametri se ipak trebaju staviti na frontu
+        List<Reservation> reservations = reservationService.getAllInDateRangeForAccommodation(startDate, endDate, accId);
         List<ReservationDTO> dtos = reservations.stream()
                 .map(ReservationDTOMapper::fromReservationToDTO)
                 .collect(Collectors.toList());
