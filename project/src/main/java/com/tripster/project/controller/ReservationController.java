@@ -84,7 +84,10 @@ public class ReservationController {
             return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
         }
         //Ovde dodati proveru slobodnih datuma
-
+        List<Reservation> reservations = reservationService.getAllInDateRangeForAccommodation(reservationDTO.getStart(), reservationDTO.getEnd(), reservationDTO.getAccmId());
+        if (!reservations.isEmpty()) {
+            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
+        }
         res.setAccommodation(acc);
         res.setGuest(guest);
         reservationService.save(res);
