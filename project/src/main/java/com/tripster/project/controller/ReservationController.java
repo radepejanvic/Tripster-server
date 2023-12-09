@@ -47,7 +47,7 @@ public class ReservationController {
     }
     @GetMapping(value = "/host/{id}")
     public ResponseEntity<List<ReservationDTO>> getAllForHost(@PathVariable Long id) {
-        List<Reservation> reservations = reservationService.getAllForGuest(id);
+        List<Reservation> reservations = reservationService.getAllForHost(id);
         //Ovde gore treba da ide get all for host                     ^
         List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
         for (Reservation res : reservations) {
@@ -86,7 +86,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
     @GetMapping(value = "/filter")
-    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam String startDateString, @RequestParam String endDateString, @RequestParam int numberOfGuests){
+    public ResponseEntity<List<ReservationDTO>> filterSearch(@RequestParam String startDateString, @RequestParam String endDateString){
         List<ReservationDTO> dummyResult = new ArrayList<ReservationDTO>();
         //Dummy funkcija za sada koja treba da se napravi kasnije
         //U njoj treba proveriti filtere da li dobro salje/hvata parametre

@@ -15,9 +15,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN FETCH res.guest " +
             "WHERE res.guest.id = :guestId")
     public List<Reservation> getAllForGuest(Long guestId);
-    /*@Query("SELECT res FROM Reservation res " +
-            "JOIN FETCH res.accommodation acc " +
-            "WHERE acc.id != :hostId"
+    @Query("SELECT res " +
+            "FROM Reservation res " +
+            "JOIN res.accommodation acc " +
+            "JOIN acc.owner owner " +
+            "WHERE owner.id = :hostId"
              )
-    public List<Reservation> getAllForHost(Long hostId);*/
+    public List<Reservation> getAllForHost(Long hostId);
+    
 }

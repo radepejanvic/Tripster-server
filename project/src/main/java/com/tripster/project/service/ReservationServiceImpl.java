@@ -32,7 +32,7 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     public List<Reservation> getAllForGuest(Long guestId) {
         return reservationRepository.getAllForGuest(guestId);
     }
-    /*public List<Reservation> getAllForHost(Long hostId) {
+    public List<Reservation> getAllForHost(Long hostId) {
         return reservationRepository.getAllForHost(hostId);
-    }*/
+    }
 }
