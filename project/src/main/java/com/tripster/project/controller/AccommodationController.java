@@ -118,7 +118,7 @@ public class AccommodationController {
 
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.CREATED);
     }
 
     // Host: when he opens the form for update
