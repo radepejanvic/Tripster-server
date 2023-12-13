@@ -36,7 +36,7 @@ public class PhotoController {
     }
 
     @PostMapping("/{accommodationId}")
-    public ResponseEntity<?> uploadPhotos(@RequestParam("photo") MultipartFile[] photos, @PathVariable Long accommodationId) throws IOException {
+    public ResponseEntity<Integer> uploadPhotos(@RequestParam("photo") MultipartFile[] photos, @PathVariable Long accommodationId) throws IOException {
 
         Accommodation accommodation = accommodationService.findOne(accommodationId);
         boolean hasPrimary = photoService.hasPrimary(accommodationId);
@@ -46,7 +46,7 @@ public class PhotoController {
             photoService.save(photoFile, photo);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return new ResponseEntity<>(photos.length, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
