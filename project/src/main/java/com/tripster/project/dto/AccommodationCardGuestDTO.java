@@ -23,6 +23,8 @@ public class AccommodationCardGuestDTO {
 
     private String shortDescription;
 
+    private String address;
+
     private double price;
 
     private double pricePerNight;

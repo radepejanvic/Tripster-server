@@ -144,6 +144,7 @@ public class AccommodationDTOMapper {
 
         // TODO: Added picuters
 
+        dto.setAddress(accommodation.getAddress().toString());
         dto.setShortDescription(accommodation.getShortDescription());
         dto.setPrice(price);
         dto.setPricePerNight(price/count);
