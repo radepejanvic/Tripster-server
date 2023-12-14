@@ -127,7 +127,7 @@ public class AccommodationDTOMapper {
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
 //        dto.setFreeCancellation(accommodation.getFreeCancellation());
 //        dto.setShortDescription(accommodation.getShortDescription());
-        dto.setType(accommodation.getType());
+//        dto.setType(accommodation.getType());
         // TODO: Find a way to add reservation filters to this DTO
 //        dto.setPrice(price);
 //        dto.setDuration();
@@ -135,6 +135,22 @@ public class AccommodationDTOMapper {
         // TODO: Find a way to resolve the Amenity issue
 //        dto.setAmenities(accommodation.getAmenities());
 
+        return dto;
+    }
+    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,float rating,int numOfReviews) {
+        AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
+        dto.setId(accommodation.getId());
+        dto.setName(accommodation.getName());
+
+        // TODO: Added picuters
+
+        dto.setShortDescription(accommodation.getShortDescription());
+        dto.setPrice(price);
+        dto.setPricePerNight(price/count);
+        dto.setDuration(count);
+        dto.setNumOfGuests(numOfGuests!=null ? numOfGuests: accommodation.getMaxCap());
+        dto.setRating(rating);
+        dto.setNumOfReviews(numOfReviews);
         return dto;
     }
 }
