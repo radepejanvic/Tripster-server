@@ -23,13 +23,11 @@ public class AccommodationCardGuestDTO {
 
     private String shortDescription;
 
-    private Set<Amenity> amenities;
-
     private double price;
 
     private double pricePerNight;
 
-    private int duration;
+    private Long duration;
 
     private int numOfGuests;
 
