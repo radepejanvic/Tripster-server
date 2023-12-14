@@ -139,9 +139,11 @@ public class AccommodationController {
     }
 
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
-    public ResponseEntity<PriceDTO> updateAccommodation(@PathVariable Long accommodationId, @RequestBody PriceDTO dto) {
+    public ResponseEntity<?> updateAccommodation(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping(consumes = "application/json")
