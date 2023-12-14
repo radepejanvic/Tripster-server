@@ -10,7 +10,9 @@ import org.hibernate.annotations.Columns;
 @Setter
 @NoArgsConstructor
 @Entity
+
 public class Address {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +32,10 @@ public class Address {
 
     @Column(nullable = false)
     private String number;
+
+    @Override
+    public String toString() {
+        return city + ", " + street + " " + number;
+    }
+
 }
