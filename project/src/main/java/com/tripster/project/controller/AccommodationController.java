@@ -169,6 +169,12 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodation.getCalendar(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "pricelists/{id}")
+    public ResponseEntity<List<PriceDTO>> getPricelists(@PathVariable Long id) {
+
+        return new ResponseEntity<>(calendarService.getPricelists(id), HttpStatus.OK);
+    }
+
     @PatchMapping(consumes = "application/json")
     public ResponseEntity<String> updateAccommodation(@RequestBody StatusDTO dto) {
 
