@@ -101,4 +101,8 @@ public class AccommodationService {
         accommodation.setCalendar(calendar);
 //        save(accommodation);
     }
+
+    public List<Day> findCalendar(Long accommodationId) {
+        return accommodationRepository.findCalendar(accommodationId);
+    }
 }
