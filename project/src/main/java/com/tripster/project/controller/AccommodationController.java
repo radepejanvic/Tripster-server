@@ -92,7 +92,7 @@ public class AccommodationController {
                                                                @RequestParam(required = false) Double maxPrice,
                                                                @RequestParam(required = false) AccommodationType type) {
 
-        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities, minPrice, maxPrice, type);
+        List<Object[]> objects = accommodationService.filterAll(city, Long.parseLong(start), Long.parseLong(end), numOfGuests, amenities, minPrice, maxPrice, type);
 
         return new ResponseEntity<>(objects, HttpStatus.OK);
     }

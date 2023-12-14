@@ -11,8 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -63,9 +65,9 @@ public class AccommodationService {
         return accommodationRepository.findByStatusIn(statusList);
     };
 
-    public List<Object[]> filterAll(String city, String start, String end, Integer numOfGuests, Set<Long> amenities, Double minPrice, Double maxPrice, AccommodationType type) {
-        LocalDate startDate = LocalDate.parse(start, formatter);
-        LocalDate endDate = LocalDate.parse(end, formatter).minusDays(1);
+    public List<Object[]> filterAll(String city, Long start, Long end, Integer numOfGuests, Set<Long> amenities, Double minPrice, Double maxPrice, AccommodationType type) {
+        LocalDate startDate = Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDate();
 
         Integer duration = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
@@ -102,7 +104,7 @@ public class AccommodationService {
 //        save(accommodation);
     }
 
-    public List<Day> findCalendar(Long accommodationId) {
-        return accommodationRepository.findCalendar(accommodationId);
-    }
+//    public List<Day> findCalendar(Long accommodationId) {
+//        return accommodationRepository.findCalendar(accommodationId);
+//    }
 }
