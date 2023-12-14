@@ -118,7 +118,7 @@ public class AccommodationController {
 
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.CREATED);
     }
 
     // Host: when he opens the form for update
@@ -132,6 +132,7 @@ public class AccommodationController {
 
         accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
+        accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
