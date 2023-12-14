@@ -1,10 +1,7 @@
 package com.tripster.project.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -12,6 +9,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Day {
 
@@ -19,13 +17,16 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
     private LocalDate date;
 
+    @NonNull
     @Column(nullable = false)
     private double price;
 
+    @NonNull
     private boolean isAvailable;
 
 //    @ManyToOne(fetch = FetchType.EAGER)

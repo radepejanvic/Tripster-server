@@ -8,6 +8,7 @@ import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.AmenityService;
+import com.tripster.project.service.CalendarService;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +36,9 @@ public class AccommodationController {
     @Qualifier("hostServiceImpl")
     @Autowired
     private IPersonService personService;
+
+    @Autowired
+    private CalendarService calendarService;
 
 
     // Admin: when he opens the page for accommodation approval
@@ -114,7 +118,7 @@ public class AccommodationController {
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
 
-        accommodationService.generateCalendar(LocalDate.now(), accommodation);
+//        accommodationService.generateCalendar(LocalDate.now(), accommodation);
 
         accommodationService.save(accommodation);
 
@@ -138,10 +142,31 @@ public class AccommodationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
-    public ResponseEntity<PriceDTO> updateAccommodation(@PathVariable Long accommodationId, @RequestBody PriceDTO dto) {
+    @PostMapping(value = "/price/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<Integer> addCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        Accommodation accommodation = accommodationService.findOne(accommodationId);
+        accommodation.setCalendar(calendarService.getCalendar(dtos));
+        accommodationService.save(accommodation);
+
+        return new ResponseEntity<>(
+                accommodation.getCalendar().size(), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<Integer> updateAccommodation(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
+
+        int length = calendarService.updateCalendar(accommodationId, dtos);
+
+        return new ResponseEntity<>(length, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "calendar/{id}")
+    public ResponseEntity<?> getCalendar(@PathVariable Long id) {
+
+        Accommodation accommodation = accommodationService.findOne(id);
+
+        return new ResponseEntity<>(accommodation.getCalendar(), HttpStatus.OK);
     }
 
     @PatchMapping(consumes = "application/json")
