@@ -5,10 +5,8 @@ import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.model.*;
-import com.tripster.project.service.AmenityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -89,18 +87,11 @@ public class AccommodationDTOMapper {
         AccommodationCardAdminDTO dto = new AccommodationCardAdminDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
+        dto.setAddress(accommodation.getAddress().toString());
 //        dto.setPhoto(accommodation.getPhoto());
-//        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
-        // TODO: Find the best way to get the Owner info
-        dto.setOwnerName(owner.getName() + owner.getSurname());
-//        dto.setOwnerEmail(owner.getUser().getEmail());
         dto.setStatus(accommodation.getStatus());
-//        dto.setTimeStamp(accommodation.getTimeStamp());
-//        dto.setShortDescription(accommodation.getShortDescription());
-        dto.setType(accommodation.getType());
-        // TODO: Find a way to resolve the Amenity issue
-        dto.setAmenities(accommodation.getAmenities());
-
+        dto.setShortDescription(accommodation.getShortDescription());
+        dto.setTimeStamp(accommodation.getTimeStamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")).toString());
         return dto;
     }
 
