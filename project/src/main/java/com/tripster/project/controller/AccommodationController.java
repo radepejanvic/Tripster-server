@@ -6,6 +6,7 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
+import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.CalendarService;
@@ -44,6 +45,9 @@ public class AccommodationController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private AccommodationReviewService accommodationReviewService;
 
 
     // Admin: when he opens the page for accommodation approval
@@ -95,8 +99,9 @@ public class AccommodationController {
         List<Object[]> objects = accommodationService.filterAll(city, Long.parseLong(start), Long.parseLong(end), numOfGuests, amenities, minPrice, maxPrice, type);
         List<AccommodationCardGuestDTO> accommodationCardGuestDTOS = new ArrayList<>();
         for (Object[] obj: objects) {
+            Object[] reviews = accommodationReviewService.countReviews((Long) obj[0]).get(0);
             Accommodation accommodation = accommodationService.findOne((Long) obj[0]);
-            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,(Double)obj[2],(long)obj[1],numOfGuests,0,0,photoService.findPrimary((long)obj[0])));
+            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,(Double)obj[2],(long)obj[1],numOfGuests,(Double) reviews[0],(Long) reviews[1],photoService.findPrimary((long)obj[0])));
         }
         return new ResponseEntity<>(accommodationCardGuestDTOS, HttpStatus.OK);
     }
