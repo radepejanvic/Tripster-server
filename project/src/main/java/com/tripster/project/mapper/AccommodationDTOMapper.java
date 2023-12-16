@@ -132,7 +132,7 @@ public class AccommodationDTOMapper {
 
         return dto;
     }
-    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,float rating,int numOfReviews,byte[]photo) {
+    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,Double rating,Long numOfReviews,byte[]photo) {
         AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
