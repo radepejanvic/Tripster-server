@@ -79,4 +79,20 @@ public class PhotoServiceImpl implements PhotoService {
         return photoRepository.hasPrimary(accommodationId) != 0;
     }
 
+    @Override
+    public byte[] findPrimary(Long accommodationId) {
+        
+        byte[] bytes;
+
+        try {
+            bytes = Files.readAllBytes(
+                    new File(directory.concat("/" + photoRepository.findPrimary(accommodationId).getPath())).toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return bytes;
+    }
+
+
 }
