@@ -10,6 +10,7 @@ import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.CalendarService;
 import com.tripster.project.service.interfaces.IPersonService;
+import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,9 @@ public class AccommodationController {
 
     @Autowired
     private CalendarService calendarService;
+
+    @Autowired
+    private PhotoService photoService;
 
 
     // Admin: when he opens the page for accommodation approval
@@ -71,13 +75,8 @@ public class AccommodationController {
 
         List<Accommodation> accommodations = accommodationService.findAll();
         List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
-                .map(AccommodationDTOMapper::fromAccommodationToGuestDTO)
+                .map(acc -> AccommodationDTOMapper.fromAccommodationToGuestDTO(acc, photoService.findPrimary(acc.getId())))
                 .collect(Collectors.toList());
-
-
-//        for (Object[] o : accommodationService.findAllAvailableAccommodationsWithPrice(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter), numOfGuests)) {
-//            accommodationCards.add(AccommodationDTOMapper.fromAccommodationToGuestDTO((Accommodation) o[0], (double) o[1]));
-//        }
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
