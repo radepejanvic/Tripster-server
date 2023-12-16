@@ -80,8 +80,39 @@ public class CalendarService {
 
         return calendar.size();
     }
-    
+
+    public List<PriceDTO> getPricelists(Long accommodationId) {
+
+        List<PriceDTO> pricelists = new ArrayList<>();
+        List<Day> calendar = accommodationService.findCalendar(accommodationId);
+
+        Day current = null;
+        Day last =  calendar.get(0);
+
+        LocalDate start = last.getDate();
+
+        for(int i = 1; i < calendar.size(); i++) {
+
+            current = calendar.get(i);
+
+//            LocalDate temp1 = last.getDate().plusDays(1);
+//            boolean temp2 = current.getDate() != last.getDate().plusDays(1);
 
 
+            if (!current.getDate().isEqual(last.getDate().plusDays(1)) || current.getPrice() != last.getPrice())  {
+                pricelists.add(new PriceDTO(start, last.getDate(), last.getPrice()));
+                start = current.getDate();
+            }
+
+            last = current;
+        }
+
+        pricelists.add(new PriceDTO(
+                start,
+                current != null ? current.getDate() : last.getDate(),
+                current.getPrice()));
+
+        return pricelists;
+    }
 
 }

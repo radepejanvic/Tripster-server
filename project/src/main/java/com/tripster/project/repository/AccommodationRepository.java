@@ -44,10 +44,9 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " where g.id = :guestId")
     List<Accommodation> findFavorites(Long guestId);
 
-
-    @Query("select d" +
-            " from Accommodation a" +
-            " join fetch a.calendar d" +
+    @Query("select d from" +
+            " Accommodation a join" +
+            " a.calendar d" +
             " where a.id = :id" +
             " and d.isAvailable = true" +
             " order by d.date")
