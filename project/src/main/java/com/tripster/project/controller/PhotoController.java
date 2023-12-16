@@ -43,6 +43,7 @@ public class PhotoController {
 
         for (MultipartFile photoFile : photos) {
             Photo photo = new Photo(!hasPrimary ? "primary" : "secondary", "jpg", accommodation);
+            hasPrimary = false;
             photoService.save(photoFile, photo);
         }
 
