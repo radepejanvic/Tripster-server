@@ -33,8 +33,8 @@ public class AccommodationCardGuestDTO {
 
     private int numOfGuests;
 
-    private float rating;
+    private Double rating;
 
-    private int numOfReviews;
+    private Long numOfReviews;
 
 }
