@@ -51,7 +51,7 @@ public class AccommodationController {
         List<Accommodation> accommodations = accommodationService.findByStatusIn(statusList);
 
         List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
-                .map(AccommodationDTOMapper::fromAccommodationToAdminDTO)
+                .map(acc -> AccommodationDTOMapper.fromAccommodationToAdminDTO(acc, photoService.findPrimary(acc.getId())))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
