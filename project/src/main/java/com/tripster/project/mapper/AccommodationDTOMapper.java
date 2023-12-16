@@ -91,12 +91,8 @@ public class AccommodationDTOMapper {
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
         dto.setPhoto(photo);
-//        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
-        // TODO: Find the best way to get the Owner info
-//        dto.setOwnerName(owner.getName() + owner.getSurname());
-//        dto.setOwnerEmail(owner.getUser().getEmail());
+
         dto.setAddress(accommodation.getAddress().toString());
-//        dto.setPhoto(accommodation.getPhoto());
         dto.setStatus(accommodation.getStatus());
         dto.setShortDescription(accommodation.getShortDescription());
         dto.setTimeStamp(accommodation.getTimeStamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")).toString());
@@ -136,13 +132,13 @@ public class AccommodationDTOMapper {
 
         return dto;
     }
-    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,float rating,int numOfReviews) {
+    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,float rating,int numOfReviews,byte[]photo) {
         AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
 
         // TODO: Added picuters
-
+        dto.setPhoto(photo);
         dto.setAddress(accommodation.getAddress().toString());
         dto.setShortDescription(accommodation.getShortDescription());
         dto.setPrice(price);
