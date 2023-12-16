@@ -95,10 +95,6 @@ public class CalendarService {
 
             current = calendar.get(i);
 
-//            LocalDate temp1 = last.getDate().plusDays(1);
-//            boolean temp2 = current.getDate() != last.getDate().plusDays(1);
-
-
             if (!current.getDate().isEqual(last.getDate().plusDays(1)) || current.getPrice() != last.getPrice())  {
                 pricelists.add(new PriceDTO(start, last.getDate(), last.getPrice()));
                 start = current.getDate();
