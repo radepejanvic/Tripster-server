@@ -104,11 +104,11 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardHostDTO fromAccommodationToHostDTO(Accommodation accommodation) {
+    public static AccommodationCardHostDTO fromAccommodationToHostDTO(Accommodation accommodation, byte[] photo) {
         AccommodationCardHostDTO dto = new AccommodationCardHostDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
-//        dto.setPhoto(accommodation.getPhoto());
+        dto.setPhoto(photo);
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
 //        dto.setFreeCancellation(accommodation.getFreeCancellation());
 //        dto.setShortDescription(accommodation.getShortDescription());
