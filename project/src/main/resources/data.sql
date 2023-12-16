@@ -92,4 +92,62 @@ insert into user_report (reporter_id, reportee_id, reason) values (2, 5, 'Intrco
 
 insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 1);
 insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+
 

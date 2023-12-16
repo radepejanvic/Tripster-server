@@ -20,4 +20,6 @@ public interface PhotoService {
 
     boolean hasPrimary(Long accommodationId);
 
+    byte[] findPrimary(Long accommodationId);
+
 }

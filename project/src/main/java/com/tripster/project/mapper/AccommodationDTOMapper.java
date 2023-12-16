@@ -5,7 +5,10 @@ import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.model.*;
+import com.tripster.project.service.AmenityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
@@ -82,11 +85,16 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardAdminDTO fromAccommodationToAdminDTO(Accommodation accommodation) {
+    public static AccommodationCardAdminDTO fromAccommodationToAdminDTO(Accommodation accommodation, byte[] photo) {
         Host owner = accommodation.getOwner();
         AccommodationCardAdminDTO dto = new AccommodationCardAdminDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
+        dto.setPhoto(photo);
+//        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
+        // TODO: Find the best way to get the Owner info
+//        dto.setOwnerName(owner.getName() + owner.getSurname());
+//        dto.setOwnerEmail(owner.getUser().getEmail());
         dto.setAddress(accommodation.getAddress().toString());
 //        dto.setPhoto(accommodation.getPhoto());
         dto.setStatus(accommodation.getStatus());
@@ -95,11 +103,11 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardHostDTO fromAccommodationToHostDTO(Accommodation accommodation) {
+    public static AccommodationCardHostDTO fromAccommodationToHostDTO(Accommodation accommodation, byte[] photo) {
         AccommodationCardHostDTO dto = new AccommodationCardHostDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
-//        dto.setPhoto(accommodation.getPhoto());
+        dto.setPhoto(photo);
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
 //        dto.setFreeCancellation(accommodation.getFreeCancellation());
 //        dto.setShortDescription(accommodation.getShortDescription());
@@ -110,11 +118,11 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardGuestDTO fromAccommodationToGuestDTO(Accommodation accommodation) {
+    public static AccommodationCardGuestDTO fromAccommodationToGuestDTO(Accommodation accommodation, byte[] photo) {
         AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
-//        dto.setPhoto(accommodation.getPhoto());
+        dto.setPhoto(photo);
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
 //        dto.setFreeCancellation(accommodation.getFreeCancellation());
 //        dto.setShortDescription(accommodation.getShortDescription());
