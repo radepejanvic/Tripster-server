@@ -84,12 +84,12 @@ public class AccommodationDTOMapper {
         return dto;
     }
 
-    public static AccommodationCardAdminDTO fromAccommodationToAdminDTO(Accommodation accommodation) {
+    public static AccommodationCardAdminDTO fromAccommodationToAdminDTO(Accommodation accommodation, byte[] photo) {
         Host owner = accommodation.getOwner();
         AccommodationCardAdminDTO dto = new AccommodationCardAdminDTO();
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
-//        dto.setPhoto(accommodation.getPhoto());
+        dto.setPhoto(photo);
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
         // TODO: Find the best way to get the Owner info
         dto.setOwnerName(owner.getName() + owner.getSurname());
