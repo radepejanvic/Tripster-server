@@ -96,7 +96,7 @@ public class AccommodationController {
         List<AccommodationCardGuestDTO> accommodationCardGuestDTOS = new ArrayList<>();
         for (Object[] obj: objects) {
             Accommodation accommodation = accommodationService.findOne((Long) obj[0]);
-            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,(Double)obj[2],(long)obj[1],numOfGuests,0,0));
+            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,(Double)obj[2],(long)obj[1],numOfGuests,0,0,photoService.findPrimary((long)obj[0])));
         }
         return new ResponseEntity<>(accommodationCardGuestDTOS, HttpStatus.OK);
     }
