@@ -19,7 +19,7 @@ public class AccommodationCardAdminDTO {
     private String name;
 
     // TODO: Change to photo data (byte array or something similar)
-    private File photo;
+    private byte[] photo;
 
     private float distanceFromCenter;
 
