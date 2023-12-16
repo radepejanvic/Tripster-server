@@ -53,7 +53,7 @@ public class AccommodationController {
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
     public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin(@RequestParam(required = false) List<AccommodationStatus> statusList ) {
-        List<Accommodation> accommodations = accommodationService.findByStatusIn(statusList);
+        List<Accommodation> accommodations = accommodationService.findByStatusForApproval(statusList);
 
         List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
                 .map(acc -> AccommodationDTOMapper.fromAccommodationToAdminDTO(acc, photoService.findPrimary(acc.getId())))
