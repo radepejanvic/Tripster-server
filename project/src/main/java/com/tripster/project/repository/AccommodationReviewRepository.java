@@ -21,4 +21,12 @@ public interface AccommodationReviewRepository extends JpaRepository<Accommodati
             " and r.status != 'DELETED'  ")
     List<Object[]> countReviews(Long accommodationId);
 
+
+    @Query("select r.rate, count(r)" +
+            "from AccommodationReview r " +
+            "join r.accommodation a " +
+            "where a.id = :accommodationId " +
+            "group by r.rate " +
+            "order by r.rate desc")
+    List<Object[]> countTotalStats(Long accommodationId);
 }
