@@ -13,4 +13,12 @@ public interface AccommodationReviewRepository extends JpaRepository<Accommodati
             "join fetch r.accommodation a " +
             "where a.id = :accommodationId")
     List<AccommodationReview> findAllByAccommodationId(Long accommodationId);
+
+    @Query("select COALESCE(avg(r.rate),0), COALESCE(count(r),0)" +
+            " from AccommodationReview r" +
+            " join r.accommodation a" +
+            " where a.id = :accommodationId" +
+            " and r.status != 'DELETED'  ")
+    List<Object[]> countReviews(Long accommodationId);
+
 }
