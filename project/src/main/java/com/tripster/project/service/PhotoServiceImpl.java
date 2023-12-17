@@ -1,5 +1,6 @@
 package com.tripster.project.service;
 
+import com.tripster.project.dto.PhotoDTO;
 import com.tripster.project.model.Photo;
 import com.tripster.project.repository.PhotoRepository;
 import com.tripster.project.service.interfaces.PhotoService;
@@ -47,11 +48,26 @@ public class PhotoServiceImpl implements PhotoService {
         return bytes;
     }
 
+    public List<PhotoDTO> findAllByAccommodationIdWithId(Long accommodationId) {
+
+        List<PhotoDTO> photos = new ArrayList<>();
+
+        try {
+            for (Photo photo : photoRepository.findAllByAccommodationId(accommodationId)) {
+                photos.add(new PhotoDTO(photo.getId(), Files.readAllBytes(new File(directory.concat("/" + photo.getPath())).toPath())));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return photos;
+    }
+
     @Transactional
     @Override
     public void save(MultipartFile photoFile, Photo photo) throws IOException {
-//        StringBuilder builder = new StringBuilder();
-//        builder.append(directory).append("/").append(accommodationId).append("/").append(primary ? "primary" : "secondary").append("_").append("");
+
         photoRepository.save(photo);
 
         Path directoryPath = Path.of(directory);
