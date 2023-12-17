@@ -20,6 +20,10 @@ public class ReviewDTO {
 
     private Long reviewerId;
 
+    private String reviewerName;
+
+    private String reviewerSurname;
+
     private Long reviewedId;
 
 }
