@@ -1,5 +1,6 @@
 package com.tripster.project.controller;
 
+import com.tripster.project.dto.RatingStatsDTO;
 import com.tripster.project.dto.ReviewDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
 import com.tripster.project.model.AccommodationReview;
@@ -47,6 +48,11 @@ public class AccommodationReviewController {
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/stats/{accommodationId}")
+    public ResponseEntity<RatingStatsDTO> getStats(@PathVariable Long accommodationId) {
+        return new ResponseEntity<>(accommodationReviewService.countTotalStats(accommodationId), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
