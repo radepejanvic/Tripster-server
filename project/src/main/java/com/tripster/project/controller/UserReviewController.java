@@ -2,14 +2,19 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.ReviewDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
+import com.tripster.project.model.Person;
+import com.tripster.project.model.Review;
 import com.tripster.project.model.UserReview;
 import com.tripster.project.service.UserReviewService;
+import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +27,20 @@ public class UserReviewController {
     @Autowired
     private UserService userService;
 
+    @Qualifier("guestServiceImpl")
+    @Autowired
+    private IPersonService guestService ;
+
     @GetMapping(value = "/{userId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
         List<UserReview> reviews = userReviewService.findAllByReviewedId(userId);
 
-        List<ReviewDTO> dtos = reviews.stream()
-                .map(ReviewDTOMapper::fromReviewToDTO)
-                .collect(Collectors.toList());
+        Person reviewer;
+        List<ReviewDTO> dtos = new ArrayList<>();
+        for (Review review : reviews) {
+            reviewer = guestService.findByUser(review.getReviewer());
+            dtos.add(ReviewDTOMapper.fromReviewToDTO(review, reviewer.getName(), reviewer.getSurname()));
+        }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
