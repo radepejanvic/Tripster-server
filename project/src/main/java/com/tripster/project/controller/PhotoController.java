@@ -72,7 +72,7 @@ public class PhotoController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Integer> batchDelete(@RequestParam List<Long> ids) {
+    public ResponseEntity<Integer> batchDelete(@RequestBody List<Long> ids) {
 
         int deleted = 0;
         Photo photo;
