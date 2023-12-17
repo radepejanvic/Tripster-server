@@ -57,7 +57,7 @@ public class AccommodationDTOMapper {
         return accommodation;
     }
 
-    public static AccommodationDTO fromAccommodationToDTO(Accommodation accommodation) {
+    public static AccommodationDTO fromAccommodationToDTO(Accommodation accommodation, double rating, long numOfReviews) {
 
         AccommodationDTO dto = new AccommodationDTO();
         Address address = accommodation.getAddress();
@@ -74,6 +74,8 @@ public class AccommodationDTOMapper {
         dto.setAutomaticReservation(accommodation.isAutomaticReservation());
         dto.setStatus(accommodation.getStatus());
         dto.setAmenities(fromAmenitiesToLongs(accommodation.getAmenities()));
+        dto.setRating(rating);
+        dto.setNumOfReviews(numOfReviews);
         //        dto.setPhoto(accommodation.getPhoto());
 //
         dto.setCountry(address.getCountry());

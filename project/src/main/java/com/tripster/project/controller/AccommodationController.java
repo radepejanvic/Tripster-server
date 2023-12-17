@@ -116,7 +116,9 @@ public class AccommodationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.OK);
+        Object[] reviews = accommodationReviewService.countReviews(id).get(0);
+
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation, (double)reviews[0], (long)reviews[1]), HttpStatus.OK);
     }
 
     // Host: when he opens the form for registering new accommodation
@@ -131,7 +133,7 @@ public class AccommodationController {
 
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.CREATED);
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation, 0, 0), HttpStatus.CREATED);
     }
 
     // Host: when he opens the form for update
