@@ -9,6 +9,7 @@ import com.tripster.project.service.AmenityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -90,17 +91,11 @@ public class AccommodationDTOMapper {
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
         dto.setPhoto(photo);
-//        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
-        // TODO: Find the best way to get the Owner info
-        dto.setOwnerName(owner.getName() + owner.getSurname());
-//        dto.setOwnerEmail(owner.getUser().getEmail());
-        dto.setStatus(accommodation.getStatus());
-//        dto.setTimeStamp(accommodation.getTimeStamp());
-//        dto.setShortDescription(accommodation.getShortDescription());
-        dto.setType(accommodation.getType());
-        // TODO: Find a way to resolve the Amenity issue
-        dto.setAmenities(accommodation.getAmenities());
 
+        dto.setAddress(accommodation.getAddress().toString());
+        dto.setStatus(accommodation.getStatus());
+        dto.setShortDescription(accommodation.getShortDescription());
+        dto.setTimeStamp(accommodation.getTimeStamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")).toString());
         return dto;
     }
 
@@ -127,7 +122,7 @@ public class AccommodationDTOMapper {
 //        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
 //        dto.setFreeCancellation(accommodation.getFreeCancellation());
 //        dto.setShortDescription(accommodation.getShortDescription());
-        dto.setType(accommodation.getType());
+//        dto.setType(accommodation.getType());
         // TODO: Find a way to add reservation filters to this DTO
 //        dto.setPrice(price);
 //        dto.setDuration();
@@ -135,6 +130,23 @@ public class AccommodationDTOMapper {
         // TODO: Find a way to resolve the Amenity issue
 //        dto.setAmenities(accommodation.getAmenities());
 
+        return dto;
+    }
+    public static AccommodationCardGuestDTO fromObjectToGuestDTO(Accommodation accommodation, double price, long count,Integer numOfGuests,Double rating,Long numOfReviews,byte[]photo) {
+        AccommodationCardGuestDTO dto = new AccommodationCardGuestDTO();
+        dto.setId(accommodation.getId());
+        dto.setName(accommodation.getName());
+
+        // TODO: Added picuters
+        dto.setPhoto(photo);
+        dto.setAddress(accommodation.getAddress().toString());
+        dto.setShortDescription(accommodation.getShortDescription());
+        dto.setPrice(price);
+        dto.setPricePerNight(price/count);
+        dto.setDuration(count);
+        dto.setNumOfGuests(numOfGuests!=null ? numOfGuests: accommodation.getMaxCap());
+        dto.setRating(rating);
+        dto.setNumOfReviews(numOfReviews);
         return dto;
     }
 }

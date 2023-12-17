@@ -38,6 +38,11 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList);
 
+    @Query("select a " +
+            "from Accommodation a " +
+            "where a.status in :statusList and a.status not in :statusNotIn")
+    List<Accommodation> findByStatusForApproval(List<AccommodationStatus> statusList,List<AccommodationStatus> statusNotIn);
+
     @Query("select a" +
             " from Guest g" +
             " join fetch Accommodation a" +

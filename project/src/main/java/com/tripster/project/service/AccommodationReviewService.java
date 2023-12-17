@@ -40,6 +40,9 @@ public class AccommodationReviewService {
     public List<AccommodationReview> findAllByAccommodationId(Long accommodationId) {
         return accommodationReviewRepository.findAllByAccommodationId(accommodationId);
     }
+    public List<Object[]> countReviews(Long accommodationId){
+        return accommodationReviewRepository.countReviews(accommodationId);
+    }
 
     public RatingStatsDTO countTotalStats(Long acommodationId) {
         List<Object[]> stats = accommodationReviewRepository.countTotalStats(acommodationId);

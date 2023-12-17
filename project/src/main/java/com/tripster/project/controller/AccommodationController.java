@@ -6,6 +6,7 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
+import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.AmenityService;
 import com.tripster.project.service.CalendarService;
@@ -21,6 +22,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,11 +46,14 @@ public class AccommodationController {
     @Autowired
     private PhotoService photoService;
 
+    @Autowired
+    private AccommodationReviewService accommodationReviewService;
+
 
     // Admin: when he opens the page for accommodation approval
     @GetMapping(value = "/admin")
     public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin(@RequestParam(required = false) List<AccommodationStatus> statusList ) {
-        List<Accommodation> accommodations = accommodationService.findByStatusIn(statusList);
+        List<Accommodation> accommodations = accommodationService.findByStatusForApproval(statusList);
 
         List<AccommodationCardAdminDTO> accommodationCards = accommodations.stream()
                 .map(acc -> AccommodationDTOMapper.fromAccommodationToAdminDTO(acc, photoService.findPrimary(acc.getId())))
@@ -82,7 +87,7 @@ public class AccommodationController {
     }
 
     @GetMapping(value = "/guest/filters")
-    public ResponseEntity<List<Object[]>> filterAccommodations(@RequestParam(required = false) String city,
+    public ResponseEntity<List<AccommodationCardGuestDTO> > filterAccommodations(@RequestParam(required = false) String city,
                                                                @RequestParam(required = false) String start,
                                                                @RequestParam(required = false) String end,
                                                                @RequestParam(required = false) Integer numOfGuests,
@@ -91,9 +96,14 @@ public class AccommodationController {
                                                                @RequestParam(required = false) Double maxPrice,
                                                                @RequestParam(required = false) AccommodationType type) {
 
-        List<Object[]> objects = accommodationService.filterAll(city, start, end, numOfGuests, amenities, minPrice, maxPrice, type);
-
-        return new ResponseEntity<>(objects, HttpStatus.OK);
+        List<Object[]> objects = accommodationService.filterAll(city, Long.parseLong(start), Long.parseLong(end), numOfGuests, amenities, minPrice, maxPrice, type);
+        List<AccommodationCardGuestDTO> accommodationCardGuestDTOS = new ArrayList<>();
+        for (Object[] obj: objects) {
+            Object[] reviews = accommodationReviewService.countReviews((Long) obj[0]).get(0);
+            Accommodation accommodation = accommodationService.findOne((Long) obj[0]);
+            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,(Double)obj[2],(long)obj[1],numOfGuests,(Double) reviews[0],(Long) reviews[1],photoService.findPrimary((long)obj[0])));
+        }
+        return new ResponseEntity<>(accommodationCardGuestDTOS, HttpStatus.OK);
     }
 
     // Host: when he opens the form for update
