@@ -85,6 +85,6 @@ public class PhotoController {
             }
         }
 
-        return new ResponseEntity<>(deleted, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
 }
