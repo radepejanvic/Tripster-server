@@ -1,5 +1,6 @@
 package com.tripster.project.controller;
 
+import com.tripster.project.dto.PhotoDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Photo;
 import com.tripster.project.service.AccommodationService;
@@ -35,6 +36,13 @@ public class PhotoController {
                 .body(photoService.findAllByAccommodationId(accommodationId));
     }
 
+    @GetMapping(value = "/crud/{accommodationId}")
+    public ResponseEntity<List<PhotoDTO>> getPhotosWithId(@PathVariable Long accommodationId) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(photoService.findAllByAccommodationIdWithId(accommodationId));
+    }
+
     @PostMapping("/{accommodationId}")
     public ResponseEntity<Integer> uploadPhotos(@RequestParam("photo") MultipartFile[] photos, @PathVariable Long accommodationId) throws IOException {
 
@@ -63,4 +71,20 @@ public class PhotoController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @DeleteMapping()
+    public ResponseEntity<Integer> batchDelete(@RequestBody List<Long> ids) {
+
+        int deleted = 0;
+        Photo photo;
+
+        for (Long id : ids) {
+            photo = photoService.findOne(id);
+            if (photo != null) {
+                photoService.remove(id, photo.getPath());
+                deleted++;
+            }
+        }
+
+        return new ResponseEntity<>(deleted, HttpStatus.OK);
+    }
 }
