@@ -3,6 +3,7 @@ package com.tripster.project.controller;
 import com.tripster.project.dto.PhotoDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Photo;
+import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -48,6 +50,11 @@ public class PhotoController {
 
         Accommodation accommodation = accommodationService.findOne(accommodationId);
         boolean hasPrimary = photoService.hasPrimary(accommodationId);
+
+        if(accommodation.getStatus() == AccommodationStatus.ACTIVE) {
+            accommodation.setTimeStamp(LocalDateTime.now());
+            accommodation.setStatus(AccommodationStatus.UPDATED);
+        }
 
         for (MultipartFile photoFile : photos) {
             Photo photo = new Photo(!hasPrimary ? "primary" : "secondary", "jpg", accommodation);
