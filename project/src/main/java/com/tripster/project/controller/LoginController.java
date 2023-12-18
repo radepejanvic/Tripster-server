@@ -73,13 +73,13 @@ public class LoginController {
             Person person;
             if (userDet.getUserType().equals(UserType.GUEST)){
                 person = guestService.findByUser(userDet);
-                dto.setUserID(person.getId().toString());
-                dto.setPersonID(person.getUser().getId().toString());
+                dto.setPersonID(person.getId().toString());
+                dto.setUserID(person.getUser().getId().toString());
 
             }else if(userDet.getUserType().equals(UserType.HOST)){
                 person = hostService.findByUser(userDet);
-                dto.setUserID(person.getId().toString());
-                dto.setPersonID(person.getUser().getId().toString());
+                dto.setPersonID(person.getId().toString());
+                dto.setUserID(person.getUser().getId().toString());
             }
             else{
                 dto.setUserID("0");

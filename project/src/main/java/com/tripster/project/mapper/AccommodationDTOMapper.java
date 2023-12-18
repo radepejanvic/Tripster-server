@@ -104,13 +104,9 @@ public class AccommodationDTOMapper {
         dto.setId(accommodation.getId());
         dto.setName(accommodation.getName());
         dto.setPhoto(photo);
-//        dto.setDistanceFromCenter(accommodation.setDistanceFromCenter());
-//        dto.setFreeCancellation(accommodation.getFreeCancellation());
-//        dto.setShortDescription(accommodation.getShortDescription());
-        dto.setStatus(accommodation.getStatus());
-        dto.setType(accommodation.getType());
-        // TODO: Find a way to resolve the Amenity issue
-//        dto.setAmenities(accommodation.getAmenities());
+        dto.setAddress(accommodation.getAddress().toString());
+        dto.setShortDescription(accommodation.getShortDescription());
+
         return dto;
     }
 
