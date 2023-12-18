@@ -3,10 +3,14 @@ package com.tripster.project.controller;
 import com.tripster.project.dto.TokenDTO;
 import com.tripster.project.dto.UserDTO;
 import com.tripster.project.mapper.UserDTOMapper;
+import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
+import com.tripster.project.model.enums.UserType;
 import com.tripster.project.security.jwt.JwtTokenUtil;
+import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +29,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "api")
 public class LoginController {
+
+    @Qualifier("guestServiceImpl")
+    @Autowired
+    private IPersonService guestService ;
+
+    @Qualifier("hostServiceImpl")
+    @Autowired
+    private IPersonService  hostService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -47,14 +59,30 @@ public class LoginController {
 
         String token = "";
         HttpStatus status = HttpStatus.OK;
+        TokenDTO dto = new TokenDTO();
         try {
 
             Authentication auth = authenticationManager.authenticate(authReq);
 
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
+            User userDet = userService.findByUsername(userDTO.getEmail()).get();
+            Person person;
+            if (userDet.getUserType().equals(UserType.GUEST)){
+                person = guestService.findByUser(userDet);
+                dto.setPersonID(person.getId().toString());
+                dto.setUserID(person.getUser().getId().toString());
+
+            }else if(userDet.getUserType().equals(UserType.HOST)){
+                person = hostService.findByUser(userDet);
+                dto.setPersonID(person.getId().toString());
+                dto.setUserID(person.getUser().getId().toString());
+            }
+            else{
+                dto.setUserID("0");
+                dto.setPersonID("0");
+            }
             token = jwtTokenUtil.generateToken(userDetails);
         } catch (Exception e) {
 
@@ -78,7 +106,6 @@ public class LoginController {
                 }
             }
         }
-        TokenDTO dto = new TokenDTO();
         dto.setToken(token);
         return new ResponseEntity<>(dto, status);
     }

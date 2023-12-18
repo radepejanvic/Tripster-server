@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -126,8 +127,8 @@ public class AccommodationController {
         Accommodation accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
-
-//        accommodationService.generateCalendar(LocalDate.now(), accommodation);
+        accommodation.setTimeStamp(LocalDateTime.now());
+        accommodation.setStatus(AccommodationStatus.NEW);
 
         accommodationService.save(accommodation);
 
@@ -146,6 +147,8 @@ public class AccommodationController {
         accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
+        accommodation.setTimeStamp(LocalDateTime.now());
+        accommodation.setStatus(AccommodationStatus.UPDATED);
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -156,6 +159,8 @@ public class AccommodationController {
 
         Accommodation accommodation = accommodationService.findOne(accommodationId);
         accommodation.setCalendar(calendarService.getCalendar(dtos));
+        accommodation.setTimeStamp(LocalDateTime.now());
+        accommodation.setStatus(AccommodationStatus.UPDATED);
         accommodationService.save(accommodation);
 
         return new ResponseEntity<>(
@@ -163,7 +168,11 @@ public class AccommodationController {
     }
 
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
-    public ResponseEntity<Integer> updateAccommodation(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
+    public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
+
+        Accommodation accommodation = accommodationService.findOne(accommodationId);
+        accommodation.setTimeStamp(LocalDateTime.now());
+        accommodation.setStatus(AccommodationStatus.UPDATED);
 
         int length = calendarService.updateCalendar(accommodationId, dtos);
 
@@ -188,7 +197,6 @@ public class AccommodationController {
     public ResponseEntity<String> updateAccommodation(@RequestBody StatusDTO dto) {
 
         Accommodation accommodation = accommodationService.findOne(dto.getId());
-        System.out.println(dto);
         accommodation.setStatus(AccommodationStatus.valueOf(dto.getStatus()));
         accommodationService.save(accommodation);
 

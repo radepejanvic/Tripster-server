@@ -1,5 +1,6 @@
 package com.tripster.project.service.interfaces;
 
+import com.tripster.project.dto.PhotoDTO;
 import com.tripster.project.model.Photo;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,8 @@ public interface PhotoService {
     void remove(Long id, String path);
 
     List<byte[]> findAllByAccommodationId(Long accommodationId);
+
+    List<PhotoDTO> findAllByAccommodationIdWithId(Long accommodationId);
 
 
     boolean hasPrimary(Long accommodationId);
