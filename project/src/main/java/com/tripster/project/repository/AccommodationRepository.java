@@ -1,6 +1,7 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,10 +38,22 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList);
 
+    @Query("select a " +
+            "from Accommodation a " +
+            "where a.status in :statusList and a.status not in :statusNotIn")
+    List<Accommodation> findByStatusForApproval(List<AccommodationStatus> statusList,List<AccommodationStatus> statusNotIn);
+
     @Query("select a" +
             " from Guest g" +
             " join fetch Accommodation a" +
             " where g.id = :guestId")
     List<Accommodation> findFavorites(Long guestId);
 
+    @Query("select d from" +
+            " Accommodation a join" +
+            " a.calendar d" +
+            " where a.id = :id" +
+            " and d.isAvailable = true" +
+            " order by d.date")
+    List<Day> findCalendar(Long id);
 }

@@ -18,27 +18,13 @@ public class AccommodationCardAdminDTO {
 
     private String name;
 
-    // TODO: Change to photo data (byte array or something similar)
-    private File photo;
+    private byte[] photo;
 
-    private float distanceFromCenter;
-
-    // TODO: Concatenated owner name and surname
-    private String ownerName;
-
-//    private String ownerEmail;
-
-    private boolean isFreeCancellation;
+    private String address;
 
     private AccommodationStatus status;
 
-    private LocalDate timeStamp;
+    private String timeStamp;
 
     private String shortDescription;
-
-    private AccommodationType type;
-
-    // TODO: Take just first 3 amenities
-    private Set<Amenity> amenities;
-
 }

@@ -18,6 +18,9 @@ public class Review{
     private Long id;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private int rate;
 
     private String comment;

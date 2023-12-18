@@ -72,17 +72,17 @@ insert into notification (user_id, text, status) values (5, 'Failed forceps', 'N
 insert into notification (user_id, text, status) values (5, 'Disarticulation of wrist', 'SENT');
 insert into notification (user_id, text, status) values (6, 'Ligate thoracic duct', 'SENT');
 
-insert into user_review (reviewer_id, reviewed_user_id, comment, rate, status) values (1, 2, 'Incise cerebral meninges', 1, 'REPORTED');
-insert into user_review (reviewer_id, reviewed_user_id, comment, rate, status) values (2, 1, 'Extracorpor hepat Assis', 2, 'REPORTED');
-insert into user_review (reviewer_id, reviewed_user_id, comment, rate, status) values (3, 2, 'Total esophagectomy', 3, 'REPORTED');
-insert into user_review (reviewer_id, reviewed_user_id, comment, rate, status) values (4, 3, 'Manual rupt joint adhes', 4, 'ACTIVE');
-insert into user_review (reviewer_id, reviewed_user_id, comment, rate, status) values (5, 4, 'Periph ganglionect NEC', 5, 'REPORTED');
+insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (1, 'This is my title', 2, 'Incise cerebral meninges', 1, 'REPORTED');
+insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (2, 'This is my title', 1, 'Extracorpor hepat Assis', 2, 'REPORTED');
+insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (3, 'This is my title', 2, 'Total esophagectomy', 3, 'REPORTED');
+insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (4, 'This is my title', 3, 'Manual rupt joint adhes', 4, 'ACTIVE');
+insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (5, 'This is my title', 4, 'Periph ganglionect NEC', 5, 'REPORTED');
 
-insert into accommodation_review (reviewer_id, accommodation_id, comment, rate, status) values (1, 1, 'Wide excision of lip les', 1, 'DELETED');
-insert into accommodation_review (reviewer_id, accommodation_id, comment, rate, status) values (2, 1, 'Breast dx procedure NEC', 2, 'DELETED');
-insert into accommodation_review (reviewer_id, accommodation_id, comment, rate, status) values (3, 1, 'Tonometry', 3, 'ACTIVE');
-insert into accommodation_review (reviewer_id, accommodation_id, comment, rate, status) values (4, 2, 'Periph nerve div NEC', 4, 'ACTIVE');
-insert into accommodation_review (reviewer_id, accommodation_id, comment, rate, status) values (5, 3, 'Thymectomy NOS', 5, 'ACTIVE');
+insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (1, 'This is my title', 1, 'Wide excision of lip les', 1, 'DELETED');
+insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (2, 'This is my title', 1, 'Breast dx procedure NEC', 2, 'DELETED');
+insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (3, 'This is my title', 1, 'Tonometry', 3, 'ACTIVE');
+insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (4, 'This is my title', 2, 'Periph nerve div NEC', 4, 'ACTIVE');
+insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (5, 'This is my title', 3, 'Thymectomy NOS', 5, 'ACTIVE');
 
 insert into user_report (reporter_id, reportee_id, reason) values (1, 1, 'Sutur capsul/ligamen arm');
 insert into user_report (reporter_id, reportee_id, reason) values (1, 2, 'Mouth biopsy NOS');
@@ -92,4 +92,62 @@ insert into user_report (reporter_id, reportee_id, reason) values (2, 5, 'Intrco
 
 insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 1);
 insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 2);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 3);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 4);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 5);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 6);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 7);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 8);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 9);
+
+insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
+
 

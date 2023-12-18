@@ -5,8 +5,10 @@ import com.tripster.project.dto.FavoriteDTO;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
+import com.tripster.project.repository.PhotoRepository;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
+import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ public class FavoritesController {
     @Autowired
     private IPersonService personService;
 
+    @Autowired
+    private PhotoService photoService;
+
     @PostMapping(consumes = "application/json")
     public ResponseEntity<FavoriteDTO> addToFavorites(@RequestBody FavoriteDTO dto) {
 
@@ -47,7 +52,7 @@ public class FavoritesController {
     public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodation(@PathVariable Long id) {
 
         List<AccommodationCardGuestDTO> accommodationCards = ((Guest)personService.findById(id)).getFavorites().stream()
-                .map(AccommodationDTOMapper::fromAccommodationToGuestDTO)
+                .map(acc -> AccommodationDTOMapper.fromAccommodationToGuestDTO(acc, photoService.findPrimary(acc.getId())) )
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);

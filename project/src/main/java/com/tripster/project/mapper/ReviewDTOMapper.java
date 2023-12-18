@@ -7,19 +7,23 @@ import com.tripster.project.model.UserReview;
 
 public class ReviewDTOMapper {
 
-    public static ReviewDTO fromReviewToDTO(Review review) {
+    public static ReviewDTO fromReviewToDTO(Review review, String name, String surname) {
         ReviewDTO dto = new ReviewDTO();
         dto.setId(review.getId());
+        dto.setTitle(review.getTitle());
         dto.setRate(review.getRate());
         dto.setComment(review.getComment());
         dto.setStatus(review.getStatus());
         dto.setReviewerId(review.getReviewer().getId());
+        dto.setReviewerName(name);
+        dto.setReviewerSurname(surname);
         return dto;
     }
 
     public static AccommodationReview fromDTOToAccommodationReview(ReviewDTO dto) {
         AccommodationReview review = new AccommodationReview();
         review.setId(dto.getId());
+        dto.setTitle(review.getTitle());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
         review.setStatus(dto.getStatus());
@@ -29,6 +33,7 @@ public class ReviewDTOMapper {
     public static UserReview fromDTOToUserReview(ReviewDTO dto) {
         UserReview review = new UserReview();
         review.setId(dto.getId());
+        dto.setTitle(review.getTitle());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
         review.setStatus(dto.getStatus());

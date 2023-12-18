@@ -12,6 +12,8 @@ public class ReviewDTO {
 
     private Long id;
 
+    private String title;
+
     private int rate;
 
     private String comment;
@@ -19,6 +21,10 @@ public class ReviewDTO {
     private ReviewStatus status;
 
     private Long reviewerId;
+
+    private String reviewerName;
+
+    private String reviewerSurname;
 
     private Long reviewedId;
 

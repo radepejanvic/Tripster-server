@@ -19,30 +19,22 @@ public class AccommodationCardGuestDTO {
 
     private String name;
 
-    // TODO: Change to photo data (byte array or something similar)
-    private File photo;
-
-    private float distanceFromCenter;
-
-    private boolean isFreeCancellation;
+    private byte[] photo;
 
     private String shortDescription;
 
-    private AccommodationType type;
-
-    // TODO: Take just first 3 amenities
-    private Set<Amenity> amenities;
+    private String address;
 
     private double price;
 
-    // TODO: Could be read from the front (maybe unnecessary here)
-    private int duration;
+    private double pricePerNight;
 
-    // TODO: Could be read from the front (maybe unnecessary here)
+    private Long duration;
+
     private int numOfGuests;
 
-    // TODO: Maybe add rating here too
-//    private float rating;
-//    private int numOfReviews;
+    private Double rating;
+
+    private Long numOfReviews;
 
 }
