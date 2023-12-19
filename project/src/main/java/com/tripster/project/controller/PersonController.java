@@ -59,11 +59,17 @@ public class PersonController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<PersonCruDTO> getById(@PathVariable Long id) {
-        Person person = guestService.findById(id);
-        if (person == null) {
-            person = hostService.findById(id);
+        Person person;
+        boolean personFound = false;
+        try {
+            person = guestService.findById(id);
+            personFound = true;
         }
-        if (person == null) {
+        catch (Exception e) {
+            person = hostService.findById(id);
+            personFound = true;
+        }
+        if (!personFound) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
@@ -109,8 +115,8 @@ public class PersonController {
                     return new ResponseEntity<>(DeleteStatus.HAS_RESERVATIONS, HttpStatus.PAYMENT_REQUIRED);
                 }
                 confirmationTokenService.deleteUserTokens(id);
-                accommodationService.removeAllByOwnerId(id);
                 person = hostService.findByUser(user);
+                accommodationService.removeAllByOwnerId(person.getId());
                 hostService.remove(person.getId());
             }
             return new ResponseEntity<>(DeleteStatus.SUCCESS, HttpStatus.OK);
