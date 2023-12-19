@@ -36,6 +36,7 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     public List<Reservation> getAllForHost(Long hostId) {
         return reservationRepository.getAllForHost(hostId);
     }
+    public List<Reservation> getAllActiveForHost(Long hostId) { return reservationRepository.getAllActiveForHost(hostId);}
     public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
         return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
     }

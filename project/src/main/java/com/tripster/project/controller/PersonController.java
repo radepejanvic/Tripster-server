@@ -4,7 +4,9 @@ import com.tripster.project.dto.PersonCruDTO;
 import com.tripster.project.mapper.PersonCruDTOMapper;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
+import com.tripster.project.model.enums.DeleteStatus;
 import com.tripster.project.model.enums.UserType;
+import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.ReservationServiceImpl;
 import com.tripster.project.service.interfaces.ConfirmationTokenService;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -39,6 +41,9 @@ public class PersonController {
 
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+
+    @Autowired
+    private AccommodationService accommodationService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
@@ -86,7 +91,7 @@ public class PersonController {
 
    // @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<DeleteStatus> deleteUser(@PathVariable Long id) {
 
         User user = userService.findOne(id);
         Person person;
@@ -94,18 +99,23 @@ public class PersonController {
         if (user != null) {
             if(user.getUserType().equals(UserType.GUEST)){
                 if (!reservationService.getAllActiveForGuest(id).isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+                    return new ResponseEntity<>(DeleteStatus.HAS_RESERVATIONS, HttpStatus.PAYMENT_REQUIRED);
                 }
                 confirmationTokenService.deleteUserTokens(id);
                 person = guestService.findByUser(user);
                 guestService.remove(person.getId());
             }else{
+                if(!reservationService.getAllActiveForHost(id).isEmpty()) {
+                    return new ResponseEntity<>(DeleteStatus.HAS_RESERVATIONS, HttpStatus.PAYMENT_REQUIRED);
+                }
+                confirmationTokenService.deleteUserTokens(id);
+                accommodationService.removeAllByOwnerId(id);
                 person = hostService.findByUser(user);
                 hostService.remove(person.getId());
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(DeleteStatus.SUCCESS, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(DeleteStatus.NO_USER_FOUND, HttpStatus.NOT_FOUND);
         }
 
     }

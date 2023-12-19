@@ -4,7 +4,9 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
@@ -35,6 +37,11 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " where o.id = :ownerId")
     List<Accommodation> findAllByOwnerId(Long ownerId);
 
+    @Transactional
+    @Modifying
+    @Query(" delete from Accommodation acc " +
+            "where acc.owner.id = :ownerId")
+    void deleteAllByOwnerId(Long ownerId);
 
     List<Accommodation> findByStatusIn(List<AccommodationStatus> statusList);
 

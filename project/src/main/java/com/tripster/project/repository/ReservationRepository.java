@@ -25,9 +25,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "FROM Reservation res " +
             "JOIN res.accommodation acc " +
             "JOIN acc.owner owner " +
-            "WHERE owner.id = :hostId"
-             )
+            "WHERE owner.id = :hostId")
     public List<Reservation> getAllForHost(Long hostId);
+
+    @Query("SELECT res " +
+            "FROM Reservation res " +
+            "JOIN res.accommodation acc " +
+            "JOIN acc.owner owner " +
+            "WHERE owner.id = :hostId " +
+            "and (res.status = 'ACTIVE' or res.status = 'PENDING') ")
+    public List<Reservation> getAllActiveForHost(Long hostId);
+
     @Query("SELECT res FROM Reservation res " +
             "JOIN res.accommodation acc " +
             "WHERE  ((( :start < res.start and res.start < :end ) or (:start < res.end and res.end < :end)) " +
