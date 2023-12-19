@@ -167,6 +167,13 @@ public class AccommodationController {
                 accommodation.getCalendar().size(), HttpStatus.OK);
     }
 
+//    @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
+//    public ResponseEntity<Integer> addCalendar(@PathVariable Long accommodationId, @RequestBody IntervalDTO) {
+//
+//        return new ResponseEntity<>(0
+//                , HttpStatus.OK);
+//    }
+
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 

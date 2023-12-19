@@ -3,6 +3,8 @@ package com.tripster.project.service;
 import com.tripster.project.dto.PriceDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
+import com.tripster.project.model.enums.AccommodationStatus;
+import com.tripster.project.model.enums.DayStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,7 @@ public class CalendarService {
         Set<Day> calendar = new HashSet<>();
 
         for(LocalDate date: intervals.keySet()) {
-            calendar.add(new Day(date, intervals.get(date), true));
+            calendar.add(new Day(date, intervals.get(date), DayStatus.AVAILABLE));
         }
 
         return calendar;

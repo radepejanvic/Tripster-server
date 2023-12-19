@@ -4,6 +4,7 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
+import com.tripster.project.model.enums.DayStatus;
 import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
@@ -85,33 +86,33 @@ public class AccommodationService {
             amenitiesSize = amenities.size();
         }
 
-        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests, amenities, amenitiesSize, minPrice, maxPrice, type);
+        return accommodationRepository.filterAll(city, startDate, endDate, duration, numOfGuests, amenities, amenitiesSize, minPrice, maxPrice, type, DayStatus.AVAILABLE);
     }
-
-
-    public void generateCalendar(LocalDate startDate, Accommodation accommodation) {
-
-        HashSet<Day> calendar;
-
-        if (accommodation.getCalendar() != null) {
-            calendar = (HashSet<Day>) accommodation.getCalendar();
-        } else {
-            calendar = new HashSet<>();
-        }
-
-        LocalDate date;
-        LocalDate endDate = startDate.plusYears(1);
-        while(!startDate.isAfter(endDate)) {
-            date = startDate;
-            calendar.add(new Day(null, date, 10.0, true));
-            startDate = startDate.plusDays(1);
-        }
-
-        accommodation.setCalendar(calendar);
-//        save(accommodation);
-    }
-
     public List<Day> findCalendar(Long accommodationId) {
-        return accommodationRepository.findCalendar(accommodationId);
+        return accommodationRepository.findCalendar(accommodationId, DayStatus.AVAILABLE);
     }
+
+
+//    public void generateCalendar(LocalDate startDate, Accommodation accommodation) {
+//
+//        HashSet<Day> calendar;
+//
+//        if (accommodation.getCalendar() != null) {
+//            calendar = (HashSet<Day>) accommodation.getCalendar();
+//        } else {
+//            calendar = new HashSet<>();
+//        }
+//
+//        LocalDate date;
+//        LocalDate endDate = startDate.plusYears(1);
+//        while(!startDate.isAfter(endDate)) {
+//            date = startDate;
+//            calendar.add(new Day(null, date, 10.0, DayS));
+//            startDate = startDate.plusDays(1);
+//        }
+//
+//        accommodation.setCalendar(calendar);
+//        save(accommodation);
+//    }
+
 }
