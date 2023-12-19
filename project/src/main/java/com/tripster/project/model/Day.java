@@ -31,6 +31,11 @@ public class Day {
     @Enumerated(EnumType.STRING)
     private DayStatus availability;
 
+    public boolean isAvailable() {
+        return availability == DayStatus.AVAILABLE;
+    }
+
+
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "accommodation_id")
 //    private Accommodation accommodation;
