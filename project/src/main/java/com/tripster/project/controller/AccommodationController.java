@@ -167,12 +167,18 @@ public class AccommodationController {
                 accommodation.getCalendar().size(), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
-//    public ResponseEntity<Integer> addCalendar(@PathVariable Long accommodationId, @RequestBody IntervalDTO) {
-//
-//        return new ResponseEntity<>(0
-//                , HttpStatus.OK);
-//    }
+    @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<Integer> disableDays(@PathVariable Long accommodationId, @RequestBody PriceDTO interval) {
+
+        int response;
+        try  {
+            response = calendarService.disableDays(accommodationId, interval);
+        } catch (Exception e) {
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
