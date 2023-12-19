@@ -1,15 +1,10 @@
 package com.tripster.project.controller;
 
 import com.tripster.project.dto.PersonCruDTO;
-import com.tripster.project.dto.UserDTO;
-import com.tripster.project.dto.UserLoginDTO;
-import com.tripster.project.model.Host;
+import com.tripster.project.mapper.PersonCruDTOMapper;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
 import com.tripster.project.model.enums.UserType;
-import com.tripster.project.mapper.PersonCruDTOMapper;
-import com.tripster.project.mapper.UserDTOMapper;
-import com.tripster.project.service.UserServiceImpl;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +42,18 @@ public class PersonController {
         List<PersonCruDTO> personCruDTOS = persons.stream()
                 .map(PersonCruDTOMapper::fromPersonToDTO).toList();
         return new ResponseEntity<>(personCruDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<PersonCruDTO> getById(Long id) {
+        Person person = guestService.findById(id);
+        if (person == null) {
+            person = hostService.findById(id);
+        }
+        if (person == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
     }
 
     @PutMapping(value = "/update",consumes = "application/json")
