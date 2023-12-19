@@ -5,6 +5,8 @@ import com.tripster.project.mapper.PersonCruDTOMapper;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
 import com.tripster.project.model.enums.UserType;
+import com.tripster.project.service.ReservationServiceImpl;
+import com.tripster.project.service.interfaces.ConfirmationTokenService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,12 @@ public class PersonController {
     @Autowired
     private IPersonService  hostService;
 
+    @Autowired
+    private ReservationServiceImpl reservationService;
+
+    @Autowired
+    private ConfirmationTokenService confirmationTokenService;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<PersonCruDTO>> getAll(){
@@ -45,7 +53,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PersonCruDTO> getById(Long id) {
+    public ResponseEntity<PersonCruDTO> getById(@PathVariable Long id) {
         Person person = guestService.findById(id);
         if (person == null) {
             person = hostService.findById(id);
@@ -76,7 +84,7 @@ public class PersonController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 
@@ -85,6 +93,10 @@ public class PersonController {
 
         if (user != null) {
             if(user.getUserType().equals(UserType.GUEST)){
+                if (!reservationService.getAllActiveForGuest(id).isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+                }
+                confirmationTokenService.deleteUserTokens(id);
                 person = guestService.findByUser(user);
                 guestService.remove(person.getId());
             }else{
