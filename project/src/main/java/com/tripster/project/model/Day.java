@@ -1,5 +1,6 @@
 package com.tripster.project.model;
 
+import com.tripster.project.model.enums.DayStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +28,13 @@ public class Day {
     private double price;
 
     @NonNull
-    private boolean isAvailable;
+    @Enumerated(EnumType.STRING)
+    private DayStatus availability;
+
+    public boolean isAvailable() {
+        return availability == DayStatus.AVAILABLE;
+    }
+
 
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "accommodation_id")
