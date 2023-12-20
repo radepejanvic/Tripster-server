@@ -52,4 +52,8 @@ public class AccommodationDTO {
     private AccommodationStatus status;
 
     private Set<Day> calendar;
+
+    private Double rating;
+
+    private Long numOfReviews;
 }
