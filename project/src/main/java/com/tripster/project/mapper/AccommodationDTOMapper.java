@@ -45,6 +45,7 @@ public class AccommodationDTOMapper {
         accommodation.setType(dto.getType());
         accommodation.setAutomaticReservation(dto.isAutomaticReservation());
         accommodation.setStatus(dto.getStatus());
+        accommodation.setPricePerNight(dto.isPricePerNight());
 
         address.setCountry(dto.getCountry());
         address.setCity(dto.getCity());
@@ -76,6 +77,7 @@ public class AccommodationDTOMapper {
         dto.setAmenities(fromAmenitiesToLongs(accommodation.getAmenities()));
         dto.setRating(rating);
         dto.setNumOfReviews(numOfReviews);
+        dto.setPricePerNight(accommodation.isPricePerNight());
         //        dto.setPhoto(accommodation.getPhoto());
 //
         dto.setCountry(address.getCountry());

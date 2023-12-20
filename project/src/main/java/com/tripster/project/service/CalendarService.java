@@ -114,6 +114,8 @@ public class CalendarService {
     }
 
     public int disableDays(Long id, PriceDTO interval) {
+        interval.setStart(interval.getStart().plusDays(1));
+        interval.setEnd(interval.getStart().plusDays(1));
         Accommodation accommodation = accommodationService.findOne(id);
         Set<Day> calendar = accommodation.getCalendar();
         int disabled = 0;

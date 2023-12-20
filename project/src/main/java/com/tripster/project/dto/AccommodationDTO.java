@@ -56,4 +56,6 @@ public class AccommodationDTO {
     private Double rating;
 
     private Long numOfReviews;
+
+    private boolean pricePerNight;
 }
