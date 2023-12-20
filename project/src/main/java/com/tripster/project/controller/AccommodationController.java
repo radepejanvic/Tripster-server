@@ -114,7 +114,9 @@ public class AccommodationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.OK);
+        Object[] reviews = accommodationReviewService.countReviews(id).get(0);
+
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation, (double)reviews[0], (long)reviews[1]), HttpStatus.OK);
     }
 
     // Host: when he opens the form for registering new accommodation
@@ -129,7 +131,7 @@ public class AccommodationController {
 
         accommodationService.save(accommodation);
 
-        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation), HttpStatus.CREATED);
+        return new ResponseEntity<>(AccommodationDTOMapper.fromAccommodationToDTO(accommodation, 0, 0), HttpStatus.CREATED);
     }
 
     // Host: when he opens the form for update
@@ -164,12 +166,18 @@ public class AccommodationController {
                 accommodation.getCalendar().size(), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
-//    public ResponseEntity<Integer> addCalendar(@PathVariable Long accommodationId, @RequestBody IntervalDTO) {
-//
-//        return new ResponseEntity<>(0
-//                , HttpStatus.OK);
-//    }
+    @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
+    public ResponseEntity<Integer> disableDays(@PathVariable Long accommodationId, @RequestBody PriceDTO interval) {
+
+        int response;
+        try  {
+            response = calendarService.disableDays(accommodationId, interval);
+        } catch (Exception e) {
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
