@@ -10,5 +10,6 @@ public interface ConfirmationTokenService {
     Optional<ConfirmationToken> findByToken(String token);
 
     int setConfirmedAt(String token);
-    
+
+    void deleteUserTokens(Long userID);
 }

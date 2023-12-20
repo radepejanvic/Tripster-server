@@ -29,4 +29,8 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     public int setConfirmedAt(String token) {
         return confirmationTokenRepository.updateConfirmationTokenByToken(token, LocalDateTime.now());
     }
+
+    public void deleteUserTokens(Long userID) {
+        confirmationTokenRepository.deleteUserTokens(userID);
+    }
 }

@@ -4,9 +4,9 @@ import com.tripster.project.model.Address;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
-import com.tripster.project.model.enums.UserStatus;
-import com.tripster.project.model.enums.UserType;
-import com.tripster.project.repository.*;
+import com.tripster.project.repository.AddressRepository;
+import com.tripster.project.repository.GuestRepository;
+import com.tripster.project.repository.UserRepository;
 import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,6 @@ public class GuestServiceImpl implements IPersonService {
     private UserRepository userRepository;
     @Autowired
     private GuestRepository guestRepository;
-
 
     @Override
     public Person save(Person person) {

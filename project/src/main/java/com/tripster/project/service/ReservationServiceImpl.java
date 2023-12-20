@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,14 +26,18 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.findAll(page);
     }
     public Reservation save(Reservation reservation) {
-        Reservation res = reservationRepository.save(reservation);
-        return res;
+        return reservationRepository.save(reservation);
     }
     public void remove(Long id) { reservationRepository.deleteById(id); }
     public List<Reservation> getAllForGuest(Long guestId) {
         return reservationRepository.getAllForGuest(guestId);
     }
-    /*public List<Reservation> getAllForHost(Long hostId) {
+    public List<Reservation> getAllActiveForGuest(Long guestId) { return reservationRepository.getAllActiveForGuest(guestId); }
+    public List<Reservation> getAllForHost(Long hostId) {
         return reservationRepository.getAllForHost(hostId);
-    }*/
+    }
+    public List<Reservation> getAllActiveForHost(Long hostId) { return reservationRepository.getAllActiveForHost(hostId);}
+    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
+        return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
+    }
 }

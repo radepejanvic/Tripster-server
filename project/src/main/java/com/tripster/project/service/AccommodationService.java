@@ -7,18 +7,18 @@ import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.DayStatus;
 import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.sql.Date;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccommodationService {
@@ -52,6 +52,7 @@ public class AccommodationService {
         return accommodationRepository.findAllByOwnerId(id);
     }
 
+    public void removeAllByOwnerId(Long ownerId) { accommodationRepository.deleteAllByOwnerId(ownerId);}
     public List<Accommodation> findFavorites(Long guestId) {
         return accommodationRepository.findFavorites(guestId);
     }
