@@ -1,5 +1,14 @@
-Insert Into address (city, country, number, street, zip_code) Values ('Colliershire', 'Liechtenstein', '717', '245 Pagac Curve', '7977');
-Insert Into address (city, country, number, street, zip_code) Values ('South Hazel', 'Taiwan', '121', '961 Mateo Key', '7924');
+insert into address (city, country, number, street, zip_code) values ('Novi Sad', 'Serbia', '23', 'Svetozara Miletića', '21000');
+insert into address (city, country, number, street, zip_code) values ('Novi Sad', 'Serbia', '3', 'Bulevar Mihajla Pupina', '21000');
+insert into address (city, country, number, street, zip_code) values ('Belgrade', 'Serbia', '9', 'Dobračina', '105801');
+insert into address (city, country, number, street, zip_code) values ('Belgrade', 'Serbia', '20', 'Balkanska', '11000');
+insert into address (city, country, number, street, zip_code) values ('Sevelen', 'Switzerland', '20', 'Bahnhofstrasse', '9475');
+insert into address (city, country, number, street, zip_code) values ('Ruisui Township', 'Taiwan', '43', 'Section 1, Zhongzheng S Rd', '978');
+insert into address (city, country, number, street, zip_code) values ('Berlin', 'Germany', '54', 'Leipziger Str.', '10117');
+insert into address (city, country, number, street, zip_code) values ('London', 'United Kingdom', '33', 'Albemarle St', 'W1S 4BP');
+insert into address (city, country, number, street, zip_code) values ('Valencia', 'Spain', '10', 'C/ de Correus, Ciutat Vella', '46002');
+insert into address (city, country, number, street, zip_code) values ('Moncada', 'Spain', '1', 'Av. de Ferrran el Catòlic, Mercat de', '46113');
+
 Insert Into address (city, country, number, street, zip_code) Values ('East Rosinashire', 'Benin', '28230', '24993 Ratke Gateway', '8005');
 Insert Into address (city, country, number, street, zip_code) Values ('Serenitymouth', 'Cambodia', '98718', '429 Toy Meadow', '6636');
 Insert Into address (city, country, number, street, zip_code) Values ('Niagara Falls', 'Heard Island and McDonald Islands', '401', '32583 Strosin Run', '5185');
