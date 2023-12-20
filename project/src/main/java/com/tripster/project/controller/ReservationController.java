@@ -84,6 +84,7 @@ public class ReservationController {
         Reservation reservation = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
         reservation.setAccommodation(accommodation);
         reservation.setGuest(guest);
+        reservation.setStatus(ReservationStatus.PENDING);
         reservationService.save(reservation);
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
