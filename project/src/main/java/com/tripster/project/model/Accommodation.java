@@ -58,4 +58,6 @@ public class Accommodation {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Day> calendar;
+
+    private boolean pricePerNight;
 }
