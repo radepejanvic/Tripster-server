@@ -74,23 +74,17 @@ public class ReservationController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReservationDTO> addNew(@RequestBody ReservationDTO reservationDTO) {
 
-        Reservation res = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
-        Accommodation acc = accommodationService.findOne(reservationDTO.getAccmId());
-        if (acc == null) {
-            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
+        Accommodation accommodation = accommodationService.findOne(reservationDTO.getAccommodationId());
+        Guest guest = (Guest) guestService.findById(reservationDTO.getGuestId());
+
+        if (guest == null || accommodation == null) {
+            return new ResponseEntity<>(reservationDTO, HttpStatus.NOT_FOUND);
         }
-        Guest guest = (Guest) guestService.findById(reservationDTO.getGuestUserId());
-        if (guest == null) {
-            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
-        }
-        //Ovde dodati proveru slobodnih datuma
-        List<Reservation> reservations = reservationService.getAllInDateRangeForAccommodation(reservationDTO.getStart(), reservationDTO.getEnd(), reservationDTO.getAccmId());
-        if (!reservations.isEmpty()) {
-            return new ResponseEntity<>(reservationDTO, HttpStatus.BAD_REQUEST);
-        }
-        res.setAccommodation(acc);
-        res.setGuest(guest);
-        reservationService.save(res);
+
+        Reservation reservation = ReservationDTOMapper.fromDTOtoReservation(reservationDTO);
+        reservation.setAccommodation(accommodation);
+        reservation.setGuest(guest);
+        reservationService.save(reservation);
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
     @GetMapping(value = "/dateRangeAccommodation")
