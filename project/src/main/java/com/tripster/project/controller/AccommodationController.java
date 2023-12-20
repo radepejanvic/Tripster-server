@@ -3,6 +3,7 @@ package com.tripster.project.controller;
 import com.tripster.project.dto.*;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
+import com.tripster.project.model.Day;
 import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
@@ -18,11 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -197,9 +194,13 @@ public class AccommodationController {
     @GetMapping(value = "calendar/{id}")
     public ResponseEntity<?> getCalendar(@PathVariable Long id) {
 
-        Accommodation accommodation = accommodationService.findOne(id);
+        List<Day> calendar = accommodationService.findCalendar(id);
 
-        return new ResponseEntity<>(accommodation.getCalendar(), HttpStatus.OK);
+        if(calendar == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(calendar, HttpStatus.OK);
     }
 
     @GetMapping(value = "pricelists/{id}")
