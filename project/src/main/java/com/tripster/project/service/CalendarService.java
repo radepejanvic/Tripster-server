@@ -113,4 +113,22 @@ public class CalendarService {
         return pricelists;
     }
 
+    public int disableDays(Long id, PriceDTO interval) {
+        Accommodation accommodation = accommodationService.findOne(id);
+        Set<Day> calendar = accommodation.getCalendar();
+        int disabled = 0;
+
+        for(Day day : calendar) {
+            if (!day.getDate().isBefore(interval.getStart()) && !day.getDate().isAfter(interval.getEnd()) && day.isAvailable()) {
+                day.setAvailability(DayStatus.NOT_AVAILABLE);
+                disabled++;
+            }
+        }
+
+        accommodation.setCalendar(calendar);
+        accommodationService.save(accommodation);
+        return disabled;
+    }
+
+
 }
