@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,14 +38,14 @@ public class PhotoController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(photoService.findAllByAccommodationId(accommodationId));
     }
-
+    @PreAuthorize("hasRole('HOST')")
     @GetMapping(value = "/crud/{accommodationId}")
     public ResponseEntity<List<PhotoDTO>> getPhotosWithId(@PathVariable Long accommodationId) {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(photoService.findAllByAccommodationIdWithId(accommodationId));
     }
-
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping("/{accommodationId}")
     public ResponseEntity<Integer> uploadPhotos(@RequestParam("photo") MultipartFile[] photos, @PathVariable Long accommodationId) throws IOException {
 
@@ -64,7 +65,7 @@ public class PhotoController {
 
         return new ResponseEntity<>(photos.length, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('HOST')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePhoto(@PathVariable Long id) {
 
@@ -77,7 +78,7 @@ public class PhotoController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+    @PreAuthorize("hasRole('HOST')")
     @DeleteMapping()
     public ResponseEntity<Integer> batchDelete(@RequestBody List<Long> ids) {
 

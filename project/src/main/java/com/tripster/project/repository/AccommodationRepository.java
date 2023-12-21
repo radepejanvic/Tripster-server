@@ -48,7 +48,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     @Query("select a " +
             "from Accommodation a " +
-            "where a.status in :statusList and a.status not in :statusNotIn")
+            "where (:statusList is null or a.status in :statusList) and a.status not in :statusNotIn")
     List<Accommodation> findByStatusForApproval(List<AccommodationStatus> statusList,List<AccommodationStatus> statusNotIn);
 
     @Query("select a" +
@@ -64,4 +64,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             " and d.availability = :available" +
             " order by d.date")
     List<Day> findCalendar(Long id, DayStatus available);
+    @Query("select a from Accommodation a" +
+            " where a.status='ACTIVE'")
+    List<Accommodation> findAllActive();
 }

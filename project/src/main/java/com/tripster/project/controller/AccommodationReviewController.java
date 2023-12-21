@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class AccommodationReviewController {
         return new ResponseEntity<>(accommodationReviewService.countTotalStats(accommodationId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('GUEST')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ReviewDTO> saveAccommodation(@RequestBody ReviewDTO dto) {
 
@@ -65,7 +67,7 @@ public class AccommodationReviewController {
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
 

@@ -64,9 +64,7 @@ public class AccommodationService {
         return accommodationRepository.findByStatusIn(statusList);
     };
     public List<Accommodation> findByStatusForApproval(List<AccommodationStatus> statusList) {
-        if (statusList == null || statusList.isEmpty()) {
-            return findAll();
-        }
+
         List<AccommodationStatus> notIn = new ArrayList<>();
         notIn.add(AccommodationStatus.DELETED);
         notIn.add(AccommodationStatus.ACTIVE);
@@ -93,6 +91,9 @@ public class AccommodationService {
         return accommodationRepository.findCalendar(accommodationId, DayStatus.AVAILABLE);
     }
 
+    public List<Accommodation> findAllActive(){
+        return  accommodationRepository.findAllActive();
+    }
 
 //    public void generateCalendar(LocalDate startDate, Accommodation accommodation) {
 //

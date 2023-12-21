@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -48,7 +49,9 @@ public class AccommodationController {
     private AccommodationReviewService accommodationReviewService;
 
 
+
     // Admin: when he opens the page for accommodation approval
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/admin")
     public ResponseEntity<List<AccommodationCardAdminDTO>> getAccommodationsAdmin(@RequestParam(required = false) List<AccommodationStatus> statusList ) {
         List<Accommodation> accommodations = accommodationService.findByStatusForApproval(statusList);
@@ -61,6 +64,7 @@ public class AccommodationController {
     }
 
     // Host: when he opens the myAccommodations page
+    @PreAuthorize("hasRole('HOST')")
     @GetMapping(value = "/host/{hostId}")
     public ResponseEntity<List<AccommodationCardHostDTO>> getAccommodationsHost(@PathVariable Long hostId) {
         List<Accommodation> accommodations = accommodationService.findAllByOwnerId(hostId);
@@ -76,13 +80,16 @@ public class AccommodationController {
     @GetMapping(value = "/guest")
     public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodationsGuest(@RequestParam(required = false) String start, @RequestParam(required = false) String end, @RequestParam(required = false) Integer numOfGuests) {
 
-        List<Accommodation> accommodations = accommodationService.findAll();
-        List<AccommodationCardGuestDTO> accommodationCards = accommodations.stream()
-                .map(acc -> AccommodationDTOMapper.fromAccommodationToGuestDTO(acc, photoService.findPrimary(acc.getId())))
-                .collect(Collectors.toList());
+        List<Accommodation> accommodations = accommodationService.findAllActive();
+        List<AccommodationCardGuestDTO> accommodationCardGuestDTOS = new ArrayList<>();
+        for (Accommodation accommodation: accommodations) {
+            Object[] reviews = accommodationReviewService.countReviews(accommodation.getId()).get(0);
+            accommodationCardGuestDTOS.add(AccommodationDTOMapper.fromObjectToGuestDTO(accommodation,0,0,numOfGuests,(Double) reviews[0],(Long) reviews[1],photoService.findPrimary(accommodation.getId())));
+        }
 
-        return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
+        return new ResponseEntity<>(accommodationCardGuestDTOS, HttpStatus.OK);
     }
+
 
     @GetMapping(value = "/guest/filters")
     public ResponseEntity<List<AccommodationCardGuestDTO> > filterAccommodations(@RequestParam(required = false) String city,
@@ -120,6 +127,7 @@ public class AccommodationController {
     }
 
     // Host: when he opens the form for registering new accommodation
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<AccommodationDTO> saveAccommodation(@RequestBody AccommodationDTO dto) {
 
@@ -135,6 +143,7 @@ public class AccommodationController {
     }
 
     // Host: when he opens the form for update
+    @PreAuthorize("hasRole('HOST')")
     @PutMapping(consumes = "application/json")
     public ResponseEntity<AccommodationDTO> updateAccommodation(@RequestBody AccommodationDTO dto) {
         Accommodation accommodation = accommodationService.findOne(dto.getId());
@@ -153,6 +162,7 @@ public class AccommodationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> addCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 
@@ -166,6 +176,7 @@ public class AccommodationController {
                 accommodation.getCalendar().size(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping(value = "/calendar/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> disableDays(@PathVariable Long accommodationId, @RequestBody PriceDTO interval) {
 
@@ -179,6 +190,7 @@ public class AccommodationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 
@@ -208,7 +220,7 @@ public class AccommodationController {
 
         return new ResponseEntity<>(calendarService.getPricelists(id), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(consumes = "application/json")
     public ResponseEntity<String> updateAccommodation(@RequestBody StatusDTO dto) {
 
@@ -220,6 +232,7 @@ public class AccommodationController {
     }
 
     // Host:
+    @PreAuthorize("hasRole('HOST')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
 
