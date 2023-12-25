@@ -5,6 +5,7 @@ import com.tripster.project.mapper.PersonCruDTOMapper;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.User;
 import com.tripster.project.model.enums.DeleteStatus;
+import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.model.enums.UserType;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.ReservationServiceImpl;
@@ -59,19 +60,21 @@ public class PersonController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<PersonCruDTO> getById(@PathVariable Long id) {
-        Person person;
-        boolean personFound = false;
-        try {
-            person = guestService.findById(id);
-            personFound = true;
-        }
-        catch (Exception e) {
-            person = hostService.findById(id);
-            personFound = true;
-        }
-        if (!personFound) {
+
+        User user = userService.findOne(id);
+
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        Person person;
+
+        switch(user.getUserType()) {
+            case GUEST: person = guestService.findByUser(user); break;
+            case HOST: person = hostService.findByUser(user); break;
+            default: return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
     }
 
@@ -79,17 +82,18 @@ public class PersonController {
     public ResponseEntity<PersonCruDTO> update(@RequestBody PersonCruDTO personCruDTO){
 
         Person person = PersonCruDTOMapper.fromDTOtoPerson(personCruDTO,"UPDATE");
+        person.getUser().setStatus(UserStatus.ACTIVE);
 
-            if (person.getUser().getUserType().equals(UserType.GUEST)){
-                if (guestService.update(person) == null){
-                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
-                }
-                guestService.save(person);
-            }else{
-                if (hostService.update(person) == null){
-                    return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
-                }
+        if (person.getUser().getUserType().equals(UserType.GUEST)){
+            if (guestService.update(person) == null){
+                return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
             }
+            guestService.save(person);
+        }else{
+            if (hostService.update(person) == null){
+                return new ResponseEntity<>(new PersonCruDTO(),HttpStatus.BAD_REQUEST);
+            }
+        }
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.CREATED);
     }
 
