@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class TokenDTO {
     private  String personID;
-    private String UserID;
+    private String userID;
     private String token;
 
 }
