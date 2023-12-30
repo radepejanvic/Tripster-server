@@ -7,6 +7,7 @@ import com.tripster.project.model.AccommodationReview;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.Review;
+import com.tripster.project.model.enums.ReviewStatus;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,6 +65,8 @@ public class AccommodationReviewController {
         AccommodationReview review = ReviewDTOMapper.fromDTOToAccommodationReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
         review.setAccommodation(accommodationService.findOne(dto.getReviewedId()));
+        review.setTimeStamp(LocalDateTime.now());
+        review.setStatus(ReviewStatus.NEW);
         accommodationReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
