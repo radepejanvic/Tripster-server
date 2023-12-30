@@ -23,7 +23,7 @@ public class ReviewDTOMapper {
     public static AccommodationReview fromDTOToAccommodationReview(ReviewDTO dto) {
         AccommodationReview review = new AccommodationReview();
         review.setId(dto.getId());
-        dto.setTitle(review.getTitle());
+        review.setTitle(dto.getTitle());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
         review.setStatus(dto.getStatus());
