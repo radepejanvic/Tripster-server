@@ -10,6 +10,7 @@ import com.tripster.project.model.Review;
 import com.tripster.project.model.enums.ReviewStatus;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class AccommodationReviewController {
     private AccommodationService accommodationService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ReviewService reviewService;
 
     @Qualifier("guestServiceImpl")
     @Autowired
@@ -51,6 +54,11 @@ public class AccommodationReviewController {
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{accommodationId}/{guestId}")
+    public ResponseEntity<Boolean> canReviewAccommodation(@PathVariable Long accommodationId, @PathVariable Long guestId) {
+        return new ResponseEntity<>(reviewService.canReviewAccommodation(accommodationId, guestId), HttpStatus.OK);
     }
 
     @GetMapping(value = "/stats/{accommodationId}")
@@ -71,6 +79,7 @@ public class AccommodationReviewController {
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
