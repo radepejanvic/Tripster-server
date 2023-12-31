@@ -6,6 +6,7 @@ import com.tripster.project.model.Person;
 import com.tripster.project.model.Review;
 import com.tripster.project.model.UserReview;
 import com.tripster.project.model.enums.ReviewStatus;
+import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
@@ -34,6 +35,9 @@ public class UserReviewController {
     @Autowired
     private IPersonService guestService ;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @GetMapping(value = "/{userId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
         List<UserReview> reviews = userReviewService.findAllByReviewedId(userId);
@@ -46,6 +50,11 @@ public class UserReviewController {
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{hostId}/{guestId}")
+    public ResponseEntity<Boolean> canReviewAccommodation(@PathVariable Long hostId, @PathVariable Long guestId) {
+        return new ResponseEntity<>(reviewService.canReviewHost(hostId, guestId), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('GUEST')")
