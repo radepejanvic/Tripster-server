@@ -78,6 +78,18 @@ public class PersonController {
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/hosts/{id}")
+    public ResponseEntity<PersonCruDTO> getHostById(@PathVariable Long id) {
+
+        Person person = hostService.findById(id);
+
+        if (person == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/update",consumes = "application/json")
     public ResponseEntity<PersonCruDTO> update(@RequestBody PersonCruDTO personCruDTO){
 
