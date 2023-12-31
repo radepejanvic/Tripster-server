@@ -36,7 +36,7 @@ public class ReviewDTOMapper {
     public static UserReview fromDTOToUserReview(ReviewDTO dto) {
         UserReview review = new UserReview();
         review.setId(dto.getId());
-        dto.setTitle(review.getTitle());
+        review.setTitle(dto.getTitle());
         review.setRate(dto.getRate());
         review.setComment(dto.getComment());
         review.setStatus(dto.getStatus());
