@@ -25,4 +25,7 @@ public class PersonCruDTO {
     private String street;
     private String number;
 
+    private Double rate;
+    private Long numOfReviews;
+
 }
