@@ -35,6 +35,10 @@ public class UserReviewController {
     @Autowired
     private IPersonService guestService ;
 
+    @Qualifier("hostServiceImpl")
+    @Autowired
+    private IPersonService hostService ;
+
     @Autowired
     private ReviewService reviewService;
 
@@ -63,7 +67,7 @@ public class UserReviewController {
 
         UserReview review = ReviewDTOMapper.fromDTOToUserReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
-        review.setReviewedUser(userService.findOne(dto.getReviewedId()));
+        review.setReviewedUser(userService.findOne(hostService.findById(dto.getReviewedId()).getUser().getId()));
         review.setTimeStamp(LocalDateTime.now());
         review.setStatus(ReviewStatus.ACTIVE);
         userReviewService.save(review);
