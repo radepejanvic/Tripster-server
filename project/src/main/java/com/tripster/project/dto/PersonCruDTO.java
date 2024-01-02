@@ -15,6 +15,7 @@ public class PersonCruDTO {
     private UserType userType;
     private UserStatus status;
 
+    private Long userId;
     private String name;
     private String surname;
     private String phone;

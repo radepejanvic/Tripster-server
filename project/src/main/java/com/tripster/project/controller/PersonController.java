@@ -91,7 +91,7 @@ public class PersonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<Object[]> rating = userReviewService.countReviews(person.getId());
+        List<Object[]> rating = userReviewService.countReviews(person.getUser().getId());
         PersonCruDTO dto = PersonCruDTOMapper.fromPersonToDTO(person);
         dto.setRate((double)rating.get(0)[0]);
         dto.setNumOfReviews((long)rating.get(0)[1]);
