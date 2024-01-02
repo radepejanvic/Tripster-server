@@ -37,4 +37,8 @@ public class UserReviewService {
     public List<UserReview> findAllByReviewedId(Long reviewedId) {
         return userReviewRepository.findAllByReviewedId(reviewedId);
     }
+
+    public List<Object[]> countReviews(Long reviewedId) {
+        return userReviewRepository.countReviews(reviewedId);
+    }
 }
