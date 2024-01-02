@@ -12,4 +12,11 @@ public interface UserReviewRepository extends JpaRepository<UserReview, Long> {
             "join fetch r.reviewedUser u " +
             "where u.id = :reviewedId")
     List<UserReview> findAllByReviewedId(Long reviewedId);
+
+    @Query("select coalesce(round(avg(r.rate), 2), 0), coalesce(count(r), 0)" +
+            "from UserReview r " +
+            "join r.reviewedUser u " +
+            "where u.id = :reviewedId " +
+            "and r.status != 'DELETED'")
+    List<Object[]> countReviews(Long reviewedId);
 }
