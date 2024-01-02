@@ -75,17 +75,17 @@ public class UserReviewController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('GUEST')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long id) {
 
         UserReview review = userReviewService.findOne(id);
 
         if (review != null) {
             userReviewService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
 }
