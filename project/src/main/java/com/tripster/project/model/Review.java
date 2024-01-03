@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,6 +28,9 @@ public class Review{
 
     @Enumerated(EnumType.STRING)
     private ReviewStatus status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime timeStamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewer_id")

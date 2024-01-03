@@ -57,6 +57,7 @@ public class PersonCruDTOMapper {
         personDTO.setUserType(person.getUser().getUserType());
         personDTO.setStatus(person.getUser().getStatus());
 
+        personDTO.setUserId(person.getUser().getId());
         personDTO.setName(person.getName());
         personDTO.setSurname(person.getSurname());
         personDTO.setPhone(person.getPhone());
