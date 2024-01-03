@@ -13,11 +13,12 @@ import java.util.List;
 
 @Service
 public class ReservationServiceImpl implements IReservationServiceImpl {
+
     @Autowired
     private ReservationRepository reservationRepository;
+
     public Reservation findOne(Long id) {
-        Reservation res = reservationRepository.findById(id).orElseGet(null);
-        return res;
+        return reservationRepository.findById(id).orElseGet(null);
     }
     public List<Reservation> findAll() {
         return reservationRepository.findAll();

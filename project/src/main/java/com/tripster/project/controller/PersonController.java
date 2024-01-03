@@ -9,6 +9,7 @@ import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.model.enums.UserType;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.ReservationServiceImpl;
+import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.ConfirmationTokenService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
@@ -46,6 +47,9 @@ public class PersonController {
     @Autowired
     private AccommodationService accommodationService;
 
+    @Autowired
+    private UserReviewService userReviewService;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<PersonCruDTO>> getAll(){
@@ -76,6 +80,23 @@ public class PersonController {
         }
 
         return new ResponseEntity<>(PersonCruDTOMapper.fromPersonToDTO(person), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/hosts/{id}")
+    public ResponseEntity<PersonCruDTO> getHostById(@PathVariable Long id) {
+
+        Person person = hostService.findById(id);
+
+        if (person == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Object[]> rating = userReviewService.countReviews(person.getUser().getId());
+        PersonCruDTO dto = PersonCruDTOMapper.fromPersonToDTO(person);
+        dto.setRate((double)rating.get(0)[0]);
+        dto.setNumOfReviews((long)rating.get(0)[1]);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping(value = "/update",consumes = "application/json")

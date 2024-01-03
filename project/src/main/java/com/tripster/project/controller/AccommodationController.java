@@ -127,7 +127,7 @@ public class AccommodationController {
     }
 
     // Host: when he opens the form for registering new accommodation
-    @PreAuthorize("hasRole('HOST')")
+//    @PreAuthorize("hasRole('HOST')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<AccommodationDTO> saveAccommodation(@RequestBody AccommodationDTO dto) {
 
@@ -143,7 +143,7 @@ public class AccommodationController {
     }
 
     // Host: when he opens the form for update
-    @PreAuthorize("hasRole('HOST')")
+//    @PreAuthorize("hasRole('HOST')")
     @PutMapping(consumes = "application/json")
     public ResponseEntity<AccommodationDTO> updateAccommodation(@RequestBody AccommodationDTO dto) {
         Accommodation accommodation = accommodationService.findOne(dto.getId());

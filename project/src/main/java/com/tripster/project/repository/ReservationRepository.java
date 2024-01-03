@@ -14,19 +14,19 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN FETCH res.accommodation " +
             "JOIN FETCH res.guest " +
             "WHERE res.guest.id = :guestId")
-    public List<Reservation> getAllForGuest(Long guestId);
+    List<Reservation> getAllForGuest(Long guestId);
     @Query("SELECT res FROM Reservation res " +
             "JOIN FETCH res.accommodation " +
             "JOIN FETCH res.guest " +
             "WHERE res.guest.id = :guestId " +
             "and ( res.status = 'ACTIVE' or res.status = 'PENDING')")
-    public List<Reservation> getAllActiveForGuest(Long guestId);
+    List<Reservation> getAllActiveForGuest(Long guestId);
     @Query("SELECT res " +
             "FROM Reservation res " +
             "JOIN res.accommodation acc " +
             "JOIN acc.owner owner " +
             "WHERE owner.id = :hostId")
-    public List<Reservation> getAllForHost(Long hostId);
+    List<Reservation> getAllForHost(Long hostId);
 
     @Query("SELECT res " +
             "FROM Reservation res " +
@@ -34,7 +34,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN acc.owner owner " +
             "WHERE owner.id = :hostId " +
             "and (res.status = 'ACTIVE' or res.status = 'PENDING') ")
-    public List<Reservation> getAllActiveForHost(Long hostId);
+    List<Reservation> getAllActiveForHost(Long hostId);
 
     @Query("SELECT res FROM Reservation res " +
             "JOIN res.accommodation acc " +
@@ -42,6 +42,27 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and acc.id = :accId) " +
             "and res.status != 'REJECTED' " +
             "and res.status != 'CANCELLED' ")
-    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId);
+    List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId);
+
+    @Query("select count(r) " +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join r.guest g " +
+            "where a.id = :accommodationId " +
+            "and g.id = :guestId " +
+            "and r.status = 'ACCEPTED' " +
+            "and r.end between :pastSevenDays and :today")
+    int findAllByGuestAndAccommodation(Long accommodationId, Long guestId, LocalDate today, LocalDate pastSevenDays);
+
+    @Query("select count(r) " +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner h " +
+            "join r.guest g " +
+            "where h.id = :hostId " +
+            "and g.id = :guestId " +
+            "and r.status = 'ACCEPTED' " +
+            "and r.end <= :today")
+    int findAllByGuestAndHost(Long hostId, Long guestId, LocalDate today);
     
 }

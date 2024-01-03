@@ -7,8 +7,10 @@ import com.tripster.project.model.AccommodationReview;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.Review;
+import com.tripster.project.model.enums.ReviewStatus;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +35,8 @@ public class AccommodationReviewController {
     private AccommodationService accommodationService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ReviewService reviewService;
 
     @Qualifier("guestServiceImpl")
     @Autowired
@@ -51,6 +56,11 @@ public class AccommodationReviewController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{accommodationId}/{guestId}")
+    public ResponseEntity<Boolean> canReviewAccommodation(@PathVariable Long accommodationId, @PathVariable Long guestId) {
+        return new ResponseEntity<>(reviewService.canReviewAccommodation(accommodationId, guestId), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/stats/{accommodationId}")
     public ResponseEntity<RatingStatsDTO> getStats(@PathVariable Long accommodationId) {
         return new ResponseEntity<>(accommodationReviewService.countTotalStats(accommodationId), HttpStatus.OK);
@@ -63,21 +73,24 @@ public class AccommodationReviewController {
         AccommodationReview review = ReviewDTOMapper.fromDTOToAccommodationReview(dto);
         review.setReviewer(userService.findOne(dto.getReviewerId()));
         review.setAccommodation(accommodationService.findOne(dto.getReviewedId()));
+        review.setTimeStamp(LocalDateTime.now());
+        review.setStatus(ReviewStatus.NEW);
         accommodationReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @PreAuthorize("hasRole('GUEST')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteAccommodation(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long id) {
 
         AccommodationReview review = accommodationReviewService.findOne(id);
 
         if (review != null) {
             accommodationReviewService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
 }

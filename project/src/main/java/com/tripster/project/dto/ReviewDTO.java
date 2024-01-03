@@ -20,6 +20,8 @@ public class ReviewDTO {
 
     private ReviewStatus status;
 
+    private String timeStamp;
+
     private Long reviewerId;
 
     private String reviewerName;

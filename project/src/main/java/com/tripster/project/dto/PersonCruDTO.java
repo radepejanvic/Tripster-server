@@ -15,6 +15,7 @@ public class PersonCruDTO {
     private UserType userType;
     private UserStatus status;
 
+    private Long userId;
     private String name;
     private String surname;
     private String phone;
@@ -24,5 +25,8 @@ public class PersonCruDTO {
     private String zipCode;
     private String street;
     private String number;
+
+    private Double rate;
+    private Long numOfReviews;
 
 }
