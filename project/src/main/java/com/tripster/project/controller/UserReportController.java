@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class UserReportController {
     @Autowired
     private UserServiceImpl userService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserReportDTO>> getAll() {
 
@@ -37,6 +39,7 @@ public class UserReportController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserReportDTO> getOne(@PathVariable Long id) {
 
@@ -49,7 +52,7 @@ public class UserReportController {
         return new ResponseEntity<>(UserReportDTOMapper.fromUserReportToDTO(report), HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('GUEST') || hasRole('HOST')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserReportDTO> reportUser(@RequestBody UserReportDTO dto) {
 
@@ -68,6 +71,7 @@ public class UserReportController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
