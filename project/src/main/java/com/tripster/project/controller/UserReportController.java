@@ -6,7 +6,9 @@ import com.tripster.project.model.User;
 import com.tripster.project.model.UserReport;
 import com.tripster.project.service.UserReportServiceImpl;
 import com.tripster.project.service.UserServiceImpl;
+import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,64 +17,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/userReports")
+@RequestMapping("api/users/reports")
 public class UserReportController {
+
     @Autowired
     private UserReportServiceImpl userReportService;
+
     @Autowired
     private UserServiceImpl userService;
 
     @GetMapping
     public ResponseEntity<List<UserReportDTO>> getAll() {
 
-        List<UserReport> reports = userReportService.findAll();
-        List<UserReportDTO> dtos = new ArrayList<UserReportDTO>();
-        for (UserReport rep : reports) {
-            dtos.add(UserReportDTOMapper.fromUserReportToDTO(rep));
-        }
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        List<UserReportDTO> reports = userReportService.findAll().stream()
+                .map(UserReportDTOMapper::fromUserReportToDTO)
+                .toList();
+
+        return new ResponseEntity<>(reports, HttpStatus.OK);
 
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserReportDTO> getOne(@PathVariable Long id) {
+
         UserReport report = userReportService.findOne(id);
+
         if (report == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        UserReportDTO dto = UserReportDTOMapper.fromUserReportToDTO(report);
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(UserReportDTOMapper.fromUserReportToDTO(report), HttpStatus.OK);
     }
 
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<UserReportDTO> addNew(@RequestBody UserReportDTO userReportDTO) {
+    public ResponseEntity<UserReportDTO> reportUser(@RequestBody UserReportDTO dto) {
 
-        UserReport report = UserReportDTOMapper.fromDTOToUserReport(userReportDTO);
-        User reporter = userService.findOne(userReportDTO.getReporterId());
-        if (reporter == null) {
-            return new ResponseEntity<>(userReportDTO, HttpStatus.BAD_REQUEST);
+        UserReport report = UserReportDTOMapper.fromDTOToUserReport(dto);
+        User reporter = userService.findOne(dto.getReporterId());
+        User reportee = userService.findOne(dto.getReporteeId());
+
+        if (reporter == null || reportee == null) {
+            return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         }
-        User reportee = userService.findOne(userReportDTO.getReporteeId());
-        if (reportee == null) {
-            return new ResponseEntity<>(userReportDTO, HttpStatus.BAD_REQUEST);
-        }
+
         report.setReporter(reporter);
         report.setReportee(reportee);
         userReportService.save(report);
-        return new ResponseEntity<>(userReportDTO, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        UserReportDTO reportDTO = UserReportDTOMapper.fromUserReportToDTO(userReportService.findOne(id));
+        UserReport report = userReportService.findOne(id);
 
-        if (reportDTO != null) {
+        if (report != null) {
             userReportService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
