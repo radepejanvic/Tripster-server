@@ -1,12 +1,11 @@
 package com.tripster.project.controller;
 
 import com.tripster.project.dto.AccommodationCardGuestDTO;
-import com.tripster.project.dto.FavoriteDTO;
 import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
-import com.tripster.project.repository.PhotoRepository;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.FavoritesService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,30 +26,33 @@ public class FavoritesController {
 
     @Qualifier("guestServiceImpl")
     @Autowired
-    private IPersonService personService;
+    private IPersonService guestService;
 
     @Autowired
     private PhotoService photoService;
 
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<FavoriteDTO> addToFavorites(@RequestBody FavoriteDTO dto) {
+    @Autowired
+    private FavoritesService favoritesService;
 
-        Guest guest = (Guest) personService.findById(dto.getGuestId());
-        Accommodation accommodation = accommodationService.findOne(dto.getAccommodationId());
+    @PostMapping(value = "/{guestId}/{accommodationId}")
+    public ResponseEntity<Long> toggleFavorite(@PathVariable Long guestId, @PathVariable Long accommodationId) {
 
-        Set<Accommodation> favorites = guest.getFavorites();
-        favorites.add(accommodation);
-        guest.setFavorites(favorites);
+        Guest guest = (Guest) guestService.findById(guestId);
+        Accommodation accommodation = accommodationService.findOne(accommodationId);
 
-        personService.save(guest);
+        if(guest == null || accommodation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        favoritesService.toggleFavorites(guest, accommodation);
+
+        return new ResponseEntity<>(accommodationId, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodation(@PathVariable Long id) {
 
-        List<AccommodationCardGuestDTO> accommodationCards = ((Guest)personService.findById(id)).getFavorites().stream()
+        List<AccommodationCardGuestDTO> accommodationCards = ((Guest) guestService.findById(id)).getFavorites().stream()
                 .map(acc -> AccommodationDTOMapper.fromAccommodationToGuestDTO(acc, photoService.findPrimary(acc.getId())) )
                 .collect(Collectors.toList());
 
