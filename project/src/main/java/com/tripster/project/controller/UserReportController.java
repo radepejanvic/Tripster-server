@@ -56,7 +56,6 @@ public class UserReportController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserReportDTO> reportUser(@RequestBody UserReportDTO dto) {
 
-        UserReport report = UserReportDTOMapper.fromDTOToUserReport(dto);
         User reporter = userService.findOne(dto.getReporterId());
         User reportee = userService.findOne(dto.getReporteeId());
 
@@ -64,6 +63,7 @@ public class UserReportController {
             return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
         }
 
+        UserReport report = UserReportDTOMapper.fromDTOToUserReport(dto);
         report.setReporter(reporter);
         report.setReportee(reportee);
         userReportService.save(report);
