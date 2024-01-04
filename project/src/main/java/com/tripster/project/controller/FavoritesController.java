@@ -59,4 +59,17 @@ public class FavoritesController {
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{guestId}/{accommodationId}")
+    public ResponseEntity<Boolean> isFavorite(@PathVariable Long guestId, @PathVariable Long accommodationId) {
+
+        Guest guest = (Guest) guestService.findById(guestId);
+        Accommodation accommodation = accommodationService.findOne(accommodationId);
+
+        if(guest == null || accommodation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(favoritesService.isFavorite(guest, accommodation), HttpStatus.OK);
+    }
+
 }
