@@ -33,6 +33,7 @@ public class AccommodationReviewReportController {
     @Autowired
     private AccommodationReviewService accommodationReviewService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<AccommodationReviewReportDTO>> getAll() {
 
@@ -43,6 +44,7 @@ public class AccommodationReviewReportController {
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccommodationReviewReportDTO> getOne(@PathVariable Long id) {
 
@@ -74,6 +76,7 @@ public class AccommodationReviewReportController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
