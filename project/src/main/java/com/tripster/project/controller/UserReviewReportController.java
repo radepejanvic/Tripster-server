@@ -13,6 +13,7 @@ import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class UserReviewReportController {
     @Autowired
     private UserReviewService userReviewService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserReviewReportDTO>> getAll() {
 
@@ -41,6 +43,7 @@ public class UserReviewReportController {
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserReviewReportDTO> getOne(@PathVariable Long id) {
 
@@ -53,6 +56,7 @@ public class UserReviewReportController {
         return new ResponseEntity<>(ReviewReportDTOMapper.fromUserReviewReportToDTO(report), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserReviewReportDTO> reportReview(@RequestBody UserReviewReportDTO dto) {
 
@@ -71,6 +75,7 @@ public class UserReviewReportController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
