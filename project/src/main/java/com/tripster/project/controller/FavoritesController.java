@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class FavoritesController {
     @Autowired
     private FavoritesService favoritesService;
 
+    @PreAuthorize("hasRole('GUEST')")
     @PostMapping(value = "/{guestId}/{accommodationId}")
     public ResponseEntity<Long> toggleFavorite(@PathVariable Long guestId, @PathVariable Long accommodationId) {
 
@@ -49,6 +51,7 @@ public class FavoritesController {
         return new ResponseEntity<>(accommodationId, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('GUEST')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<AccommodationCardGuestDTO>> getAccommodation(@PathVariable Long id) {
 
@@ -59,6 +62,7 @@ public class FavoritesController {
         return new ResponseEntity<>(accommodationCards, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('GUEST')")
     @GetMapping(value = "/{guestId}/{accommodationId}")
     public ResponseEntity<Boolean> isFavorite(@PathVariable Long guestId, @PathVariable Long accommodationId) {
 
