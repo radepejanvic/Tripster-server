@@ -33,4 +33,8 @@ public class FavoritesService {
         guestService.save(guest);
     }
 
+    public boolean isFavorite(Guest guest, Accommodation accommodation) {
+        return guest.getFavorites() != null && guest.getFavorites().contains(accommodation);
+    }
+
 }
