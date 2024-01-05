@@ -66,15 +66,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and r.end <= :today")
     int findAllByGuestAndHost(Long hostId, Long guestId, LocalDate today);
 
-    @Query("select a.id, month(r.start), year(r.start), count(r), sum(r.price)" +
+    @Query("select a.id, a.name, month(r.start), year(r.start), count(r), sum(r.price)" +
             "from Reservation r " +
             "join r.accommodation a " +
             "join a.owner o " +
             "where o.id = :hostId " +
             "and r.status = 'ACCEPTED' " +
             "and year(r.start) = :year " +
-            "group by a.id, month(r.start), year(r.start) " +
+            "group by a.id, a.name, month(r.start), year(r.start) " +
             "order by a.id, month(r.start)")
     List<Object[]> calculateAnnualAnalytics(Long hostId, int year);
-    
+
 }
