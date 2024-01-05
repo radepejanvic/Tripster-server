@@ -43,9 +43,11 @@ public class AnalyticsService {
     }
 
     private void setStats(Analytics analytic, Object[] stats) {
-        int month = (int) stats[1];
-        long count = (long) stats[3];
-        double revenue = (double) stats[4];
+        int month = (int) stats[2];
+        long count = (long) stats[4];
+        double revenue = (double) stats[5];
+        analytic.setAccommodationId((long) stats[0]);
+        analytic.setName((String) stats[1]);
         analytic.reservationsPerMonth[month-1] = count;
         analytic.revenuePerMonth[month-1] = revenue;
     }
