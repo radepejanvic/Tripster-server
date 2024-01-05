@@ -9,6 +9,8 @@ import java.util.Arrays;
 @Setter
 public class Analytics {
 
+    private Long accommodationId;
+    private String name;
     public long[] reservationsPerMonth;
     public double[] revenuePerMonth;
     private long totalReservations;
