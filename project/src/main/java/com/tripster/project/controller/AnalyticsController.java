@@ -2,6 +2,7 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.AccommodationReviewReportDTO;
 import com.tripster.project.dto.Analytics;
+import com.tripster.project.dto.StatusAnalytics;
 import com.tripster.project.mapper.ReviewReportDTOMapper;
 import com.tripster.project.service.AnalyticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class AnalyticsController {
     public ResponseEntity<List<Analytics>> getAnnualAnalytics(@PathVariable Long id, @PathVariable int year) {
 
         return new ResponseEntity<>(analyticsService.generateAnnualAnalytics(id, year), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/{start}/{end}")
+    public ResponseEntity<StatusAnalytics> getStatusAnalytics(@PathVariable Long id, @PathVariable long start, @PathVariable long end) {
+
+        return new ResponseEntity<>(analyticsService.generateStatusAnalytics(id, start, end), HttpStatus.OK);
     }
 
 //    @GetMapping(value = "/{id}/{year}")
