@@ -77,4 +77,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "order by a.id, month(r.start)")
     List<Object[]> calculateAnnualAnalytics(Long hostId, int year);
 
+    @Query("select r.status, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status != 'DELETED' " +
+            "and r.start between :start and :end " +
+            "group by r.status")
+    List<Object[]> calculateTotalAnalyticsPerStatus(Long hostId, LocalDate start, LocalDate end);
+
+
+
 }
