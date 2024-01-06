@@ -87,6 +87,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "group by r.status")
     List<Object[]> calculateTotalAnalyticsPerStatus(Long hostId, LocalDate start, LocalDate end);
 
+    @Query("select a.id, a.name, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status = 'ACCEPTED' " +
+            "and r.start between :start and :end " +
+            "group by a.id, a.name")
+    List<Object[]> calculateTotalAnalyticsPerAccommodation(Long hostId, LocalDate start, LocalDate end);
 
 
 }
