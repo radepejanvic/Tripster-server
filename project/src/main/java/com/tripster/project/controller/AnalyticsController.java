@@ -30,16 +30,18 @@ public class AnalyticsController {
         return new ResponseEntity<>(analyticsService.generateAnnualAnalytics(id, year), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/{start}/{end}")
+    //    @PreAuthorize("hasRole('HOST')")
+    @GetMapping(value = "/status/{id}/{start}/{end}")
     public ResponseEntity<StatusAnalytics> getStatusAnalytics(@PathVariable Long id, @PathVariable long start, @PathVariable long end) {
 
         return new ResponseEntity<>(analyticsService.generateStatusAnalytics(id, start, end), HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/{id}/{year}")
-//    public ResponseEntity<List<Object[]>> gen(@PathVariable Long id, @PathVariable int year) {
-//
-//        return new ResponseEntity<>(analyticsService.gen(id, year), HttpStatus.OK);
-//    }
+    //    @PreAuthorize("hasRole('HOST')")
+    @GetMapping(value = "/{id}/{start}/{end}")
+    public ResponseEntity<List<Analytics>> getTotalAnalytics(@PathVariable Long id, @PathVariable long start, @PathVariable long end) {
+
+        return new ResponseEntity<>(analyticsService.generateCustomPeriodAnalytics(id, start, end), HttpStatus.OK);
+    }
 
 }
