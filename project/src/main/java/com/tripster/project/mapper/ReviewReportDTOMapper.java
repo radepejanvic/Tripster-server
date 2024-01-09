@@ -45,15 +45,16 @@ public class ReviewReportDTOMapper {
 
         return report;
     }
-    public static AccommodationReviewReportDTO fromAccommodationReviewReportToDTO(AccommodationReviewReport report) {
+    public static AccommodationReviewReportDTO fromAccommodationReviewReportToDTO(AccommodationReviewReport report, byte[] photo) {
 
         AccommodationReviewReportDTO dto = new AccommodationReviewReportDTO();
 
+        dto.setName(report.getReview().getAccommodation().getName());
+        dto.setPhoto(photo);
+        dto.setComment(report.getReview().getComment());
         dto.setId(report.getId());
         dto.setReason(report.getReason());
-        dto.setReporterId(report.getReporter().getId());
         dto.setReporterEmail(report.getReporter().getEmail());
-        dto.setReviewId(report.getReview().getId());
 
         return dto;
     }

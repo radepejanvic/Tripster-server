@@ -115,7 +115,7 @@ public class AccommodationReviewController {
         return new ResponseEntity<>(dto.getStatus(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('GUEST') || hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long id) {
 
