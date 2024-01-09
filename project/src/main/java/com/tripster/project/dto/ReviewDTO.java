@@ -30,4 +30,8 @@ public class ReviewDTO {
 
     private Long reviewedId;
 
+    private String reviewedName;
+
+    private byte[] reviewedPhoto;
+
 }
