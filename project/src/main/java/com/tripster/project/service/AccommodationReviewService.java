@@ -57,4 +57,8 @@ public class AccommodationReviewService {
                 (long)stats.get(4)[1]);
     };
 
+    public List<AccommodationReview> findAllNew() {
+        return accommodationReviewRepository.findAllNew();
+    }
+
 }

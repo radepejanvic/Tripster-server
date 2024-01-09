@@ -21,7 +21,6 @@ public interface AccommodationReviewRepository extends JpaRepository<Accommodati
             " and r.status != 'DELETED'  ")
     List<Object[]> countReviews(Long accommodationId);
 
-
     @Query("select r.rate, count(r)" +
             "from AccommodationReview r " +
             "join r.accommodation a " +
@@ -29,4 +28,9 @@ public interface AccommodationReviewRepository extends JpaRepository<Accommodati
             "group by r.rate " +
             "order by r.rate desc")
     List<Object[]> countTotalStats(Long accommodationId);
+
+    @Query("select r " +
+            "from AccommodationReview r " +
+            "where r.status = 'NEW'")
+    List<AccommodationReview> findAllNew();
 }
