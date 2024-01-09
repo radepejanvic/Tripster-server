@@ -1,9 +1,11 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Reservation;
+import com.tripster.project.model.enums.ReservationStatus;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,6 +67,28 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and r.status = 'ACCEPTED' " +
             "and r.end <= :today")
     int findAllByGuestAndHost(Long hostId, Long guestId, LocalDate today);
+
+    @Query("select r " +
+            "from Reservation r " +
+            "join r.guest g " +
+            "join r.accommodation a " +
+            "where g.id = :guestId " +
+            "and (:name = null or upper(a.name) like :name )" +
+            "and (:statusList = null or r.status in :statusList)" +
+            "and (cast(:start as date) is null or r.start >= :start) " +
+            "and (cast(:end as date) is null or r.end <= :end) " )
+    List<Reservation> findByGuestFilter(Long guestId,String name,LocalDate start,LocalDate end,List<ReservationStatus> statusList);
+
+    @Query("select r " +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and (:name = null or upper(a.name) like :name )" +
+            "and (:statusList = null or r.status in :statusList)" +
+            "and (cast(:start as date) is null or r.start >= :start) " +
+            "and (cast(:end as date) is null or r.end <= :end) " )
+    List<Reservation> findByHostFilter(Long hostId,String name,LocalDate start,LocalDate end,List<ReservationStatus> statusList);
 
     @Query("select a.id, a.name, month(r.start), year(r.start), count(r), sum(r.price)" +
             "from Reservation r " +

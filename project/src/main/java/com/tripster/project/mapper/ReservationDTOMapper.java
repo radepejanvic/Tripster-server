@@ -1,8 +1,12 @@
 package com.tripster.project.mapper;
 
 import com.tripster.project.dto.ReservationDTO;
+import com.tripster.project.dto.ReservationGuestDTO;
 import com.tripster.project.model.Reservation;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
+
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class ReservationDTOMapper {
@@ -36,6 +40,22 @@ public class ReservationDTOMapper {
 
         dto.setGuestId(res.getGuest().getId());
         dto.setAccommodationId(res.getAccommodation().getId());
+
+        return dto;
+    }
+    public static ReservationGuestDTO fromGuestReservationToDTO(Reservation res,byte[] photo) {
+
+        ReservationGuestDTO dto = new ReservationGuestDTO();
+        dto.setId(res.getId());
+        dto.setName(res.getAccommodation().getName());
+        dto.setPhoto(photo);
+        dto.setAddress(res.getAccommodation().getAddress().toString());
+        dto.setDuration(res.getDuration());
+        dto.setStatus(res.getStatus());
+        dto.setTimeStamp(res.getStart().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+" - "
+        +res.getEnd().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
+        dto.setNumOfGuest(res.getGuestsNo());
+        dto.setPrice(res.getPrice());
 
         return dto;
     }
