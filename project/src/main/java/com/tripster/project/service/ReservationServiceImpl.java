@@ -66,4 +66,8 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.findByHostFilter(id,name,startDate,endDate,statusList);
 
     }
+
+    public int calculateNumberOfCancelled(Long guestId) {
+        return reservationRepository.calculateNumberOfCancelled(guestId);
+    }
 }

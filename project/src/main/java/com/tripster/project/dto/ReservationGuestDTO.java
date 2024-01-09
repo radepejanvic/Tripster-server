@@ -18,6 +18,7 @@ public class ReservationGuestDTO {
     private String timeStamp;
     private ReservationStatus status;
     private int numOfGuest;
+    private int numOfCancelled;
 
     private double price;
 

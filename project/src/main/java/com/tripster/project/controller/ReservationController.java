@@ -79,7 +79,7 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.findByHostFilter(id,name,Long.parseLong(start),Long.parseLong(end),statusList);
         List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
+            dtos.add(ReservationDTOMapper.fromReservationToHostDTO(res,photoService.findPrimary(res.getAccommodation().getId()), reservationService.calculateNumberOfCancelled(res.getGuest().getId())));
         }
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
