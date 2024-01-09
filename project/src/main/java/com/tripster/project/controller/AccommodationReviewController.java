@@ -42,6 +42,19 @@ public class AccommodationReviewController {
     @Autowired
     private IPersonService guestService ;
 
+    @GetMapping("/new")
+    public ResponseEntity<List<ReviewDTO>> getAllNew() {
+        List<AccommodationReview> reviews = accommodationReviewService.findAllNew();
+
+        List<ReviewDTO> dtos = new ArrayList<>();
+        for (Review review : reviews) {
+            Person reviewer = guestService.findByUser(review.getReviewer());
+            dtos.add(ReviewDTOMapper.fromReviewToDTO(review, reviewer.getName(), reviewer.getSurname()));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{accommodationId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long accommodationId) {
         List<AccommodationReview> reviews = accommodationReviewService.findAllByAccommodationId(accommodationId);
