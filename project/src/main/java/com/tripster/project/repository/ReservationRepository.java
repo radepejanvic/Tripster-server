@@ -1,6 +1,7 @@
 package com.tripster.project.repository;
 
 import com.tripster.project.model.Reservation;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -64,5 +65,37 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and r.status = 'ACCEPTED' " +
             "and r.end <= :today")
     int findAllByGuestAndHost(Long hostId, Long guestId, LocalDate today);
-    
+
+    @Query("select a.id, a.name, month(r.start), year(r.start), count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status = 'ACCEPTED' " +
+            "and year(r.start) = :year " +
+            "group by a.id, a.name, month(r.start), year(r.start) " +
+            "order by a.id, month(r.start)")
+    List<Object[]> calculateAnnualAnalytics(Long hostId, int year);
+
+    @Query("select r.status, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status != 'DELETED' " +
+            "and r.start between :start and :end " +
+            "group by r.status")
+    List<Object[]> calculateTotalAnalyticsPerStatus(Long hostId, LocalDate start, LocalDate end);
+
+    @Query("select a.id, a.name, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status = 'ACCEPTED' " +
+            "and r.start between :start and :end " +
+            "group by a.id, a.name")
+    List<Object[]> calculateTotalAnalyticsPerAccommodation(Long hostId, LocalDate start, LocalDate end);
+
+
 }
