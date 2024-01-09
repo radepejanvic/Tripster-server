@@ -2,11 +2,10 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.RatingStatsDTO;
 import com.tripster.project.dto.ReviewDTO;
+import com.tripster.project.dto.StatusDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
-import com.tripster.project.model.AccommodationReview;
-import com.tripster.project.model.Guest;
-import com.tripster.project.model.Person;
-import com.tripster.project.model.Review;
+import com.tripster.project.model.*;
+import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.ReviewStatus;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
@@ -91,6 +90,17 @@ public class AccommodationReviewController {
         accommodationReviewService.save(review);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(consumes = "application/json")
+    public ResponseEntity<String> approveReview(@RequestBody StatusDTO dto) {
+
+        AccommodationReview review = accommodationReviewService.findOne(dto.getId());
+        review.setStatus(ReviewStatus.valueOf(dto.getStatus()));
+        accommodationReviewService.save(review);
+
+        return new ResponseEntity<>(dto.getStatus(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('GUEST')")
