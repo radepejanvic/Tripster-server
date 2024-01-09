@@ -2,6 +2,7 @@ package com.tripster.project.repository;
 
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -88,4 +89,37 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and (cast(:start as date) is null or r.start >= :start) " +
             "and (cast(:end as date) is null or r.end <= :end) " )
     List<Reservation> findByHostFilter(Long hostId,String name,LocalDate start,LocalDate end,List<ReservationStatus> statusList);
+
+    @Query("select a.id, a.name, month(r.start), year(r.start), count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status = 'ACCEPTED' " +
+            "and year(r.start) = :year " +
+            "group by a.id, a.name, month(r.start), year(r.start) " +
+            "order by a.id, month(r.start)")
+    List<Object[]> calculateAnnualAnalytics(Long hostId, int year);
+
+    @Query("select r.status, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status != 'DELETED' " +
+            "and r.start between :start and :end " +
+            "group by r.status")
+    List<Object[]> calculateTotalAnalyticsPerStatus(Long hostId, LocalDate start, LocalDate end);
+
+    @Query("select a.id, a.name, count(r), sum(r.price)" +
+            "from Reservation r " +
+            "join r.accommodation a " +
+            "join a.owner o " +
+            "where o.id = :hostId " +
+            "and r.status = 'ACCEPTED' " +
+            "and r.start between :start and :end " +
+            "group by a.id, a.name")
+    List<Object[]> calculateTotalAnalyticsPerAccommodation(Long hostId, LocalDate start, LocalDate end);
+
+
 }

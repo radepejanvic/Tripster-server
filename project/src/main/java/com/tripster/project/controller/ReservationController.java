@@ -53,12 +53,12 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.getAllForGuest(id);
         List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getId())));
+            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
     @GetMapping(value = "/guest/filter/{id}")
-    public ResponseEntity<List<ReservationGuestDTO> > filterAccommodations(@PathVariable Long id,
+    public ResponseEntity<List<ReservationGuestDTO> > filterGuestReseravtion(@PathVariable Long id,
                                                                                  @RequestParam(required = false) String name,
                                                                                  @RequestParam(required = false) String start,
                                                                                  @RequestParam(required = false) String end,
@@ -66,17 +66,30 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.findByGuestFilter(id,name,Long.parseLong(start),Long.parseLong(end),statusList);
         List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getId())));
+            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
+        }
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+    @GetMapping(value = "/host/filter/{id}")
+    public ResponseEntity<List<ReservationGuestDTO> > filterHostReservation(@PathVariable Long id,
+                                                                           @RequestParam(required = false) String name,
+                                                                           @RequestParam(required = false) String start,
+                                                                           @RequestParam(required = false) String end,
+                                                                           @RequestParam(required = false) List<ReservationStatus> statusList) {
+        List<Reservation> reservations = reservationService.findByHostFilter(id,name,Long.parseLong(start),Long.parseLong(end),statusList);
+        List<ReservationGuestDTO> dtos = new ArrayList<>();
+        for (Reservation res : reservations) {
+            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
         }
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
     @GetMapping(value = "/host/{id}")
-    public ResponseEntity<List<ReservationDTO>> getAllForHost(@PathVariable Long id) {
+    public ResponseEntity<List<ReservationGuestDTO>> getAllForHost(@PathVariable Long id) {
         List<Reservation> reservations = reservationService.getAllForHost(id);
         //Ovde gore treba da ide get all for host                     ^
-        List<ReservationDTO> dtos = new ArrayList<ReservationDTO>();
+        List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromReservationToDTO(res));
+            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }

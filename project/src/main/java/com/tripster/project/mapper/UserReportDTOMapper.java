@@ -4,26 +4,26 @@ import com.tripster.project.dto.UserReportDTO;
 import com.tripster.project.model.UserReport;
 
 public class UserReportDTOMapper {
+
     public static UserReport fromDTOToUserReport(UserReportDTO dto) {
-        if (dto == null) {
-            return null;
-        }
         UserReport userReport = new UserReport();
+
         userReport.setId(dto.getId());
         userReport.setReason(dto.getReason());
+
         return userReport;
     }
-    public static UserReportDTO fromUserReportToDTO(UserReport userReport) {
-        if (userReport == null) {
-            return null;
-        }
+
+    public static UserReportDTO fromUserReportToDTO(UserReport report) {
         UserReportDTO dto = new UserReportDTO();
-        dto.setId(userReport.getId());
-        dto.setReason(userReport.getReason());
-        dto.setReporterId(userReport.getReporter().getId());
-        dto.setReporterEmail(userReport.getReporter().getEmail());
-        dto.setReporteeId(userReport.getReportee().getId());
-        dto.setReporteeEmail(userReport.getReportee().getEmail());
+
+        dto.setId(report.getId());
+        dto.setReason(report.getReason());
+        dto.setReporterId(report.getReporter().getId());
+        dto.setReporteeId(report.getReportee().getId());
+        dto.setReporterEmail(report.getReporter().getEmail());
+        dto.setReporteeEmail(report.getReportee().getEmail());
+
         return dto;
     }
 }
