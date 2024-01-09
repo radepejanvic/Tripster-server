@@ -23,6 +23,14 @@ public class ReviewDTOMapper {
         return dto;
     }
 
+    public static ReviewDTO fromReviewToApproveDTO(Review review, String name, String surname, String reviewedName, byte[] photo) {
+        ReviewDTO dto = fromReviewToDTO(review, name, surname);
+        dto.setReviewedName(reviewedName);
+        dto.setReviewedPhoto(photo);
+
+        return dto;
+    }
+
     public static AccommodationReview fromDTOToAccommodationReview(ReviewDTO dto) {
         AccommodationReview review = new AccommodationReview();
         review.setId(dto.getId());

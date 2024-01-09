@@ -11,6 +11,7 @@ import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
+import com.tripster.project.service.interfaces.PhotoService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,10 +31,13 @@ public class AccommodationReviewController {
 
     @Autowired
     private AccommodationReviewService accommodationReviewService;
+
     @Autowired
     private AccommodationService accommodationService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ReviewService reviewService;
 
@@ -41,14 +45,22 @@ public class AccommodationReviewController {
     @Autowired
     private IPersonService guestService ;
 
+    @Autowired
+    private PhotoService photoService;
+
     @GetMapping("/new")
     public ResponseEntity<List<ReviewDTO>> getAllNew() {
         List<AccommodationReview> reviews = accommodationReviewService.findAllNew();
 
         List<ReviewDTO> dtos = new ArrayList<>();
-        for (Review review : reviews) {
+        for (AccommodationReview review : reviews) {
             Person reviewer = guestService.findByUser(review.getReviewer());
-            dtos.add(ReviewDTOMapper.fromReviewToDTO(review, reviewer.getName(), reviewer.getSurname()));
+
+            dtos.add(ReviewDTOMapper.fromReviewToApproveDTO(review,
+                    reviewer.getName(),
+                    reviewer.getSurname(),
+                    review.getAccommodation().getName(),
+                    photoService.findPrimary(review.getAccommodation().getId())));
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
