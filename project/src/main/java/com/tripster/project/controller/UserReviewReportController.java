@@ -7,6 +7,7 @@ import com.tripster.project.mapper.UserReportDTOMapper;
 import com.tripster.project.model.User;
 import com.tripster.project.model.UserReview;
 import com.tripster.project.model.UserReviewReport;
+import com.tripster.project.model.enums.ReportStatus;
 import com.tripster.project.service.UserReviewReportServiceImpl;
 import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.UserService;
@@ -70,6 +71,7 @@ public class UserReviewReportController {
         UserReviewReport report = ReviewReportDTOMapper.fromDTOToUserReviewReport(dto);
         report.setReporter(reporter);
         report.setReview(review);
+        report.setStatus(ReportStatus.ACTIVE);
         userReviewReportService.save(report);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
