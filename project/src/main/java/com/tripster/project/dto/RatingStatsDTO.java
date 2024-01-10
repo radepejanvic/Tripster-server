@@ -7,15 +7,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-
+@NoArgsConstructor
 public class RatingStatsDTO {
+
     private double rating;
+
     private long reviews;
+
     private long excellent;
+
     private long good;
+
     private long average;
+
     private long poor;
+
     private long bad;
+
 }
