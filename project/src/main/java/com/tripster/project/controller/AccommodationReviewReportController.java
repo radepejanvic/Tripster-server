@@ -83,7 +83,22 @@ public class AccommodationReviewReportController {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(value = "/{reportId}")
+    public ResponseEntity<Long> approveReport(@PathVariable Long reportId) {
 
+        AccommodationReviewReport report = accommodationReviewReportService.findOne(reportId);
+        AccommodationReview review = accommodationReviewService.findOne(report.getReview().getId());
+
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        accommodationReviewReportService.remove(report.getId());
+        accommodationReviewService.remove(review.getId());
+
+        return new ResponseEntity<>(review.getId(), HttpStatus.OK);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -97,5 +112,6 @@ public class AccommodationReviewReportController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
 }
