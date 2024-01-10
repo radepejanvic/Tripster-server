@@ -1,5 +1,6 @@
 package com.tripster.project.model;
 
+import com.tripster.project.model.enums.ReportStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,9 @@ public class Report {
 
     @Column(nullable = false)
     private String reason;
+
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id")

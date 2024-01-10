@@ -122,4 +122,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Object[]> calculateTotalAnalyticsPerAccommodation(Long hostId, LocalDate start, LocalDate end);
 
 
+    @Query("select count(r) " +
+            "from Reservation r " +
+            "where r.guest.id = :guestId " +
+            "and r.status = 'CANCELLED'")
+    int calculateNumberOfCancelled(Long guestId);
+
 }

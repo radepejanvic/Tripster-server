@@ -59,4 +59,22 @@ public class ReservationDTOMapper {
 
         return dto;
     }
+
+    public static ReservationGuestDTO fromReservationToHostDTO(Reservation res, byte[] photo, int numOfCancelled) {
+
+        ReservationGuestDTO dto = new ReservationGuestDTO();
+        dto.setId(res.getId());
+        dto.setName(res.getAccommodation().getName());
+        dto.setPhoto(photo);
+        dto.setAddress(res.getAccommodation().getAddress().toString());
+        dto.setDuration(res.getDuration());
+        dto.setStatus(res.getStatus());
+        dto.setTimeStamp(res.getStart().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+" - "
+                +res.getEnd().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
+        dto.setNumOfGuest(res.getGuestsNo());
+        dto.setPrice(res.getPrice());
+        dto.setNumOfCancelled(numOfCancelled);
+
+        return dto;
+    }
 }
