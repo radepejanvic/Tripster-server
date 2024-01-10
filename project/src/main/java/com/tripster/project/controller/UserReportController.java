@@ -4,6 +4,7 @@ import com.tripster.project.dto.UserReportDTO;
 import com.tripster.project.mapper.UserReportDTOMapper;
 import com.tripster.project.model.User;
 import com.tripster.project.model.UserReport;
+import com.tripster.project.model.enums.ReportStatus;
 import com.tripster.project.service.UserReportServiceImpl;
 import com.tripster.project.service.UserServiceImpl;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -66,6 +67,7 @@ public class UserReportController {
         UserReport report = UserReportDTOMapper.fromDTOToUserReport(dto);
         report.setReporter(reporter);
         report.setReportee(reportee);
+        report.setStatus(ReportStatus.ACTIVE);
         userReportService.save(report);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
