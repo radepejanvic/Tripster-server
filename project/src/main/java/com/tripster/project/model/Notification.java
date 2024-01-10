@@ -36,7 +36,23 @@ public class Notification {
 
     public Notification(Reservation reservation, User user) {
         title = getReservationTitle(reservation.getStatus());
-        text = generateText(reservation);
+        text = generateReservationText(reservation);
+        status = NotificationStatus.NEW;
+        this.user = user;
+        timeStamp = LocalDateTime.now();
+    }
+
+    public Notification(UserReview review, User user) {
+        title = "New review";
+        text = generateUserReviewText(review);
+        status = NotificationStatus.NEW;
+        this.user = user;
+        timeStamp = LocalDateTime.now();
+    }
+
+    public Notification(AccommodationReview review, User user) {
+        title = "New accommodation review";
+        text = generateAccommodationReviewText(review);
         status = NotificationStatus.NEW;
         this.user = user;
         timeStamp = LocalDateTime.now();
@@ -51,24 +67,36 @@ public class Notification {
         };
     }
 
-    private String generateText(Reservation reservation) {
+    private String generateReservationText(Reservation reservation) {
 
         return "Accommodation: " +
                 reservation.getAccommodation().getName() +
                 "\nGuest: " +
-                reservation.getGuest().getFullName() +
+                reservation.getGuest().getUser().getEmail() +
                 "\nScheduled for: " +
                 reservation.getStart() +
                 " - " +
                 reservation.getEnd();
     }
 
-    public Notification(UserReview review) {
-
+    private String generateUserReviewText(UserReview review) {
+        return "Reviewer: " +
+                review.getReviewer().getEmail() +
+                "\nRate: " +
+                review.getRate() +
+                "\nComment: " +
+                review.getComment();
     }
 
-    public Notification(AccommodationReview review) {
-
+    private String generateAccommodationReviewText(AccommodationReview review) {
+        return "Accommodation: " +
+                review.getAccommodation().getName() +
+                "\nReviewer: " +
+                review.getReviewer().getEmail() +
+                "\nRate: " +
+                review.getRate() +
+                "\nComment: " +
+                review.getComment();
     }
 
 }
