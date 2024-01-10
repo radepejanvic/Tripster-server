@@ -74,7 +74,8 @@ public class ReservationDTOMapper {
         dto.setNumOfGuest(res.getGuestsNo());
         dto.setPrice(res.getPrice());
         dto.setNumOfCancelled(numOfCancelled);
-
+        dto.setGuest(res.getGuest().getUser().getEmail());
+        dto.setUserID(res.getGuest().getUser().getId());
         return dto;
     }
 }
