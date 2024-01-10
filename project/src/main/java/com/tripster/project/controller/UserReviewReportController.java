@@ -78,6 +78,22 @@ public class UserReviewReportController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(value = "/{reportId}")
+    public ResponseEntity<Long> approveReport(@PathVariable Long reportId) {
+
+        UserReviewReport report = userReviewReportService.findOne(reportId);
+        UserReview review = userReviewService.findOne(report.getReview().getId());
+
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        userReviewReportService.remove(report.getId());
+        userReviewService.remove(review.getId());
+
+        return new ResponseEntity<>(review.getId(), HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 

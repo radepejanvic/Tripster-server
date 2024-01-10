@@ -11,6 +11,7 @@ import com.tripster.project.model.User;
 import com.tripster.project.model.enums.ReportStatus;
 import com.tripster.project.service.AccommodationReviewReportServiceImpl;
 import com.tripster.project.service.AccommodationReviewService;
+import com.tripster.project.service.interfaces.PhotoService;
 import com.tripster.project.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,15 +35,20 @@ public class AccommodationReviewReportController {
     @Autowired
     private AccommodationReviewService accommodationReviewService;
 
+    @Autowired
+    private PhotoService photoService;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<AccommodationReviewReportDTO>> getAll() {
 
-        List<AccommodationReviewReportDTO> reports = accommodationReviewReportService.findAll().stream()
-                .map(ReviewReportDTOMapper::fromAccommodationReviewReportToDTO)
-                .toList();
+        List<AccommodationReviewReport> reports = accommodationReviewReportService.findAll();
+        List<AccommodationReviewReportDTO> accommodationReviewReportDTOS = new ArrayList<>();
+        for(AccommodationReviewReport report : reports){
+            accommodationReviewReportDTOS.add(ReviewReportDTOMapper.fromAccommodationReviewReportToDTO(report, photoService.findPrimary(report.getReview().getAccommodation().getId())));
+        }
 
-        return new ResponseEntity<>(reports, HttpStatus.OK);
+        return new ResponseEntity<>(accommodationReviewReportDTOS, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -55,7 +61,7 @@ public class AccommodationReviewReportController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(ReviewReportDTOMapper.fromAccommodationReviewReportToDTO(report), HttpStatus.OK);
+        return new ResponseEntity<>(ReviewReportDTOMapper.fromAccommodationReviewReportToDTO(report,photoService.findPrimary(1L)), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('HOST')")
@@ -77,7 +83,22 @@ public class AccommodationReviewReportController {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(value = "/{reportId}")
+    public ResponseEntity<Long> approveReport(@PathVariable Long reportId) {
 
+        AccommodationReviewReport report = accommodationReviewReportService.findOne(reportId);
+        AccommodationReview review = accommodationReviewService.findOne(report.getReview().getId());
+
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        accommodationReviewReportService.remove(report.getId());
+        accommodationReviewService.remove(review.getId());
+
+        return new ResponseEntity<>(review.getId(), HttpStatus.OK);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -91,5 +112,6 @@ public class AccommodationReviewReportController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
 }
