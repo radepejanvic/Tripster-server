@@ -29,4 +29,9 @@ public class Person {
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private User user;
+
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
 }
