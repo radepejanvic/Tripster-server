@@ -2,10 +2,12 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.ReviewDTO;
 import com.tripster.project.mapper.ReviewDTOMapper;
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Person;
 import com.tripster.project.model.Review;
 import com.tripster.project.model.UserReview;
 import com.tripster.project.model.enums.ReviewStatus;
+import com.tripster.project.service.NotificationSendingService;
 import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -35,12 +37,11 @@ public class UserReviewController {
     @Autowired
     private IPersonService guestService ;
 
-    @Qualifier("hostServiceImpl")
-    @Autowired
-    private IPersonService hostService ;
-
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
 
     @GetMapping(value = "/{userId}")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
@@ -71,6 +72,8 @@ public class UserReviewController {
         review.setTimeStamp(LocalDateTime.now());
         review.setStatus(ReviewStatus.ACTIVE);
         userReviewService.save(review);
+
+        notificationSendingService.send(new Notification(review));
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
