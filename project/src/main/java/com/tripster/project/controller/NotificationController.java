@@ -18,10 +18,23 @@ public class NotificationController {
 
     @Autowired
     private INotificationService notificationService;
+
+
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<NotificationDTO>> getAll(@PathVariable Long id){
 
-        List<Notification> notifications = notificationService.findByUser_Id(id);
+        List<Notification> notifications = notificationService.findByUserId(id);
+        List<NotificationDTO> notificationDTOs = notifications.stream()
+                .map(NotificationDTOMapper::fromNotificationToDTO).toList();
+
+        return new ResponseEntity<>(notificationDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/unread/{id}")
+    public ResponseEntity<List<NotificationDTO>> getUnread(@PathVariable Long id){
+
+        List<Notification> notifications = notificationService.findUnread(id);
         List<NotificationDTO> notificationDTOs = notifications.stream()
                 .map(NotificationDTOMapper::fromNotificationToDTO).toList();
 
@@ -30,7 +43,7 @@ public class NotificationController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        Notification notification = notificationService.findById(id);
+        Notification notification = notificationService.findOne(id);
         if (notification == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

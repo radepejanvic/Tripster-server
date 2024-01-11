@@ -16,13 +16,18 @@ public class NotificationServiceImpl implements INotificationService {
 
 
     @Override
-    public List<Notification> findByUser_Id(Long id) {
-        return notificationRepository.findByUser_IdAndStatus_ReadNotLike(id);
+    public List<Notification> findByUserId(Long id) {
+        return notificationRepository.findAll();
     }
 
     @Override
-    public Notification findById(Long id) {
+    public Notification findOne(Long id) {
         return notificationRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Notification> findUnread(Long userId) {
+        return notificationRepository.findUnread(userId);
     }
 
     @Override

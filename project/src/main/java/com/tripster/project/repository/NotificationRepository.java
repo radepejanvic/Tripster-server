@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
 
-    @Query("select n from Notification n " +
-            "where n.user.id = :id and n.status != 'READ' ")
-    public List<Notification> findByUser_IdAndStatus_ReadNotLike(Long id);
+    @Query("select n " +
+            "from Notification n " +
+            "where n.user.id = :userId " +
+            "and n.status = 'NEW' " +
+            "order by n.timeStamp desc")
+    List<Notification> findUnread(Long userId);
 }
