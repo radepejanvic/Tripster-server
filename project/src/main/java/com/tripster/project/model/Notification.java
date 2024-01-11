@@ -34,27 +34,27 @@ public class Notification {
 
     private LocalDateTime timeStamp;
 
-    public Notification(Reservation reservation, User user) {
+    public Notification(Reservation reservation) {
         title = getReservationTitle(reservation.getStatus());
         text = generateReservationText(reservation);
         status = NotificationStatus.NEW;
-        this.user = user;
+        this.user = reservation.getAccommodation().getOwner().getUser();
         timeStamp = LocalDateTime.now();
     }
 
-    public Notification(UserReview review, User user) {
+    public Notification(UserReview review) {
         title = "New review";
         text = generateUserReviewText(review);
         status = NotificationStatus.NEW;
-        this.user = user;
+        this.user = review.getReviewedUser();
         timeStamp = LocalDateTime.now();
     }
 
-    public Notification(AccommodationReview review, User user) {
+    public Notification(AccommodationReview review) {
         title = "New accommodation review";
         text = generateAccommodationReviewText(review);
         status = NotificationStatus.NEW;
-        this.user = user;
+        this.user = review.getAccommodation().getOwner().getUser();
         timeStamp = LocalDateTime.now();
     }
 
