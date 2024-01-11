@@ -82,6 +82,8 @@ public class Notification {
     private String generateUserReviewText(UserReview review) {
         return "Reviewer: " +
                 review.getReviewer().getEmail() +
+                "\nTitle: " +
+                review.getTitle() +
                 "\nRate: " +
                 review.getRate() +
                 "\nComment: " +
@@ -93,6 +95,8 @@ public class Notification {
                 review.getAccommodation().getName() +
                 "\nReviewer: " +
                 review.getReviewer().getEmail() +
+                "\nTitle: " +
+                review.getTitle() +
                 "\nRate: " +
                 review.getRate() +
                 "\nComment: " +
