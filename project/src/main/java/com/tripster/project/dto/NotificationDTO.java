@@ -10,7 +10,14 @@ import lombok.Setter;
 public class NotificationDTO {
 
     private Long id;
+
+    private String title;
+
     private String text;
+
     private NotificationStatus status;
+
+    private String timeStamp;
+
     private Long userId;
 }
