@@ -61,16 +61,16 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-13', '2023-08-14', 1, 30.0, 3, 3, 2, 'PENDING', false);
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-12', '2023-08-17', 5, 100.0, 4, 4, 3, 'PENDING', false);
 
-insert into notification (user_id, title, text, status) values (1, 'Title', 'Exc of accessory spleen', 'SENT');
+insert into notification (user_id, title, text, status) values (1, 'Title', 'Exc of accessory spleen', 'NEW');
 insert into notification (user_id, title, text, status) values (1, 'Title', 'Remove penetrat FB eye', 'READ');
 insert into notification (user_id, title, text, status) values (1, 'Title', 'Other suture of tendon', 'READ');
-insert into notification (user_id, title, text, status) values (2, 'Title', 'Remove penetrat cerv FB', 'SENT');
-insert into notification (user_id, title, text, status) values (2, 'Title', 'Pacemaker impedance chck', 'SENT');
+insert into notification (user_id, title, text, status) values (2, 'Title', 'Remove penetrat cerv FB', 'NEW');
+insert into notification (user_id, title, text, status) values (2, 'Title', 'Pacemaker impedance chck', 'NEW');
 insert into notification (user_id, title, text, status) values (3, 'Title', 'Open reduc-dislocat NEC', 'READ');
 insert into notification (user_id, title, text, status) values (4, 'Title', 'Arth/pros rem wo rep NOS', 'READ');
 insert into notification (user_id, title, text, status) values (5, 'Title', 'Failed forceps', 'NEW');
-insert into notification (user_id, title, text, status) values (5, 'Title', 'Disarticulation of wrist', 'SENT');
-insert into notification (user_id, title, text, status) values (6, 'Title', 'Ligate thoracic duct', 'SENT');
+insert into notification (user_id, title, text, status) values (5, 'Title', 'Disarticulation of wrist', 'NEW');
+insert into notification (user_id, title, text, status) values (6, 'Title', 'Ligate thoracic duct', 'NEW');
 
 insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (1, 'This is my title', 2, 'Incise cerebral meninges', 1, 'REPORTED');
 insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (2, 'This is my title', 1, 'Extracorpor hepat Assis', 2, 'REPORTED');
