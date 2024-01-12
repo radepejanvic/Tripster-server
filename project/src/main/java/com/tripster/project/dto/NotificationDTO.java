@@ -1,6 +1,5 @@
 package com.tripster.project.dto;
 
-import com.tripster.project.model.User;
 import com.tripster.project.model.enums.NotificationStatus;
 import com.tripster.project.model.enums.NotificationType;
 import lombok.Getter;

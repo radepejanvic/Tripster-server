@@ -38,11 +38,10 @@ public class NotificationController {
     @GetMapping(value = "/unread/{id}")
     public ResponseEntity<List<NotificationDTO>> getUnread(@PathVariable Long id){
 
-        List<Notification> notifications = notificationService.findUnread(id);
-        List<NotificationDTO> notificationDTOs = notifications.stream()
+        List<NotificationDTO> notifications = notificationService.findUnread(id).stream()
                 .map(NotificationDTOMapper::fromNotificationToDTO).toList();
 
-        return new ResponseEntity<>(notificationDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('GUEST') || hasRole('HOST')")
