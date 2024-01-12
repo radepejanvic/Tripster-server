@@ -20,6 +20,17 @@ Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmai
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', 'k1EDPX5NHIJrQ68', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', 'admin', 1, 2);
 
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (1, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (2, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (3, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (4, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (5, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (6, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (7, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (8, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (9, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (10, true, true, true);
+
 insert into guest (name, surname, phone, address_id, user_id) values ('Diego', 'Wetherell', '574-692-4946', 1, 1);
 insert into guest (name, surname, phone, address_id, user_id) values ('Abagail', 'Mumbeson', '326-329-0219', 2, 2);
 insert into guest (name, surname, phone, address_id, user_id) values ('Kristofer', 'Selwood', '798-594-6840', 3, 3);
