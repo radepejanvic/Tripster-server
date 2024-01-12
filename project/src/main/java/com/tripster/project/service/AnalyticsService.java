@@ -24,6 +24,10 @@ public class AnalyticsService {
 
         List<Object[]> raw = reservationRepository.calculateAnnualAnalytics(hostId, year);
 
+        if(raw.isEmpty()) {
+            return analytics;
+        }
+
         Long currentId = (Long) raw.get(0)[0];
         Analytics analytic = new Analytics();
 
