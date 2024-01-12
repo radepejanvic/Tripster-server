@@ -19,6 +19,7 @@ public class NotificationDTOMapper {
         NotificationDTO dto = new NotificationDTO();
         dto.setId(notification.getId());
         dto.setTitle(notification.getTitle());
+        dto.setType(notification.getType());
         dto.setStatus(notification.getStatus());
         dto.setText(notification.getText());
         dto.setUserId(notification.getUser().getId());

@@ -1,6 +1,7 @@
 package com.tripster.project.model;
 
 import com.tripster.project.model.enums.NotificationStatus;
+import com.tripster.project.model.enums.NotificationType;
 import com.tripster.project.model.enums.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,6 +28,10 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private NotificationType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NotificationStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -37,6 +42,7 @@ public class Notification {
     public Notification(Reservation reservation) {
         title = getReservationTitle(reservation.getStatus());
         text = generateReservationText(reservation);
+        type = NotificationType.RESERVATION;
         status = NotificationStatus.NEW;
         this.user = reservation.getAccommodation().getOwner().getUser();
         timeStamp = LocalDateTime.now();
@@ -45,6 +51,7 @@ public class Notification {
     public Notification(UserReview review) {
         title = "New review";
         text = generateUserReviewText(review);
+        type = NotificationType.REVIEW;
         status = NotificationStatus.NEW;
         this.user = review.getReviewedUser();
         timeStamp = LocalDateTime.now();
@@ -53,6 +60,7 @@ public class Notification {
     public Notification(AccommodationReview review) {
         title = "New accommodation review";
         text = generateAccommodationReviewText(review);
+        type = NotificationType.ACCOMMODATION_REVIEW;
         status = NotificationStatus.NEW;
         this.user = review.getAccommodation().getOwner().getUser();
         timeStamp = LocalDateTime.now();

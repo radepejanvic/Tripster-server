@@ -2,6 +2,7 @@ package com.tripster.project.dto;
 
 import com.tripster.project.model.User;
 import com.tripster.project.model.enums.NotificationStatus;
+import com.tripster.project.model.enums.NotificationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,9 +16,12 @@ public class NotificationDTO {
 
     private String text;
 
+    private NotificationType type;
+
     private NotificationStatus status;
 
     private String timeStamp;
 
     private Long userId;
+
 }
