@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserReportDTO {
 
-    private Long Id;
+    private Long id;
 
     private String reason;
 
