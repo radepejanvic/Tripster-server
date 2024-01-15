@@ -4,6 +4,8 @@ import com.tripster.project.dto.NotificationDTO;
 import com.tripster.project.model.Notification;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class NotificationDTOMapper {
 
@@ -14,11 +16,14 @@ public class NotificationDTOMapper {
         return notification;
     }
     public static NotificationDTO fromNotificationToDTO (Notification notification){
-        NotificationDTO notificationDTO = new NotificationDTO();
-        notificationDTO.setId(notification.getId());
-        notificationDTO.setStatus(notification.getStatus());
-        notificationDTO.setText(notification.getText());
-        notificationDTO.setUserId(notification.getUser().getId());
-        return notificationDTO;
+        NotificationDTO dto = new NotificationDTO();
+        dto.setId(notification.getId());
+        dto.setTitle(notification.getTitle());
+        dto.setType(notification.getType());
+        dto.setStatus(notification.getStatus());
+        dto.setText(notification.getText());
+        dto.setUserId(notification.getUser().getId());
+        dto.setTimeStamp(notification.getTimeStamp().format(DateTimeFormatter.ofPattern("hh:mm dd.MM.yyyy")));
+        return dto;
     }
 }

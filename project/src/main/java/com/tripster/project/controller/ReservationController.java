@@ -7,11 +7,13 @@ import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.GuestServiceImpl;
+import com.tripster.project.service.NotificationSendingService;
 import com.tripster.project.service.ReservationServiceImpl;
 import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,20 @@ public class ReservationController {
 
     @Autowired
     private ReservationServiceImpl reservationService;
+
     @Autowired
     private GuestServiceImpl guestService;
+
     @Autowired
     private AccommodationService accommodationService;
+
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
+
+
     @GetMapping
     public ResponseEntity<List<ReservationDTO>> getAll() {
         List<Reservation> reservations = reservationService.findAll();
@@ -121,6 +131,9 @@ public class ReservationController {
         reservation.setGuest(guest);
         reservation.setStatus(ReservationStatus.PENDING);
         reservationService.save(reservation);
+
+        notificationSendingService.send(new Notification(reservation));
+
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
     @GetMapping(value = "/dateRangeAccommodation")
