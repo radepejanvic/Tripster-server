@@ -20,6 +20,17 @@ Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmai
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', 'k1EDPX5NHIJrQ68', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', 'admin', 1, 2);
 
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (1, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (2, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (3, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (4, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (5, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (6, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (7, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (8, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (9, true, true, true);
+Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (10, true, true, true);
+
 insert into guest (name, surname, phone, address_id, user_id) values ('Diego', 'Wetherell', '574-692-4946', 1, 1);
 insert into guest (name, surname, phone, address_id, user_id) values ('Abagail', 'Mumbeson', '326-329-0219', 2, 2);
 insert into guest (name, surname, phone, address_id, user_id) values ('Kristofer', 'Selwood', '798-594-6840', 3, 3);
@@ -61,16 +72,16 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-13', '2023-08-14', 1, 30.0, 3, 3, 2, 'PENDING', false);
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-12', '2023-08-17', 5, 100.0, 4, 4, 3, 'PENDING', false);
 
-insert into notification (user_id, text, status) values (1, 'Exc of accessory spleen', 'SENT');
-insert into notification (user_id, text, status) values (1, 'Remove penetrat FB eye', 'READ');
-insert into notification (user_id, text, status) values (1, 'Other suture of tendon', 'READ');
-insert into notification (user_id, text, status) values (2, 'Remove penetrat cerv FB', 'SENT');
-insert into notification (user_id, text, status) values (2, 'Pacemaker impedance chck', 'SENT');
-insert into notification (user_id, text, status) values (3, 'Open reduc-dislocat NEC', 'READ');
-insert into notification (user_id, text, status) values (4, 'Arth/pros rem wo rep NOS', 'READ');
-insert into notification (user_id, text, status) values (5, 'Failed forceps', 'NEW');
-insert into notification (user_id, text, status) values (5, 'Disarticulation of wrist', 'SENT');
-insert into notification (user_id, text, status) values (6, 'Ligate thoracic duct', 'SENT');
+insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Exc of accessory spleen','RESERVATION', 'NEW');
+insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Remove penetrat FB eye','REVIEW', 'READ');
+insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Other suture of tendon','RESERVATION', 'READ');
+insert into notification (user_id, title, text, type, status) values (2, 'Title', 'Remove penetrat cerv FB','REVIEW', 'NEW');
+insert into notification (user_id, title, text, type, status) values (2, 'Title', 'Pacemaker impedance chck','RESERVATION', 'NEW');
+insert into notification (user_id, title, text, type, status) values (3, 'Title', 'Open reduc-dislocat NEC','ACCOMMODATION_REVIEW', 'READ');
+insert into notification (user_id, title, text, type, status) values (4, 'Title', 'Arth/pros rem wo rep NOS','ACCOMMODATION_REVIEW', 'READ');
+insert into notification (user_id, title, text, type, status) values (5, 'Title', 'Failed forceps','ACCOMMODATION_REVIEW', 'NEW');
+insert into notification (user_id, title, text, type, status) values (5, 'Title', 'Disarticulation of wrist','RESERVATION', 'NEW');
+insert into notification (user_id, title, text, type, status) values (6, 'Title', 'Ligate thoracic duct','REVIEW', 'NEW');
 
 insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (1, 'This is my title', 2, 'Incise cerebral meninges', 1, 'REPORTED');
 insert into user_review (reviewer_id, title, reviewed_user_id, comment, rate, status) values (2, 'This is my title', 1, 'Extracorpor hepat Assis', 2, 'REPORTED');

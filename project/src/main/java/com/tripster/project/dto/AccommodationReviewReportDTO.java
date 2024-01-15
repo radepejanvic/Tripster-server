@@ -18,5 +18,7 @@ public class AccommodationReviewReportDTO extends ReviewReportDTO {
     private Long reporterId;
 
     private Long reviewId;
+    private byte[] photo;
+    private String name;
 
 }

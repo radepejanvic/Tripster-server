@@ -9,6 +9,7 @@ import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.ReviewStatus;
 import com.tripster.project.service.AccommodationReviewService;
 import com.tripster.project.service.AccommodationService;
+import com.tripster.project.service.NotificationSendingService;
 import com.tripster.project.service.ReviewService;
 import com.tripster.project.service.interfaces.IPersonService;
 import com.tripster.project.service.interfaces.PhotoService;
@@ -47,6 +48,10 @@ public class AccommodationReviewController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
+
 
     @GetMapping("/new")
     public ResponseEntity<List<ReviewDTO>> getAllNew() {
@@ -101,6 +106,8 @@ public class AccommodationReviewController {
         review.setStatus(ReviewStatus.NEW);
         accommodationReviewService.save(review);
 
+        notificationSendingService.send(new Notification(review));
+
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
@@ -115,7 +122,7 @@ public class AccommodationReviewController {
         return new ResponseEntity<>(dto.getStatus(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasRole('GUEST') || hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long id) {
 

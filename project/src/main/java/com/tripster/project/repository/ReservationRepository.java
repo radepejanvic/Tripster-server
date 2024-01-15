@@ -2,10 +2,8 @@ package com.tripster.project.repository;
 
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -121,5 +119,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "group by a.id, a.name")
     List<Object[]> calculateTotalAnalyticsPerAccommodation(Long hostId, LocalDate start, LocalDate end);
 
+
+    @Query("select count(r) " +
+            "from Reservation r " +
+            "where r.guest.id = :guestId " +
+            "and r.status = 'CANCELLED'")
+    int calculateNumberOfCancelled(Long guestId);
 
 }

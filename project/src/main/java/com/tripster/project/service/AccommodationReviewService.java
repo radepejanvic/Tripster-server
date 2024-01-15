@@ -44,18 +44,34 @@ public class AccommodationReviewService {
         return accommodationReviewRepository.countReviews(accommodationId);
     }
 
-    public RatingStatsDTO countTotalStats(Long acommodationId) {
-        List<Object[]> stats = accommodationReviewRepository.countTotalStats(acommodationId);
-        List<Object[]> total = accommodationReviewRepository.countReviews(acommodationId);
+    public RatingStatsDTO countTotalStats(Long accommodationId) {
+        List<Object[]> stats = accommodationReviewRepository.countTotalStats(accommodationId);
+        List<Object[]> total = accommodationReviewRepository.countReviews(accommodationId);
 
-        return new RatingStatsDTO((double)total.get(0)[0],
-                (long)total.get(0)[1],
-                (long)stats.get(0)[1],
-                (long)stats.get(1)[1],
-                (long)stats.get(2)[1],
-                (long)stats.get(3)[1],
-                (long)stats.get(4)[1]);
+        RatingStatsDTO rating = new RatingStatsDTO();
+        rating.setRating((double)total.get(0)[0]);
+        rating.setReviews((long)total.get(0)[1]);
+
+        for (Object[] stat : stats) {
+            mapStatsToRating(rating, stat);
+        }
+
+        return rating;
     };
+
+    private void mapStatsToRating(RatingStatsDTO rating, Object[] stat) {
+        int rate = (int)stat[0];
+        long count = (long)stat[1];
+
+        switch(rate){
+            case 1: rating.setBad(count); break;
+            case 2: rating.setPoor(count); break;
+            case 3: rating.setAverage(count); break;
+            case 4: rating.setGood(count); break;
+            case 5: rating.setExcellent(count); break;
+        }
+    }
+
 
     public List<AccommodationReview> findAllNew() {
         return accommodationReviewRepository.findAllNew();

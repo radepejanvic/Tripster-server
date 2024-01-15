@@ -7,6 +7,7 @@ import com.tripster.project.mapper.UserReportDTOMapper;
 import com.tripster.project.model.User;
 import com.tripster.project.model.UserReview;
 import com.tripster.project.model.UserReviewReport;
+import com.tripster.project.model.enums.ReportStatus;
 import com.tripster.project.service.UserReviewReportServiceImpl;
 import com.tripster.project.service.UserReviewService;
 import com.tripster.project.service.interfaces.UserService;
@@ -70,11 +71,28 @@ public class UserReviewReportController {
         UserReviewReport report = ReviewReportDTOMapper.fromDTOToUserReviewReport(dto);
         report.setReporter(reporter);
         report.setReview(review);
+        report.setStatus(ReportStatus.ACTIVE);
         userReviewReportService.save(report);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(value = "/{reportId}")
+    public ResponseEntity<Long> approveReport(@PathVariable Long reportId) {
+
+        UserReviewReport report = userReviewReportService.findOne(reportId);
+        UserReview review = userReviewService.findOne(report.getReview().getId());
+
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        userReviewReportService.remove(report.getId());
+        userReviewService.remove(review.getId());
+
+        return new ResponseEntity<>(review.getId(), HttpStatus.OK);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

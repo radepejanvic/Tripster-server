@@ -4,6 +4,8 @@ import com.tripster.project.dto.UserReportDTO;
 import com.tripster.project.mapper.UserReportDTOMapper;
 import com.tripster.project.model.User;
 import com.tripster.project.model.UserReport;
+import com.tripster.project.model.enums.ReportStatus;
+import com.tripster.project.model.enums.UserStatus;
 import com.tripster.project.service.UserReportServiceImpl;
 import com.tripster.project.service.UserServiceImpl;
 import com.tripster.project.service.interfaces.IPersonService;
@@ -66,11 +68,29 @@ public class UserReportController {
         UserReport report = UserReportDTOMapper.fromDTOToUserReport(dto);
         report.setReporter(reporter);
         report.setReportee(reportee);
+        report.setStatus(ReportStatus.ACTIVE);
         userReportService.save(report);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(value = "/{reportId}")
+    public ResponseEntity<Long> approveReport(@PathVariable Long reportId) {
+
+        UserReport report = userReportService.findOne(reportId);
+        User user = userService.findOne(report.getReportee().getId());
+
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        userReportService.remove(report.getId());
+//        TODO: oktazivanje rezervacije
+        userService.updateStatus(user.getId(),UserStatus.SUSPENDED);
+
+        return new ResponseEntity<>(user.getId(), HttpStatus.OK);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

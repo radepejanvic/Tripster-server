@@ -1,15 +1,20 @@
 package com.tripster.project.controller;
 
+import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.dto.ReservationGuestDTO;
+import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
+import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.service.AccommodationService;
 import com.tripster.project.service.CalendarService;
 import com.tripster.project.service.GuestServiceImpl;
+import com.tripster.project.service.NotificationSendingService;
 import com.tripster.project.service.ReservationServiceImpl;
 import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,14 +35,22 @@ public class ReservationController {
 
     @Autowired
     private ReservationServiceImpl reservationService;
+
     @Autowired
     private GuestServiceImpl guestService;
+
     @Autowired
     private AccommodationService accommodationService;
+
     @Autowired
     private PhotoService photoService;
     @Autowired
     private CalendarService calendarService;
+
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
+
 
     @GetMapping
     public ResponseEntity<List<ReservationDTO>> getAll() {
@@ -79,7 +93,7 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.findByHostFilter(id,name,Long.parseLong(start),Long.parseLong(end),statusList);
         List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
+            dtos.add(ReservationDTOMapper.fromReservationToHostDTO(res,photoService.findPrimary(res.getAccommodation().getId()), reservationService.calculateNumberOfCancelled(res.getGuest().getId())));
         }
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
@@ -89,7 +103,7 @@ public class ReservationController {
         //Ovde gore treba da ide get all for host                     ^
         List<ReservationGuestDTO> dtos = new ArrayList<>();
         for (Reservation res : reservations) {
-            dtos.add(ReservationDTOMapper.fromGuestReservationToDTO(res,photoService.findPrimary(res.getAccommodation().getId())));
+            dtos.add(ReservationDTOMapper.fromReservationToHostDTO(res,photoService.findPrimary(res.getAccommodation().getId()),reservationService.calculateNumberOfCancelled(res.getGuest().getId())));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
@@ -125,6 +139,9 @@ public class ReservationController {
         }
         else reservation.setStatus(ReservationStatus.PENDING);
         reservationService.save(reservation);
+
+        notificationSendingService.send(new Notification(reservation));
+
         return new ResponseEntity<>(reservationDTO, HttpStatus.CREATED);
     }
     @GetMapping(value = "/dateRangeAccommodation")
