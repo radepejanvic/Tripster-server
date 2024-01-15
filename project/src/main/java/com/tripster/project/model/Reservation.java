@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
@@ -16,7 +15,7 @@ import java.time.LocalDate;
 //@SQLDelete(sql = "UPDATE reservation "
 //        + "SET deleted = true "
 //        + "WHERE id = ?")
-@Where(clause = "deleted = false")
+//@Where(clause = "deleted = false")
 public class Reservation {
 
     @Id

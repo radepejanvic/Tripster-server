@@ -1,21 +1,14 @@
 package com.tripster.project.controller;
 
-import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.dto.ReservationGuestDTO;
-import com.tripster.project.mapper.AccommodationDTOMapper;
 import com.tripster.project.mapper.ReservationDTOMapper;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Guest;
 import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
-import com.tripster.project.model.enums.AccommodationType;
 import com.tripster.project.model.enums.ReservationStatus;
-import com.tripster.project.service.AccommodationService;
-import com.tripster.project.service.CalendarService;
-import com.tripster.project.service.GuestServiceImpl;
-import com.tripster.project.service.NotificationSendingService;
-import com.tripster.project.service.ReservationServiceImpl;
+import com.tripster.project.service.*;
 import com.tripster.project.service.interfaces.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -166,6 +158,7 @@ public class ReservationController {
         reservationService.save(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('HOST')")
     @PutMapping(value = "/accept/{id}")
     public ResponseEntity<Void> acceptReservation(@PathVariable Long id) {
@@ -211,11 +204,9 @@ public class ReservationController {
         if (cancelDuration > daysToReservation) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        else {
-            reservationService.remove(id);
-            calendarService.unreserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        reservationService.remove(id);
+        calendarService.unreserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
