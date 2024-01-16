@@ -157,7 +157,7 @@ public class CalendarService {
         int unreserved = 0;
 
         for(Day day : calendar) {
-            if (!day.getDate().isBefore(start) && !day.getDate().isAfter(end) && day.isAvailable()) {
+            if (!day.getDate().isBefore(start) && !day.getDate().isAfter(end) && !day.isAvailable()) {
                 day.setAvailability(DayStatus.AVAILABLE);
                 unreserved++;
             }
