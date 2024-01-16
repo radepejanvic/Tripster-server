@@ -188,6 +188,30 @@ public class ReservationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/cancel/{id}")
+    public ResponseEntity<Void> cancelReservation(@PathVariable Long id) {
+
+        Reservation reservation = reservationService.findOne(id);
+
+        if (reservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (reservation.getStatus() != ReservationStatus.ACCEPTED) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        long cancelDuration = accommodationService.findOne(reservation.getId()).getCancelDuration();
+        long daysToReservation = reservation.getStart().toEpochDay() - LocalDate.now().toEpochDay();
+        if (cancelDuration > daysToReservation) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservationService.save(reservation);
+        calendarService.unreserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
@@ -196,7 +220,7 @@ public class ReservationController {
         if (reservation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (reservation.getStatus() != ReservationStatus.ACCEPTED) {
+        if (reservation.getStatus() != ReservationStatus.PENDING) {
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
         long cancelDuration = accommodationService.findOne(reservation.getId()).getCancelDuration();
