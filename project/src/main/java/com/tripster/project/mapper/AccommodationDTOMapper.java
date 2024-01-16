@@ -5,8 +5,6 @@ import com.tripster.project.dto.AccommodationCardGuestDTO;
 import com.tripster.project.dto.AccommodationCardHostDTO;
 import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.model.*;
-import com.tripster.project.service.AmenityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
@@ -85,6 +83,8 @@ public class AccommodationDTOMapper {
         dto.setStreet(address.getStreet());
         dto.setNumber(address.getNumber());
         dto.setZipCode(address.getZipCode());
+
+        dto.setOwnerUserId(accommodation.getOwner().getUser().getId());
 
         return dto;
     }

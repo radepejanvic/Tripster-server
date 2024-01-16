@@ -79,6 +79,8 @@ public class UserReviewController {
     }
 
     @PreAuthorize("hasRole('GUEST')")
+
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long id) {
 

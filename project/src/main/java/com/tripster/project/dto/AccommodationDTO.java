@@ -1,16 +1,11 @@
 package com.tripster.project.dto;
 
-import com.tripster.project.model.Address;
-import com.tripster.project.model.Amenity;
 import com.tripster.project.model.Day;
-import com.tripster.project.model.Host;
 import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.AccommodationType;
-import com.tripster.project.model.enums.AmenityType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -58,4 +53,6 @@ public class AccommodationDTO {
     private Long numOfReviews;
 
     private boolean pricePerNight;
+
+    private Long ownerUserId;
 }
