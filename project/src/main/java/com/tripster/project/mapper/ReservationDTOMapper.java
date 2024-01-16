@@ -3,7 +3,6 @@ package com.tripster.project.mapper;
 import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.dto.ReservationGuestDTO;
 import com.tripster.project.model.Reservation;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
@@ -15,7 +14,7 @@ public class ReservationDTOMapper {
         Reservation reservation = new Reservation();
         //Reservation info
         reservation.setId(dto.getId());
-        reservation.setDeleted(false);
+        //reservation.setDeleted(false);
         reservation.setStart(dto.getStart());
         reservation.setEnd(dto.getEnd());
         reservation.setDuration(dto.getDuration());

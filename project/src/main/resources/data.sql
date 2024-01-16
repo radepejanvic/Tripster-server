@@ -67,10 +67,10 @@ insert into accommodation (name, owner_id, short_description, description, addre
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation, price_per_night) values ('Blanda, Herzog and Rohan', 3, 'Displ oblique fx shaft of l ulna, 7thR', 'Introduction of Radioactive Substance into Central Vein, Percutaneous Approach', 9, 'ROOM', 'ACTIVE', 1, 9, 19, true, true);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation, price_per_night) values ('Gleichner, Toy and Stracke', 3, 'Poisoning by antiparkns drug/centr muscle-tone depr, undet', 'Control Bleeding in Upper Back, Percutaneous Endoscopic Approach', 10, 'STUDIO', 'ACTIVE', 7, 10, 10, false, true);
 
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-07-22', '2023-07-26', 4, 120.0, 2, 1, 1, 'CANCELLED', false);
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2022-12-03', '2022-12-09', 6, 240.0, 2, 2, 1, 'CANCELLED', false);
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-13', '2023-08-14', 1, 30.0, 3, 3, 2, 'PENDING', false);
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, deleted) values ('2023-08-12', '2023-08-17', 5, 100.0, 4, 4, 3, 'PENDING', false);
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-07-22', '2024-07-26', 4, 120.0, 2, 1, 1, 'CANCELLED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-12-03', '2024-12-09', 6, 240.0, 2, 2, 1, 'CANCELLED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-13', '2024-08-14', 1, 30.0, 3, 3, 2, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-12', '2024-08-17', 5, 100.0, 4, 4, 3, 'PENDING');
 
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Exc of accessory spleen','RESERVATION', 'NEW');
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Remove penetrat FB eye','REVIEW', 'READ');
@@ -95,11 +95,11 @@ insert into accommodation_review (reviewer_id, title, accommodation_id, comment,
 insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (4, 'This is my title', 2, 'Periph nerve div NEC', 4, 'ACTIVE');
 insert into accommodation_review (reviewer_id, title, accommodation_id, comment, rate, status) values (5, 'This is my title', 3, 'Thymectomy NOS', 5, 'ACTIVE');
 
-insert into user_report (reporter_id, reportee_id, reason) values (1, 1, 'Sutur capsul/ligamen arm');
-insert into user_report (reporter_id, reportee_id, reason) values (1, 2, 'Mouth biopsy NOS');
-insert into user_report (reporter_id, reportee_id, reason) values (2, 1, 'Tot abd colectmy NEC/NOS');
-insert into user_report (reporter_id, reportee_id, reason) values (3, 4, 'Simple suture of dura');
-insert into user_report (reporter_id, reportee_id, reason) values (2, 5, 'Intrcoronry thromb infus');
+insert into user_report (reporter_id, reportee_id, reason, status) values (1, 1, 'Sutur capsul/ligamen arm', 'ACTIVE');
+insert into user_report (reporter_id, reportee_id, reason, status) values (1, 2, 'Mouth biopsy NOS', 'ACTIVE');
+insert into user_report (reporter_id, reportee_id, reason, status) values (2, 1, 'Tot abd colectmy NEC/NOS', 'ACTIVE');
+insert into user_report (reporter_id, reportee_id, reason, status) values (3, 4, 'Simple suture of dura', 'ACTIVE');
+insert into user_report (reporter_id, reportee_id, reason, status) values (2, 5, 'Intrcoronry thromb infus', 'ACTIVE');
 
 insert into photo (name, type, accommodation_id) values ('primary', 'jpg', 1);
 insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 1);

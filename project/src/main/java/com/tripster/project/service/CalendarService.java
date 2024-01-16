@@ -3,10 +3,8 @@ package com.tripster.project.service;
 import com.tripster.project.dto.PriceDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
-import com.tripster.project.model.enums.AccommodationStatus;
 import com.tripster.project.model.enums.DayStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -132,5 +130,42 @@ public class CalendarService {
         return disabled;
     }
 
+    public int reserveDays(Long id, LocalDate start, LocalDate end) {
+        start = start.plusDays(1);
+        end = end.plusDays(1);
+        Accommodation accommodation = accommodationService.findOne(id);
+        Set<Day> calendar = accommodation.getCalendar();
+        int reserved = 0;
+
+        for(Day day : calendar) {
+            if (!day.getDate().isBefore(start) && !day.getDate().isAfter(end) && day.isAvailable()) {
+                day.setAvailability(DayStatus.RESERVED);
+                reserved++;
+            }
+        }
+
+        accommodation.setCalendar(calendar);
+        accommodationService.save(accommodation);
+        return reserved;
+    }
+
+    public int unreserveDays(Long id, LocalDate start, LocalDate end) {
+        start = start.plusDays(1);
+        end = end.plusDays(1);
+        Accommodation accommodation = accommodationService.findOne(id);
+        Set<Day> calendar = accommodation.getCalendar();
+        int unreserved = 0;
+
+        for(Day day : calendar) {
+            if (!day.getDate().isBefore(start) && !day.getDate().isAfter(end) && day.isAvailable()) {
+                day.setAvailability(DayStatus.AVAILABLE);
+                unreserved++;
+            }
+        }
+
+        accommodation.setCalendar(calendar);
+        accommodationService.save(accommodation);
+        return unreserved;
+    }
 
 }
