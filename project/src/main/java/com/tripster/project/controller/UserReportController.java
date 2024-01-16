@@ -2,21 +2,20 @@ package com.tripster.project.controller;
 
 import com.tripster.project.dto.UserReportDTO;
 import com.tripster.project.mapper.UserReportDTOMapper;
+import com.tripster.project.model.Reservation;
 import com.tripster.project.model.User;
 import com.tripster.project.model.UserReport;
 import com.tripster.project.model.enums.ReportStatus;
 import com.tripster.project.model.enums.UserStatus;
+import com.tripster.project.service.ReservationServiceImpl;
 import com.tripster.project.service.UserReportServiceImpl;
 import com.tripster.project.service.UserServiceImpl;
-import com.tripster.project.service.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,6 +27,9 @@ public class UserReportController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private ReservationServiceImpl reservationService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
@@ -86,7 +88,9 @@ public class UserReportController {
         }
 
         userReportService.remove(report.getId());
-//        TODO: oktazivanje rezervacije
+        for (Reservation res: reservationService.getAllForGuest(report.getReportee().getId())) {
+            reservationService.remove(res.getId());
+        }
         userService.updateStatus(user.getId(),UserStatus.SUSPENDED);
 
         return new ResponseEntity<>(user.getId(), HttpStatus.OK);

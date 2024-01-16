@@ -1,34 +1,28 @@
 package com.tripster.project.model;
 
 import com.tripster.project.model.enums.ReservationStatus;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@SQLDelete(sql = "UPDATE reservation "
-        + "SET deleted = true "
-        + "WHERE id = ?")
-@Where(clause = "deleted = false")
+//@SQLDelete(sql = "UPDATE reservation "
+//        + "SET deleted = true "
+//        + "WHERE id = ?")
+//@Where(clause = "deleted = false")
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "deleted")
-    private boolean deleted = false;
+    /*@Column(name = "deleted")
+    private boolean deleted = false;*/
 
     @Temporal(TemporalType.DATE)
     @Column(name = "startDate", nullable = false)
