@@ -3,8 +3,10 @@ package com.tripster.project.mapper;
 import com.tripster.project.dto.ReservationDTO;
 import com.tripster.project.dto.ReservationGuestDTO;
 import com.tripster.project.model.Reservation;
+import com.tripster.project.model.enums.ReservationStatus;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -55,6 +57,8 @@ public class ReservationDTOMapper {
         +res.getEnd().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
         dto.setNumOfGuest(res.getGuestsNo());
         dto.setPrice(res.getPrice());
+        dto.setReportable(res.getStatus().equals(ReservationStatus.ACCEPTED) && !LocalDate.now().isBefore(res.getEnd()));
+        dto.setUserID(res.getAccommodation().getOwner().getUser().getId());
 
         return dto;
     }
@@ -75,6 +79,8 @@ public class ReservationDTOMapper {
         dto.setNumOfCancelled(numOfCancelled);
         dto.setGuest(res.getGuest().getUser().getEmail());
         dto.setUserID(res.getGuest().getUser().getId());
+
+        dto.setReportable(res.getStatus().equals(ReservationStatus.ACCEPTED) && !LocalDate.now().isBefore(res.getEnd()));
         return dto;
     }
 }

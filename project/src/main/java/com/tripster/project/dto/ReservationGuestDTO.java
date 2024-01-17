@@ -21,6 +21,7 @@ public class ReservationGuestDTO {
     private int numOfCancelled;
     private String guest;
     private Long userID;
+    private boolean isReportable;
 
     private double price;
 
