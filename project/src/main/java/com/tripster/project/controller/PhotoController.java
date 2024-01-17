@@ -95,4 +95,21 @@ public class PhotoController {
 
         return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('HOST')")
+    @PutMapping()
+    public ResponseEntity<Integer> batchPutDelete(@RequestBody List<Long> ids) {
+
+        int deleted = 0;
+        Photo photo;
+
+        for (Long id : ids) {
+            photo = photoService.findOne(id);
+            if (photo != null) {
+                photoService.remove(id, photo.getPath());
+                deleted++;
+            }
+        }
+
+        return new ResponseEntity<>(deleted, HttpStatus.OK);
+    }
 }
