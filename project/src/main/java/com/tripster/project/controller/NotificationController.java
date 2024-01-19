@@ -38,7 +38,16 @@ public class NotificationController {
     @GetMapping(value = "/unread/{id}")
     public ResponseEntity<List<NotificationDTO>> getUnread(@PathVariable Long id){
 
-        List<NotificationDTO> notifications = notificationService.findUnread(id).stream()
+        List<NotificationDTO> notifications = notificationService.findByStatus(id, NotificationStatus.NEW).stream()
+                .map(NotificationDTOMapper::fromNotificationToDTO).toList();
+
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/read/{id}")
+    public ResponseEntity<List<NotificationDTO>> getRead(@PathVariable Long id){
+
+        List<NotificationDTO> notifications = notificationService.findByStatus(id, NotificationStatus.READ).stream()
                 .map(NotificationDTOMapper::fromNotificationToDTO).toList();
 
         return new ResponseEntity<>(notifications, HttpStatus.OK);
@@ -49,6 +58,11 @@ public class NotificationController {
     public ResponseEntity<String> markAsRead(@RequestBody StatusDTO dto) {
 
         Notification notification = notificationService.findOne(dto.getId());
+
+        if(notification == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         notification.setStatus(NotificationStatus.READ);
         notificationService.save(notification);
 
