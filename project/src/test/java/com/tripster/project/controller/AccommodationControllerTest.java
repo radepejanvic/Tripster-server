@@ -55,7 +55,7 @@ class AccommodationControllerTest {
     }
 
     @Test
-    @DisplayName("Add calendar ")
+    @DisplayName("Add calendar")
     public void test_add_calendar(){
         List<PriceDTO> dtos = new ArrayList<>();
         LocalDate now = LocalDate.now();
@@ -75,6 +75,24 @@ class AccommodationControllerTest {
         assertEquals(5,list.size());
     }
 
+    @Test
+    @DisplayName("Add calendar - accommodationId is invalid")
+    public void test_add_calendar_accommodation_does_not_exist(){
+        List<PriceDTO> dtos = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        dtos.add(new PriceDTO(now,now.plusDays(4),50));
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange("/api/accommodations/price/15",
+                POST,
+                new HttpEntity<>(dtos,getHttpHeaders()),
+                new ParameterizedTypeReference<Integer>() {
+                });
+
+        Integer response = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals(0, response);
+
+    }
     @Test
     @DisplayName("Update calendar ")
     public void test_update_calendar(){
@@ -97,9 +115,44 @@ class AccommodationControllerTest {
     }
 
     @Test
-    public void test_disable_days(){
+    @DisplayName("Disable days - calendar doesn't exist")
+    public void test_disable_days_calendar_does_not_exist(){
         LocalDate now = LocalDate.now();
         PriceDTO dto = new PriceDTO(now,now.plusDays(5),50);
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange("/api/accommodations/calendar/2",
+                POST,
+                new HttpEntity<>(dto,getHttpHeaders()),
+                new ParameterizedTypeReference<Integer>() {
+                });
+
+        Integer response = responseEntity.getBody();
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(0, response);
+    }
+
+    @Test
+    @DisplayName("Disable days - accommodationId is invalid")
+    public void test_disable_days_accommodation_does_not_exist(){
+        LocalDate now = LocalDate.now();
+        PriceDTO dto = new PriceDTO(now,now.plusDays(5),50);
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange("/api/accommodations/calendar/15",
+                POST,
+                new HttpEntity<>(dto,getHttpHeaders()),
+                new ParameterizedTypeReference<Integer>() {
+                });
+
+        Integer response = responseEntity.getBody();
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(0, response);
+    }
+
+    @Test
+    @DisplayName("Disable days ")
+    public void test_disable_days(){
+        LocalDate now = LocalDate.now();
+        PriceDTO dto = new PriceDTO(now.minusDays(1),now.plusDays(3),60);
         ResponseEntity<Integer> responseEntity = restTemplate.exchange("/api/accommodations/calendar/1",
                 POST,
                 new HttpEntity<>(dto,getHttpHeaders()),
@@ -109,7 +162,6 @@ class AccommodationControllerTest {
         Integer response = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(0, response);
+        assertEquals(5, response);
     }
-
 }
