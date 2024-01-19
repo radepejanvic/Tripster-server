@@ -162,3 +162,20 @@ insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10)
 insert into photo (name, type, accommodation_id) values ('secondary', 'jpg', 10);
 
 
+INSERT INTO day (date, price, availability)
+VALUES
+    ('2024-01-19', 100.0, 'AVAILABLE'),
+    ('2024-01-20', 100.0, 'AVAILABLE'),
+    ('2024-01-21', 120.0, 'AVAILABLE'),
+    ('2024-01-22', 150.0, 'AVAILABLE'),
+    ('2024-01-23', 130.0, 'AVAILABLE');
+
+INSERT INTO accommodation_calendar (accommodation_id, calendar_id)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5);
+
+
+
