@@ -1,6 +1,7 @@
 package com.tripster.project.service;
 
 import com.tripster.project.model.Notification;
+import com.tripster.project.model.enums.NotificationStatus;
 import com.tripster.project.repository.NotificationRepository;
 import com.tripster.project.service.interfaces.INotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class NotificationServiceImpl implements INotificationService {
     }
 
     @Override
-    public List<Notification> findUnread(Long userId) {
-        return notificationRepository.findUnread(userId);
+    public List<Notification> findByStatus(Long userId, NotificationStatus status) {
+        return notificationRepository.findByStatus(userId, status);
     }
 
     @Override

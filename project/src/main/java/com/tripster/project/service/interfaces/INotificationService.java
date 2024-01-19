@@ -1,6 +1,7 @@
 package com.tripster.project.service.interfaces;
 
 import com.tripster.project.model.Notification;
+import com.tripster.project.model.enums.NotificationStatus;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface INotificationService {
 
     Notification findOne(Long id);
 
-    List<Notification> findUnread(Long userId);
+    List<Notification> findByStatus(Long userId, NotificationStatus status);
 
     Notification save(Notification notification);
 }
