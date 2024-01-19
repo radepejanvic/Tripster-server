@@ -4,8 +4,10 @@ import com.tripster.project.dto.AccommodationDTO;
 import com.tripster.project.dto.PriceDTO;
 import com.tripster.project.dto.TokenDTO;
 import com.tripster.project.dto.UserDTO;
+import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.User;
+import com.tripster.project.model.enums.DayStatus;
 import com.tripster.project.service.AccommodationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +24,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpMethod.*;
@@ -92,6 +95,23 @@ class AccommodationControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals(0, response);
 
+    }
+    @Test
+    @DisplayName("Update calendar - accommodationId is invalid")
+    public void test_update_calendar_accommodation_does_not_exist(){
+        List<PriceDTO> dtos = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        dtos.add(new PriceDTO(now,now.plusDays(5),50));
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange("/api/accommodations/price/15",
+                PUT,
+                new HttpEntity<>(dtos,getHttpHeaders()),
+                new ParameterizedTypeReference<Integer>() {
+                });
+
+        Integer response = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals(0, response);
     }
     @Test
     @DisplayName("Update calendar ")
