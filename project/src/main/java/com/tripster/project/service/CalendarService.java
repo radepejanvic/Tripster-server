@@ -116,10 +116,13 @@ public class CalendarService {
     public int disableDays(Long id, PriceDTO interval) throws Exception {
         interval.setStart(interval.getStart().plusDays(1));
         interval.setEnd(interval.getEnd().plusDays(1));
-        Accommodation accommodation = accommodationService.findOne(id);
-        if (accommodation == null){
+        Accommodation accommodation;
+        try {
+            accommodation = accommodationService.findOne(id);
+        }catch (Exception e){
             throw new RuntimeException("Accommodation with id not found");
         }
+
         Set<Day> calendar = accommodation.getCalendar();
 
         if (calendar.size() == 0){

@@ -199,11 +199,12 @@ public class AccommodationController {
     @PutMapping(value = "/price/{accommodationId}", consumes = "application/json")
     public ResponseEntity<Integer> updateCalendar(@PathVariable Long accommodationId, @RequestBody List<PriceDTO> dtos) {
 
-        Accommodation accommodation = accommodationService.findOne(accommodationId);
-        if (accommodation == null){
+        Accommodation accommodation;
+        try {
+            accommodation = accommodationService.findOne(accommodationId);
+        }catch (Exception e){
             return new ResponseEntity<>(0,HttpStatus.NOT_FOUND);
         }
-
         accommodation.setTimeStamp(LocalDateTime.now());
         accommodation.setStatus(AccommodationStatus.UPDATED);
 
