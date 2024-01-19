@@ -29,7 +29,7 @@ public class AccommodationService {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Accommodation findOne(Long id) {
-        return accommodationRepository.findById(id).orElseGet(null);
+        return accommodationRepository.findById(id).orElseThrow(() -> new RuntimeException("Accommodation with id not found"));
     }
 
     public List<Accommodation> findAll() {
