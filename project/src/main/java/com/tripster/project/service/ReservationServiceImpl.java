@@ -1,5 +1,6 @@
 package com.tripster.project.service;
 
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.repository.ReservationRepository;
@@ -25,6 +26,9 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
 
     @Autowired
     private CalendarService calendarService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
 
     public Reservation findOne(Long id) {
         return reservationRepository.findById(id).orElse(null);
@@ -89,13 +93,12 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
             return false;
         }
 
-        // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
         int rejected = reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
         reservation.setStatus(ReservationStatus.ACCEPTED);
         calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
-        // TODO: Call sendNotification method
+        notificationSendingService.send(new Notification(reservation));
 
         reservationRepository.save(reservation);
         return true;

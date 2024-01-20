@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -45,6 +46,9 @@ public class ReservationServiceTest {
     @MockBean
     private ReservationRepository reservationRepository;
 
+    @MockBean
+    private NotificationSendingService notificationSendingService;
+
     @BeforeEach
     public void setUp() {
         accommodation = new Accommodation(
@@ -66,6 +70,12 @@ public class ReservationServiceTest {
                 true
         );
 
+        User user = new User();
+        user.setEmail("test_email@gmail.com");
+
+        Guest guest = new Guest();
+        guest.setUser(user);
+
         reservation = new Reservation(
                 RESERVATION_ID,
                 LocalDate.of(2023, 1, 2),
@@ -74,9 +84,10 @@ public class ReservationServiceTest {
                 3,
                 300.0,
                 ReservationStatus.PENDING,
-                new Guest(),
+                guest,
                 accommodation
         );
+
     }
 
     @Test
@@ -91,6 +102,7 @@ public class ReservationServiceTest {
         verifyNoInteractions(reservationRepository);
         verifyNoInteractions(calendarService);
         verifyNoInteractions(reservationRepository);
+        verifyNoInteractions(notificationSendingService);
     }
 
     @ParameterizedTest
@@ -106,6 +118,7 @@ public class ReservationServiceTest {
         verifyNoInteractions(reservationRepository);
         verifyNoInteractions(calendarService);
         verifyNoInteractions(reservationRepository);
+        verifyNoInteractions(notificationSendingService);
     }
 
     @Test
@@ -122,6 +135,7 @@ public class ReservationServiceTest {
         verifyNoInteractions(reservationRepository);
         verifyNoMoreInteractions(calendarService);
         verifyNoInteractions(reservationRepository);
+        verifyNoInteractions(notificationSendingService);
     }
 
     @Test
@@ -131,6 +145,7 @@ public class ReservationServiceTest {
         when(reservationRepository.rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(0);
         when(calendarService.reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(3);
         when(reservationRepository.save(reservation)).thenReturn(reservation);
+        doNothing().when(notificationSendingService).send(any());
 
         boolean accepted = reservationService.accept(reservation);
 
@@ -140,6 +155,7 @@ public class ReservationServiceTest {
         verify(reservationRepository).rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(calendarService).reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(reservationRepository).save(reservation);
+        verify(notificationSendingService).send(any());
 
         assertEquals(ReservationStatus.ACCEPTED, reservation.getStatus());
     }
@@ -160,6 +176,7 @@ public class ReservationServiceTest {
         verify(reservationRepository).rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(calendarService).reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(reservationRepository).save(reservation);
+        verify(notificationSendingService).send(any());
 
         assertEquals(ReservationStatus.ACCEPTED, reservation.getStatus());
     }
