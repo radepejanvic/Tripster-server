@@ -2,6 +2,7 @@ package com.tripster.project.model;
 
 import com.tripster.project.model.enums.ReservationStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,17 +13,12 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Entity
-//@SQLDelete(sql = "UPDATE reservation "
-//        + "SET deleted = true "
-//        + "WHERE id = ?")
-//@Where(clause = "deleted = false")
+@AllArgsConstructor
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /*@Column(name = "deleted")
-    private boolean deleted = false;*/
 
     @Temporal(TemporalType.DATE)
     @Column(name = "startDate", nullable = false)
