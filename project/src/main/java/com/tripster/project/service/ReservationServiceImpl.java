@@ -79,14 +79,14 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     }
 
     @Transactional
-    public void accept(Reservation reservation) {
+    public boolean accept(Reservation reservation) {
 
         if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING) {
-            return;
+            return false;
         }
 
         if (!calendarService.isAvailable(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd())) {
-            return;
+            return false;
         }
 
         // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
@@ -97,7 +97,8 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
 
         // TODO: Call sendNotification method
 
-        save(reservation);
+        reservationRepository.save(reservation);
+        return true;
     }
 
 }

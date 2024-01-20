@@ -167,14 +167,14 @@ public class ReservationController {
 
     @PreAuthorize("hasRole('HOST')")
     @PutMapping(value = "/accept/{id}")
-    public ResponseEntity<Void> acceptReservation(@PathVariable Long id) {
+    public ResponseEntity<Boolean> acceptReservation(@PathVariable Long id) {
 
         Reservation reservation = reservationService.findOne(id);
         if (reservation == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        reservationService.accept(reservation);
+        boolean accepted = reservationService.accept(reservation);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(accepted, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('HOST')")
