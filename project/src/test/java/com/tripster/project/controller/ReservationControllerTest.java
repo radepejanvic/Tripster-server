@@ -72,7 +72,7 @@ class ReservationControllerTest {
     @BeforeEach
     public void calendarSetup() {
         List<PriceDTO> calendar = new ArrayList<>();
-        calendar.add(new PriceDTO(LocalDate.of(2022, 1, 1), LocalDate.now(), 100));
+        calendar.add(new PriceDTO(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 2, 28), 100));
 
         Accommodation accommodation = accommodationService.findOne(1L);
         accommodation.setCalendar(calendarService.getCalendar(calendar));
@@ -91,7 +91,7 @@ class ReservationControllerTest {
     void test_accept_reservation_not_found() {
         String url = "/api/reservations/accept/" + 100;
 
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(url,
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
                 PUT,
                 new HttpEntity<>(null, getHttpHeaders()),
                 new ParameterizedTypeReference<>() {
@@ -107,12 +107,13 @@ class ReservationControllerTest {
         long id = 1L;
         String url = "/api/reservations/accept/" + id;
 
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(url,
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
                 PUT,
                 new HttpEntity<>(null, getHttpHeaders()),
                 new ParameterizedTypeReference<>() {
                 });
 
+        assertEquals(true, responseEntity.getBody());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(ReservationStatus.ACCEPTED, reservationService.findOne(id).getStatus());
     }
@@ -124,13 +125,19 @@ class ReservationControllerTest {
         long id = 7L;
         String url = "/api/reservations/accept/" + id;
 
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(url,
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
                 PUT,
                 new HttpEntity<>(null, getHttpHeaders()),
                 new ParameterizedTypeReference<>() {
                 });
 
+        assertEquals(true, responseEntity.getBody());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(ReservationStatus.ACCEPTED, reservationService.findOne(id).getStatus());
+        assertEquals(ReservationStatus.REJECTED, reservationService.findOne(8L).getStatus());
+        assertEquals(ReservationStatus.REJECTED, reservationService.findOne(9L).getStatus());
+        assertEquals(ReservationStatus.REJECTED, reservationService.findOne(10L).getStatus());
+        assertEquals(ReservationStatus.REJECTED, reservationService.findOne(11L).getStatus());
     }
+
 }

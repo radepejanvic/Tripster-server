@@ -183,8 +183,9 @@ public class CalendarService {
     }
 
     public boolean isAvailable(Long id, LocalDate start, LocalDate end) {
-        long daysDifference = ChronoUnit.DAYS.between(start, end);
-        return accommodationService.countAvailableDays(id, start, end) == daysDifference;
+        long daysDifference = ChronoUnit.DAYS.between(start, end) + 1;
+        long available = accommodationService.countAvailableDays(id, start, end);
+        return available == daysDifference;
     }
 
 }

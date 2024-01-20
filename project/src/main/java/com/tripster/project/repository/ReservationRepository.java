@@ -50,7 +50,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("update Reservation r " +
             "set r.status = 'REJECTED' " +
             "where r.accommodation.id = :accommodationId " +
-            "and ((:start between r.start and r.end) or (:end between r.start and r.end))")
+            "and r.status = 'PENDING' " +
+            "and (:start <= r.end and :end >= r.start)")
     int rejectOverlappingReservations(Long accommodationId, LocalDate start, LocalDate end);
 
 

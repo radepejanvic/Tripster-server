@@ -77,11 +77,12 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-01-10', '2023-01-20', 10, 500.0, 2, 1, 1, 'REJECTED');
 -- empty calendar -> id = 6
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-13', '2024-08-14', 1, 30.0, 3, 3, 2, 'PENDING');
--- overlapping -> id = 7, 8, 9, 10
+-- overlapping -> id = 7, 8, 9, 10, 11
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-10', '2023-02-20', 10, 500.0, 2, 1, 1, 'PENDING');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-05', '2023-02-15', 10, 500.0, 2, 1, 1, 'PENDING');
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-11', '2023-02-19', 8, 400.0, 2, 1, 1, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-11', '2023-02-16', 8, 400.0, 2, 1, 1, 'PENDING');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-15', '2023-02-25', 10, 500.0, 2, 1, 1, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-05', '2023-02-25', 20, 1000.0, 2, 1, 1, 'PENDING');
 -- others
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-07-22', '2024-07-26', 4, 120.0, 2, 1, 1, 'CANCELLED');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-12-03', '2024-12-09', 6, 240.0, 2, 2, 1, 'CANCELLED');
