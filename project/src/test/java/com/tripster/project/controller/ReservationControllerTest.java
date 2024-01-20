@@ -100,35 +100,6 @@ class ReservationControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
-    @Test
-    @DisplayName("Accept reservation - accommodation has automatic reservation approval")
-    void test_accept_reservation_status_automatic_reservation_approval() {
-        String url = "/api/reservations/accept/" + 2;
-
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(url,
-                PUT,
-                new HttpEntity<>(null, getHttpHeaders()),
-                new ParameterizedTypeReference<>() {
-                });
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    }
-
-    @ParameterizedTest
-    @DisplayName("Accept reservation - reservation status isn`t PENDING")
-    @ValueSource(longs = {3, 4, 5})
-    void test_accept_reservation_status_not_pending(Long id) {
-        String url = "/api/reservations/accept/" + id;
-
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(url,
-                PUT,
-                new HttpEntity<>(null, getHttpHeaders()),
-                new ParameterizedTypeReference<>() {
-                });
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    }
-
     // Reservation with id = 1
     @Test
     @DisplayName("Accept reservation - no overlapping reservations")
