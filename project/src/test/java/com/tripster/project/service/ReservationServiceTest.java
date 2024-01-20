@@ -30,6 +30,7 @@ import static org.mockito.Mockito.*;
 public class ReservationServiceTest {
 
     private final Long ACCOMMODATION_ID = 1L;
+    private final Long RESERVATION_ID = 1L;
 
     private Accommodation accommodation;
 
@@ -66,7 +67,7 @@ public class ReservationServiceTest {
         );
 
         reservation = new Reservation(
-                1L,
+                RESERVATION_ID,
                 LocalDate.of(2023, 1, 2),
                 LocalDate.of(2023, 1, 4),
                 3,
@@ -127,7 +128,7 @@ public class ReservationServiceTest {
     @DisplayName("Accept reservation - no overlap")
     void test_accept_reservation_no_overlap() {
         when(calendarService.isAvailable(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(true);
-        when(reservationRepository.rejectOverlappingReservations(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(0);
+        when(reservationRepository.rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(0);
         when(calendarService.reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(3);
         when(reservationRepository.save(reservation)).thenReturn(reservation);
 
@@ -136,7 +137,7 @@ public class ReservationServiceTest {
         assertTrue(accepted);
 
         verify(calendarService).isAvailable(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
-        verify(reservationRepository).rejectOverlappingReservations(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
+        verify(reservationRepository).rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(calendarService).reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(reservationRepository).save(reservation);
 
@@ -147,7 +148,7 @@ public class ReservationServiceTest {
     @DisplayName("Accept reservation - with overlap")
     void test_accept_reservation_with_overlap() {
         when(calendarService.isAvailable(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(true);
-        when(reservationRepository.rejectOverlappingReservations(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(2);
+        when(reservationRepository.rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(2);
         when(calendarService.reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd())).thenReturn(3);
         when(reservationRepository.save(reservation)).thenReturn(reservation);
 
@@ -156,7 +157,7 @@ public class ReservationServiceTest {
         assertTrue(accepted);
 
         verify(calendarService).isAvailable(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
-        verify(reservationRepository).rejectOverlappingReservations(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
+        verify(reservationRepository).rejectOverlappingReservations(RESERVATION_ID, ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(calendarService).reserveDays(ACCOMMODATION_ID, reservation.getStart(), reservation.getEnd());
         verify(reservationRepository).save(reservation);
 

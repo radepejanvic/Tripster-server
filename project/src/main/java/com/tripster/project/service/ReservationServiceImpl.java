@@ -90,7 +90,7 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         }
 
         // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
-        int rejected = reservationRepository.rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+        int rejected = reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
         reservation.setStatus(ReservationStatus.ACCEPTED);
         calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
