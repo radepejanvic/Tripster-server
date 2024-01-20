@@ -67,9 +67,24 @@ insert into accommodation (name, owner_id, short_description, description, addre
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation, price_per_night) values ('Blanda, Herzog and Rohan', 3, 'Displ oblique fx shaft of l ulna, 7thR', 'Introduction of Radioactive Substance into Central Vein, Percutaneous Approach', 9, 'ROOM', 'ACTIVE', 1, 9, 19, true, true);
 insert into accommodation (name, owner_id, short_description, description, address_id, type, status, min_cap, max_cap, cancel_duration, automatic_reservation, price_per_night) values ('Gleichner, Toy and Stracke', 3, 'Poisoning by antiparkns drug/centr muscle-tone depr, undet', 'Control Bleeding in Upper Back, Percutaneous Endoscopic Approach', 10, 'STUDIO', 'ACTIVE', 7, 10, 10, false, true);
 
+-- valid -> id = 1
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-01-10', '2023-01-20', 10, 500.0, 2, 1, 1, 'PENDING');
+-- automatic reservation -> id = 2
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-01-10', '2023-01-20', 10, 500.0, 2, 1, 3, 'ACCEPTED');
+-- not valid status -> id = 3, 4, 5
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-05-10', '2023-05-20', 10, 500.0, 2, 1, 1, 'ACCEPTED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-01-10', '2023-01-20', 10, 500.0, 2, 1, 1, 'CANCELLED');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-01-10', '2023-01-20', 10, 500.0, 2, 1, 1, 'REJECTED');
+-- empty calendar -> id = 6
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-13', '2024-08-14', 1, 30.0, 3, 3, 2, 'PENDING');
+-- overlapping -> id = 7, 8, 9, 10
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-10', '2023-02-20', 10, 500.0, 2, 1, 1, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-05', '2023-02-15', 10, 500.0, 2, 1, 1, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-11', '2023-02-19', 8, 400.0, 2, 1, 1, 'PENDING');
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2023-02-15', '2023-02-25', 10, 500.0, 2, 1, 1, 'PENDING');
+-- others
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-07-22', '2024-07-26', 4, 120.0, 2, 1, 1, 'CANCELLED');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-12-03', '2024-12-09', 6, 240.0, 2, 2, 1, 'CANCELLED');
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-13', '2024-08-14', 1, 30.0, 3, 3, 2, 'PENDING');
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status) values ('2024-08-12', '2024-08-17', 5, 100.0, 4, 4, 3, 'PENDING');
 
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Exc of accessory spleen','RESERVATION', 'NEW');

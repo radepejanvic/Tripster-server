@@ -4,6 +4,7 @@ import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.repository.ReservationRepository;
 import com.tripster.project.service.interfaces.IReservationServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +21,11 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private CalendarService calendarService;
+
     public Reservation findOne(Long id) {
-        return reservationRepository.findById(id).orElseGet(null);
+        return reservationRepository.findById(id).orElse(null);
     }
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
@@ -74,6 +78,19 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
 
     public int rejectOverlappingReservations(Long accommodationId, LocalDate start, LocalDate end) {
         return reservationRepository.rejectOverlappingReservations(accommodationId, start, end);
+    }
+
+    @Transactional
+    public void accept(Reservation reservation) {
+        // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
+        rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        reservation.setStatus(ReservationStatus.ACCEPTED);
+        calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        // TODO: Call sendNotification method
+
+        save(reservation);
     }
 
 }

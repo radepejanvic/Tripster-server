@@ -175,15 +175,7 @@ public class ReservationController {
         if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
-
-        reservationService.rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
-
-        reservation.setStatus(ReservationStatus.ACCEPTED);
-
-        // TODO: Call sendNotification method
-
-        reservationService.save(reservation);
+        reservationService.accept(reservation);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
