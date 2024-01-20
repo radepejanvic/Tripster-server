@@ -172,9 +172,6 @@ public class ReservationController {
         Reservation reservation = reservationService.findOne(id);
         if (reservation == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         reservationService.accept(reservation);
 
         return new ResponseEntity<>(HttpStatus.OK);
