@@ -5,6 +5,8 @@ import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.DayStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -111,11 +113,21 @@ public class CalendarService {
         return pricelists;
     }
 
-    public int disableDays(Long id, PriceDTO interval) {
+    public int disableDays(Long id, PriceDTO interval) throws Exception {
         interval.setStart(interval.getStart().plusDays(1));
         interval.setEnd(interval.getEnd().plusDays(1));
-        Accommodation accommodation = accommodationService.findOne(id);
+        Accommodation accommodation;
+        try {
+            accommodation = accommodationService.findOne(id);
+        }catch (Exception e){
+            throw new RuntimeException("Accommodation with id not found");
+        }
+
         Set<Day> calendar = accommodation.getCalendar();
+
+        if (calendar.size() == 0){
+            throw new  RuntimeException("Calendar doesn't exist.");
+        }
         int disabled = 0;
 
         for(Day day : calendar) {
