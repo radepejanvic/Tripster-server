@@ -67,4 +67,11 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     @Query("select a from Accommodation a" +
             " where a.status='ACTIVE'")
     List<Accommodation> findAllActive();
+
+    @Query("select count(d) " +
+            "from Accommodation a " +
+            "join a.calendar d " +
+            "where a.id = :id " +
+            "and d.date between :start and :end")
+    int countAvailableDays(Long id, LocalDate start, LocalDate end);
 }

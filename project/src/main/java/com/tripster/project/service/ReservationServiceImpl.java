@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -76,14 +78,19 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
     }
 
-    public int rejectOverlappingReservations(Long accommodationId, LocalDate start, LocalDate end) {
-        return reservationRepository.rejectOverlappingReservations(accommodationId, start, end);
-    }
-
     @Transactional
     public void accept(Reservation reservation) {
+
+        if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING) {
+            return;
+        }
+
+        if (!calendarService.isAvailable(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd())) {
+            return;
+        }
+
         // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
-        rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+        reservationRepository.rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
         reservation.setStatus(ReservationStatus.ACCEPTED);
         calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());

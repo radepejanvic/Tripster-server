@@ -95,26 +95,8 @@ public class AccommodationService {
         return  accommodationRepository.findAllActive();
     }
 
-//    public void generateCalendar(LocalDate startDate, Accommodation accommodation) {
-//
-//        HashSet<Day> calendar;
-//
-//        if (accommodation.getCalendar() != null) {
-//            calendar = (HashSet<Day>) accommodation.getCalendar();
-//        } else {
-//            calendar = new HashSet<>();
-//        }
-//
-//        LocalDate date;
-//        LocalDate endDate = startDate.plusYears(1);
-//        while(!startDate.isAfter(endDate)) {
-//            date = startDate;
-//            calendar.add(new Day(null, date, 10.0, DayS));
-//            startDate = startDate.plusDays(1);
-//        }
-//
-//        accommodation.setCalendar(calendar);
-//        save(accommodation);
-//    }
+    public int countAvailableDays(Long id, LocalDate start, LocalDate end) {
+        return  accommodationRepository.countAvailableDays(id, start, end);
+    }
 
 }

@@ -4,12 +4,14 @@ import com.tripster.project.dto.PriceDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.DayStatus;
+import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -178,6 +180,11 @@ public class CalendarService {
         accommodation.setCalendar(calendar);
         accommodationService.save(accommodation);
         return unreserved;
+    }
+
+    public boolean isAvailable(Long id, LocalDate start, LocalDate end) {
+        long daysDifference = ChronoUnit.DAYS.between(start, end);
+        return accommodationService.countAvailableDays(id, start, end) == daysDifference;
     }
 
 }
