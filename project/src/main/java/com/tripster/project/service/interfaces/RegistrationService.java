@@ -7,7 +7,7 @@ import jakarta.mail.MessagingException;
 
 public interface RegistrationService {
 
-    String register(Person person) throws MessagingException;
+    Person register(Person person) throws MessagingException;
 
     String confirmToken(String token);
 

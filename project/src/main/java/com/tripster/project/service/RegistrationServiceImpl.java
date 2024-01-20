@@ -43,7 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Transactional
     @Override
-    public String register(Person person) throws MessagingException {
+    public Person register(Person person) throws MessagingException {
 
         if (person.getUser().getUserType().equals(UserType.GUEST)){
             person = guestService.save(person);
@@ -57,7 +57,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         String verificationEmail = VerificationEmailBuilder.build(templatePath, person.getName(), link);
 
         emailSender.send(person.getUser().getEmail(),"Tripster: Account verification", verificationEmail);
-        return token.getToken();
+        return person;
     }
 
     @Override
