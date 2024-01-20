@@ -145,9 +145,13 @@ public class CalendarService {
     }
 
     public int reserveDays(Long id, LocalDate start, LocalDate end) {
-        start = start.plusDays(1);
-        end = end.plusDays(1);
+
+        if(end.isBefore(start)) throw new IllegalArgumentException("Start date must be before end date.");
+
         Accommodation accommodation = accommodationService.findOne(id);
+
+        if(accommodation == null) throw new IllegalArgumentException("Accommodation with the given id not found.");
+
         Set<Day> calendar = accommodation.getCalendar();
         int reserved = 0;
 
@@ -160,6 +164,7 @@ public class CalendarService {
 
         accommodation.setCalendar(calendar);
         accommodationService.save(accommodation);
+
         return reserved;
     }
 
