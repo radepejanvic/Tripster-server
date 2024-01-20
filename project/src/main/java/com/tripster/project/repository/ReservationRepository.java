@@ -3,6 +3,7 @@ package com.tripster.project.repository;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
@@ -39,11 +40,19 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query("SELECT res FROM Reservation res " +
             "JOIN res.accommodation acc " +
-            "WHERE  ((( :start < res.start and res.start < :end ) or (:start < res.end and res.end < :end)) " +
-            "and acc.id = :accId) " +
-            "and res.status != 'REJECTED' " +
-            "and res.status != 'CANCELLED' ")
+            "WHERE  ((( :start < res.start AND res.start < :end ) OR (:start < res.end AND res.end < :end)) " +
+            "AND acc.id = :accId) " +
+            "AND res.status != 'REJECTED' " +
+            "AND res.status != 'CANCELLED' ")
     List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId);
+
+    @Modifying
+    @Query("update Reservation r " +
+            "set r.status = 'REJECTED' " +
+            "where r.accommodation.id = :accommodationId " +
+            "and ((:start between r.start and r.end) or (:end between r.start and r.end))")
+    int rejectOverlappingReservations(Long accommodationId, LocalDate start, LocalDate end);
+
 
     @Query("select count(r) " +
             "from Reservation r " +

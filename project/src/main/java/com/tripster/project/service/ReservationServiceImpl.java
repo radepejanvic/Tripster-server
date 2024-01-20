@@ -41,9 +41,6 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.getAllForHost(hostId);
     }
     public List<Reservation> getAllActiveForHost(Long hostId) { return reservationRepository.getAllActiveForHost(hostId);}
-    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
-        return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
-    }
 
     @Override
     public List<Reservation> findByGuestFilter(Long id, String name, long start, long end, List<ReservationStatus> statusList) {
@@ -70,4 +67,13 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     public int calculateNumberOfCancelled(Long guestId) {
         return reservationRepository.calculateNumberOfCancelled(guestId);
     }
+
+    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
+        return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
+    }
+
+    public int rejectOverlappingReservations(Long accommodationId, LocalDate start, LocalDate end) {
+        return reservationRepository.rejectOverlappingReservations(accommodationId, start, end);
+    }
+
 }

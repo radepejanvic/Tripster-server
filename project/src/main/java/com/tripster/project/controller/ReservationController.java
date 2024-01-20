@@ -130,6 +130,9 @@ public class ReservationController {
             calendarService.reserveDays(accommodation.getId(), reservation.getStart(), reservation.getEnd());
         }
         else reservation.setStatus(ReservationStatus.PENDING);
+
+        // TODO: Call sendNotification
+
         reservationService.save(reservation);
 
         notificationSendingService.send(new Notification(reservation));
@@ -155,6 +158,9 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         reservation.setStatus(status);
+
+        // TODO: Call sendNotification
+
         reservationService.save(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -164,14 +170,21 @@ public class ReservationController {
     public ResponseEntity<Void> acceptReservation(@PathVariable Long id) {
 
         Reservation reservation = reservationService.findOne(id);
-        if (reservation == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (reservation == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        for (Reservation res : reservationService.getAllInDateRangeForAccommodation(reservation.getStart(), reservation.getEnd(), reservation.getId())) {
-            reservationService.remove(res.getId());
-        }
+        if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // TODO: Call sendNotification method, for each of reservations in getAllInDateRangeForAccommodation
+
+        reservationService.rejectOverlappingReservations(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
         reservation.setStatus(ReservationStatus.ACCEPTED);
+
+        // TODO: Call sendNotification method
+
         reservationService.save(reservation);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -183,6 +196,8 @@ public class ReservationController {
         if (reservation == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         reservation.setStatus(ReservationStatus.REJECTED);
+
+        // TODO: Call sendNotification
         reservationService.save(reservation);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -207,6 +222,7 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         reservation.setStatus(ReservationStatus.CANCELLED);
+        // TODO: Call sendNotification
         reservationService.save(reservation);
         calendarService.unreserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
         return new ResponseEntity<>(HttpStatus.OK);
