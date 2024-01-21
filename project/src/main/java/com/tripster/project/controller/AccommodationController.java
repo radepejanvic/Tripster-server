@@ -152,12 +152,18 @@ public class AccommodationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        Set<Day> calendar = accommodation.getCalendar();
         accommodation = AccommodationDTOMapper.fromDTOtoAccommodation(dto);
         accommodation.setOwner((Host)personService.findById(dto.getOwnerId()));
         accommodation.setAmenities(amenityService.findByIdIn(dto.getAmenities()));
         accommodation.setTimeStamp(LocalDateTime.now());
         accommodation.setStatus(AccommodationStatus.UPDATED);
+
+        accommodation.setCalendar(calendar);
+
         accommodationService.save(accommodation);
+
+        accommodation.getCalendar();
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
