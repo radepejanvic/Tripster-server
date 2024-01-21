@@ -15,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,6 +47,7 @@ public class NotificationSendingServiceTest {
 
         reservation = new Reservation(
                 1L,
+                false,
                 LocalDate.of(2023, 1, 2),
                 LocalDate.of(2023, 1, 4),
                 3,

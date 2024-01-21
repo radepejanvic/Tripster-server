@@ -20,6 +20,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private boolean passed = false;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "startDate", nullable = false)
     private LocalDate start;

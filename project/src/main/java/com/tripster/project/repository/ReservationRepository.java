@@ -136,4 +136,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and r.status = 'CANCELLED'")
     int calculateNumberOfCancelled(Long guestId);
 
+    @Modifying
+    @Query("update Reservation r " +
+            "set r.passed = true " +
+            "where r.end < :now " +
+            "and r.passed = false ")
+    int markAsPassed(LocalDate now);
+
 }
