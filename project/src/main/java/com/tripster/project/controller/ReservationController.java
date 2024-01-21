@@ -131,7 +131,7 @@ public class ReservationController {
         }
         else reservation.setStatus(ReservationStatus.PENDING);
 
-        // TODO: Call sendNotification
+        notificationSendingService.send(new Notification(reservation));
 
         reservationService.save(reservation);
 
@@ -159,7 +159,7 @@ public class ReservationController {
         }
         reservation.setStatus(status);
 
-        // TODO: Call sendNotification
+        notificationSendingService.send(new Notification(reservation));
 
         reservationService.save(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -186,7 +186,8 @@ public class ReservationController {
 
         reservation.setStatus(ReservationStatus.REJECTED);
 
-        // TODO: Call sendNotification
+        notificationSendingService.send(new Notification(reservation));
+
         reservationService.save(reservation);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -210,8 +211,11 @@ public class ReservationController {
         if (cancelDuration > daysToReservation) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         reservation.setStatus(ReservationStatus.CANCELLED);
-        // TODO: Call sendNotification
+
+        notificationSendingService.send(new Notification(reservation));
+
         reservationService.save(reservation);
         calendarService.unreserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
         return new ResponseEntity<>(HttpStatus.OK);
