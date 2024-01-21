@@ -205,7 +205,7 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
 
-        long cancelDuration = accommodationService.findOne(reservation.getId()).getCancelDuration();
+        long cancelDuration = accommodationService.findOne(reservation.getAccommodation().getId()).getCancelDuration();
         long daysToReservation = reservation.getStart().toEpochDay() - LocalDate.now().toEpochDay();
         if (cancelDuration > daysToReservation) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

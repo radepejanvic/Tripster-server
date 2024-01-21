@@ -9,16 +9,16 @@ insert into address (city, country, number, street, zip_code) values ('London', 
 insert into address (city, country, number, street, zip_code) values ('Valencia', 'Spain', '10', 'C/ de Correus, Ciutat Vella', '46002');
 insert into address (city, country, number, street, zip_code) values ('Moncada', 'Spain', '1', 'Av. de Ferrran el Catòlic, Mercat de', '46113');
 
-Insert Into users (email, password, status, user_type) Values ('guest@hotmail.com', 'guest', 1, 0);
+Insert Into users (email, password, status, user_type) Values ('guest@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Ivan_Bogisich30@yahoo.com', 'JR78k9H69z5YzW_', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Judy_Gusikowski39@yahoo.com', 'to63t1QNRJLKIzl', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Kent83@gmail.com', 'ZXAKlKmJyxn3c_G', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('Richard29@hotmail.com', 'ww6kPYJrr0d1A8D', 1, 0);
-Insert Into users (email, password, status, user_type) Values ('host@hotmail.com', 'host', 1, 1);
+Insert Into users (email, password, status, user_type) Values ('host@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Tammy.Nicolas88@gmail.com', 'fVzIvtOI4qM98UW', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmail.com', 'bEAVKuU_KlNeYdi', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', 'k1EDPX5NHIJrQ68', 1, 1);
-Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', 'admin', 1, 2);
+Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 2);
 
 Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (1, true, true, true);
 Insert Into settings (user_id, reservation_notification, review_notification, accommodation_review_notification) Values (2, true, true, true);
