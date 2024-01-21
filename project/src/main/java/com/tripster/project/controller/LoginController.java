@@ -88,7 +88,7 @@ public class LoginController {
 
             Optional<User> ret = userService.findByUsername(userDTO.getEmail());
 
-            if (ret.isEmpty()) {
+            if (ret.isEmpty() ) {
                 status = HttpStatus.NOT_FOUND;
             }
             else
@@ -96,14 +96,23 @@ public class LoginController {
                 switch (ret.get().getStatus()){
                     case NEW -> {
                         status = HttpStatus.UNAUTHORIZED;
+                        break;
                     }
                     case SUSPENDED -> {
                         status = HttpStatus.FORBIDDEN;
+                        break;
                     }
                     case DELETED -> {
                         status = HttpStatus.NOT_FOUND;
+                        break;
+                        
+                    }
+                    default -> {
+                        status = HttpStatus.NOT_FOUND;
                     }
                 }
+                
+                
             }
         }
         dto.setToken(token);
