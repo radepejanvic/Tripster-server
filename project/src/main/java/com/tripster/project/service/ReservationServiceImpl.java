@@ -93,7 +93,7 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
             return false;
         }
 
-        int rejected = reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+        reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
 
         reservation.setStatus(ReservationStatus.ACCEPTED);
         calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());

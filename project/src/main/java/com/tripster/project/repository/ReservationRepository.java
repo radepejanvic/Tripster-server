@@ -55,7 +55,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "and (:start <= r.end and :end >= r.start)")
     int rejectOverlappingReservations(Long id, Long accommodationId, LocalDate start, LocalDate end);
 
-
     @Query("select count(r) " +
             "from Reservation r " +
             "join r.accommodation a " +
