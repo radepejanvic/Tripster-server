@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AccommodationInfoPage {
     @FindBy(xpath = "//h1[1]")
@@ -31,12 +32,12 @@ public class AccommodationInfoPage {
         return isOpened;
     }
 
-    public void scrollToTop() {
+    public boolean scrollToTop() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         js.executeScript("window.scrollTo(0, 0)");
-
+        AtomicBoolean status = new AtomicBoolean(false);
         wait.until(webDriver -> {
             Number scrollY = (Number) js.executeScript("return window.scrollY;");
 
@@ -45,8 +46,15 @@ public class AccommodationInfoPage {
             System.out.println("Checking scroll position - Scroll Y: " + scrollYValue);
 
             double margin = 10.0;
+            if (scrollYValue <= 0 + margin) {
+                status.set(true);
+            }else {
+                status.set(false);
+            }
+
             return scrollYValue <= 0 + margin;
         });
+        return status.get();
     }
 
     public void mangedClick(){
