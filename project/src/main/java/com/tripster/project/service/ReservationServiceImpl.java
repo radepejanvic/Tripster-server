@@ -1,12 +1,16 @@
 package com.tripster.project.service;
 
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.repository.ReservationRepository;
 import com.tripster.project.service.interfaces.IReservationServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,8 +24,14 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private CalendarService calendarService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
+
     public Reservation findOne(Long id) {
-        return reservationRepository.findById(id).orElseGet(null);
+        return reservationRepository.findById(id).orElse(null);
     }
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
@@ -41,9 +51,6 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.getAllForHost(hostId);
     }
     public List<Reservation> getAllActiveForHost(Long hostId) { return reservationRepository.getAllActiveForHost(hostId);}
-    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
-        return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
-    }
 
     @Override
     public List<Reservation> findByGuestFilter(Long id, String name, long start, long end, List<ReservationStatus> statusList) {
@@ -70,4 +77,31 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     public int calculateNumberOfCancelled(Long guestId) {
         return reservationRepository.calculateNumberOfCancelled(guestId);
     }
+
+    public List<Reservation> getAllInDateRangeForAccommodation(LocalDate start, LocalDate end, Long accId) {
+        return reservationRepository.getAllInDateRangeForAccommodation(start, end, accId);
+    }
+
+    @Transactional
+    public boolean accept(Reservation reservation) {
+
+        if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING) {
+            return false;
+        }
+
+        if (!calendarService.isAvailable(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd())) {
+            return false;
+        }
+
+        reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        reservation.setStatus(ReservationStatus.ACCEPTED);
+        calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        notificationSendingService.send(new Notification(reservation));
+
+        reservationRepository.save(reservation);
+        return true;
+    }
+
 }

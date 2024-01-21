@@ -44,7 +44,11 @@ public class Notification {
         text = generateReservationText(reservation);
         type = NotificationType.RESERVATION;
         status = NotificationStatus.NEW;
-        this.user = reservation.getAccommodation().getOwner().getUser();
+        if (reservation.getStatus() == ReservationStatus.ACCEPTED || reservation.getStatus() == ReservationStatus.REJECTED) {
+            this.user = reservation.getGuest().getUser();
+        } else {
+            this.user = reservation.getAccommodation().getOwner().getUser();
+        }
         timeStamp = LocalDateTime.now();
     }
 
