@@ -3,6 +3,7 @@ package com.tripster.project.repository;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
@@ -125,5 +126,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "where r.guest.id = :guestId " +
             "and r.status = 'CANCELLED'")
     int calculateNumberOfCancelled(Long guestId);
+
+    @Modifying
+    @Query("update Reservation r " +
+            "set r.passed = true " +
+            "where r.end < :now " +
+            "and r.passed = false ")
+    int markAsPassed(LocalDate now);
 
 }
