@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -78,6 +77,7 @@ public class ReservationServiceTest {
 
         reservation = new Reservation(
                 RESERVATION_ID,
+                false,
                 LocalDate.of(2023, 1, 2),
                 LocalDate.of(2023, 1, 4),
                 3,

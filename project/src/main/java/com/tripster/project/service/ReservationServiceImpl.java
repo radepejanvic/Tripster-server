@@ -1,5 +1,6 @@
 package com.tripster.project.service;
 
+import com.tripster.project.model.Notification;
 import com.tripster.project.model.Reservation;
 import com.tripster.project.model.enums.ReservationStatus;
 import com.tripster.project.repository.ReservationRepository;
@@ -8,8 +9,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
