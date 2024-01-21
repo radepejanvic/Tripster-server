@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Component
 public class JwtTokenUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 365L * 24L * 60L * 60L * 1000L;
     @Value("${jwt.key}")
     private String key;
 
@@ -51,7 +51,7 @@ public class JwtTokenUtil {
                 .setSubject(userDetails.getUsername())
                 .claim("role", userDetails.getAuthorities())
                 .setIssuedAt( new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ JWT_TOKEN_VALIDITY*365))
+                .setExpiration(new Date(System.currentTimeMillis()+ JWT_TOKEN_VALIDITY))
                 .signWith(SignatureAlgorithm.HS512,key).compact();
     }
 
