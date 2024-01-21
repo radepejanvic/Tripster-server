@@ -15,7 +15,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT res FROM Reservation res " +
             "JOIN FETCH res.accommodation " +
             "JOIN FETCH res.guest " +
-            "WHERE res.guest.id = :guestId")
+            "WHERE res.guest.id = :guestId ")
     List<Reservation> getAllForGuest(Long guestId);
     @Query("SELECT res FROM Reservation res " +
             "JOIN FETCH res.accommodation " +
@@ -62,7 +62,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "where a.id = :accommodationId " +
             "and g.id = :guestId " +
             "and r.status = 'ACCEPTED' " +
-            "and r.end between :pastSevenDays and :today")
+            "and r.end >= :pastSevenDays " +
+            "and r.end <= :today")
     int findAllByGuestAndAccommodation(Long accommodationId, Long guestId, LocalDate today, LocalDate pastSevenDays);
 
     @Query("select count(r) " +
