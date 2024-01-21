@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -21,10 +23,16 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private CalendarService calendarService;
+
+    @Autowired
+    private NotificationSendingService notificationSendingService;
+
     @Transactional
     public Reservation findOne(Long id) {
         reservationRepository.markAsPassed(LocalDate.now());
-        return reservationRepository.findById(id).orElseGet(null);
+        return reservationRepository.findById(id).orElse(null);
     }
 
     @Transactional
@@ -103,4 +111,27 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
     public int calculateNumberOfCancelled(Long guestId) {
         return reservationRepository.calculateNumberOfCancelled(guestId);
     }
+
+    @Transactional
+    public boolean accept(Reservation reservation) {
+
+        if (reservation.getAccommodation().isAutomaticReservation() || reservation.getStatus() != ReservationStatus.PENDING) {
+            return false;
+        }
+
+        if (!calendarService.isAvailable(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd())) {
+            return false;
+        }
+
+        reservationRepository.rejectOverlappingReservations(reservation.getId(), reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        reservation.setStatus(ReservationStatus.ACCEPTED);
+        calendarService.reserveDays(reservation.getAccommodation().getId(), reservation.getStart(), reservation.getEnd());
+
+        notificationSendingService.send(new Notification(reservation));
+
+        reservationRepository.save(reservation);
+        return true;
+    }
+
 }

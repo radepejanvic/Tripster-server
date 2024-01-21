@@ -4,12 +4,14 @@ import com.tripster.project.dto.PriceDTO;
 import com.tripster.project.model.Accommodation;
 import com.tripster.project.model.Day;
 import com.tripster.project.model.enums.DayStatus;
+import com.tripster.project.repository.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -143,9 +145,13 @@ public class CalendarService {
     }
 
     public int reserveDays(Long id, LocalDate start, LocalDate end) {
-        start = start.plusDays(1);
-        end = end.plusDays(1);
+
+        if(end.isBefore(start)) throw new IllegalArgumentException("Start date must be before end date.");
+
         Accommodation accommodation = accommodationService.findOne(id);
+
+        if(accommodation == null) throw new IllegalArgumentException("Accommodation with the given id not found.");
+
         Set<Day> calendar = accommodation.getCalendar();
         int reserved = 0;
 
@@ -158,6 +164,7 @@ public class CalendarService {
 
         accommodation.setCalendar(calendar);
         accommodationService.save(accommodation);
+
         return reserved;
     }
 
@@ -178,6 +185,12 @@ public class CalendarService {
         accommodation.setCalendar(calendar);
         accommodationService.save(accommodation);
         return unreserved;
+    }
+
+    public boolean isAvailable(Long id, LocalDate start, LocalDate end) {
+        long daysDifference = ChronoUnit.DAYS.between(start, end) + 1;
+        long available = accommodationService.countAvailableDays(id, start, end);
+        return available == daysDifference;
     }
 
 }
