@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UpdateAccommodationPage {
     @FindBy(xpath = "//h1[2]")
@@ -46,14 +47,14 @@ public class UpdateAccommodationPage {
 
         return isOpened;
     }
-    public void scrollToBottom() {
+    public boolean scrollToBottom() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
 
         // Scroll to the bottom of the page
         js.executeScript("window.scrollTo(0, document.body.scrollHeight-1000)");
-
+        AtomicBoolean status = new AtomicBoolean(false);
         // Wait until the scroll position reaches the bottom
         wait.until(webDriver -> {
             Number innerHeight = (Number) js.executeScript("return window.innerHeight;");
@@ -67,9 +68,16 @@ public class UpdateAccommodationPage {
             System.out.println("Checking scroll position - Inner height: " + innerHeightValue + ", Scroll Y: " + scrollYValue + ", Body scroll height: " + bodyScrollHeightValue);
 
             double targetScrollPosition = bodyScrollHeightValue - innerHeightValue - 1000;
+            if (scrollYValue >= targetScrollPosition) {
+                status.set(true);
+            }else {
+                status.set(false);
+            }
 
             return scrollYValue >= targetScrollPosition;
-        });}
+        });
+        return status.get();
+    }
 
     public void addDate(String start,String end,int price){
         String startD  = "button[aria-label='"+start+"']";
@@ -86,7 +94,8 @@ public class UpdateAccommodationPage {
     }
 
     public boolean isValidNumberOfDateInterval(int number){
-        return list.size() == number;
+        boolean until = (new WebDriverWait(driver, Duration.ofSeconds(10))).until(driver1 -> {return  list.size() == number;});
+        return until;
     }
 
     public void disableDays(String start,String end){

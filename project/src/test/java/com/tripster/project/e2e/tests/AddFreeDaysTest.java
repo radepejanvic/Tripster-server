@@ -12,7 +12,7 @@ public class AddFreeDaysTest extends TestBase{
 
     private  static final String USERNAME = "host@hotmail.com";
     private  static final String PASSWORD = "host";
-    private  static final String NAME = "Test hotel33";
+    private  static final String NAME = "Test hotel41";
     private  static final String SHORT_DESCRIPTION = "This is good hotel.";
     private  static final String MIN_CAP = "2";
     private  static final String MAX_CAP = "5";
@@ -32,7 +32,7 @@ public class AddFreeDaysTest extends TestBase{
         homePage.openAddAccommodationPage();
 
         AddAccommodationPage addAccommodationPage = new AddAccommodationPage(driver);
-        addAccommodationPage.isPageOpened();
+        assertTrue(addAccommodationPage.isPageOpened());
         addAccommodationPage.setText(NAME,SHORT_DESCRIPTION,MIN_CAP,MAX_CAP);
         addAccommodationPage.setRoomTypeAndReservationType(ROOM_TYPE);
         addAccommodationPage.setAddressAndDescription(COUNTRY,CITY,STREET,ZIP_CODE,STREET_NUMBER,DESCRIPTION);
@@ -41,7 +41,7 @@ public class AddFreeDaysTest extends TestBase{
         addAccommodationPage.submit();
 
         PhotoPage photoPage = new PhotoPage(driver);
-        photoPage.isPageOpened();
+        assertTrue(photoPage.isPageOpened());
         List<String> list = new ArrayList<>();
         list.add("C:\\Users\\Nikola\\Desktop\\ISS\\project\\src\\main\\resources\\photos\\1_primary_1.jpg");
         list.add("C:\\Users\\Nikola\\Desktop\\ISS\\project\\src\\main\\resources\\photos\\1_primary_1.jpg");
@@ -51,7 +51,7 @@ public class AddFreeDaysTest extends TestBase{
         photoPage.setPhotos(list);
 
         DatePage datePage  = new DatePage(driver);
-        datePage.isPageOpened();
+        assertTrue(datePage.isPageOpened());
         datePage.addDate("January 26, 2024","January 28, 2024",50);
         datePage.addDate("January 27, 2024","January 30, 2024",60);
         datePage.addDate("January 26, 2024","January 29, 2024",80);
@@ -60,19 +60,19 @@ public class AddFreeDaysTest extends TestBase{
         datePage.finish();
 
         AccommodationInfoPage accommodationInfoPage = new AccommodationInfoPage(driver);
-        accommodationInfoPage.isPageOpened(NAME);
-        accommodationInfoPage.scrollToTop();
+        assertTrue(accommodationInfoPage.isPageOpened(NAME));
+        assertTrue(accommodationInfoPage.scrollToTop());
         accommodationInfoPage.mangedClick();
 
         UpdateAccommodationPage updateAccommodationPage = new UpdateAccommodationPage(driver);
-        updateAccommodationPage.isPageOpened();
-        updateAccommodationPage.scrollToBottom();
+        assertTrue(updateAccommodationPage.isPageOpened());
+        assertTrue(updateAccommodationPage.scrollToBottom());
         updateAccommodationPage.addDate("January 26, 2024","January 30, 2024",100);
         updateAccommodationPage.submit();
-        updateAccommodationPage.isValidNumberOfDateInterval(1);
+        assertTrue(updateAccommodationPage.isValidNumberOfDateInterval(1));
+
         updateAccommodationPage.disableDays("January 27, 2024","January 28, 2024");
-        updateAccommodationPage.isValidNumberOfDateInterval(2);
-    }
+        assertTrue(updateAccommodationPage.isValidNumberOfDateInterval(2));    }
 
 
 }
