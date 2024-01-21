@@ -19,19 +19,18 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<TokenDTO> register(@RequestBody PersonCruDTO dto) {
+    public ResponseEntity<Person> register(@RequestBody PersonCruDTO dto) {
 
         Person person = PersonCruDTOMapper.fromDTOtoPerson(dto,"NEW");
         TokenDTO tokenDTO = new TokenDTO();
 
         try {
-            tokenDTO.setToken(registrationService.register(person));
+            person = registrationService.register(person);
         } catch (MessagingException e) {
-            tokenDTO.setToken("");
-            return new ResponseEntity<>(tokenDTO,HttpStatus.CONFLICT);
+            return new ResponseEntity<>(person,HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(tokenDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(person, HttpStatus.CREATED);
     }
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token) {
