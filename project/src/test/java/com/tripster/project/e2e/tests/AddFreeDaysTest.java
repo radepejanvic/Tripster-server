@@ -1,9 +1,6 @@
 package com.tripster.project.e2e.tests;
 
-import com.tripster.project.e2e.pages.AddAccommodationPage;
-import com.tripster.project.e2e.pages.DatePage;
-import com.tripster.project.e2e.pages.HomePage;
-import com.tripster.project.e2e.pages.PhotoPage;
+import com.tripster.project.e2e.pages.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ public class AddFreeDaysTest extends TestBase{
 
     private  static final String USERNAME = "host@hotmail.com";
     private  static final String PASSWORD = "host";
-    private  static final String NAME = "Test hotel31";
+    private  static final String NAME = "Test hotel33";
     private  static final String SHORT_DESCRIPTION = "This is good hotel.";
     private  static final String MIN_CAP = "2";
     private  static final String MAX_CAP = "5";
@@ -61,6 +58,20 @@ public class AddFreeDaysTest extends TestBase{
         datePage.remove(1);
         datePage.submit();
         datePage.finish();
+
+        AccommodationInfoPage accommodationInfoPage = new AccommodationInfoPage(driver);
+        accommodationInfoPage.isPageOpened(NAME);
+        accommodationInfoPage.scrollToTop();
+        accommodationInfoPage.mangedClick();
+
+        UpdateAccommodationPage updateAccommodationPage = new UpdateAccommodationPage(driver);
+        updateAccommodationPage.isPageOpened();
+        updateAccommodationPage.scrollToBottom();
+        updateAccommodationPage.addDate("January 26, 2024","January 30, 2024",100);
+        updateAccommodationPage.submit();
+        updateAccommodationPage.isValidNumberOfDateInterval(1);
+        updateAccommodationPage.disableDays("January 27, 2024","January 28, 2024");
+        updateAccommodationPage.isValidNumberOfDateInterval(2);
     }
 
 
