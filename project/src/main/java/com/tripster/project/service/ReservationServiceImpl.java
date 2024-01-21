@@ -52,8 +52,9 @@ public class ReservationServiceImpl implements IReservationServiceImpl {
         return reservationRepository.save(reservation);
     }
 
-    @Transactional
     public void remove(Long id) { reservationRepository.deleteById(id); }
+
+    @Transactional
     public List<Reservation> getAllForGuest(Long guestId) {
         reservationRepository.markAsPassed(LocalDate.now());
         return reservationRepository.getAllForGuest(guestId);

@@ -16,7 +16,9 @@ public class ReviewService {
 
         LocalDate today = LocalDate.now();
 
-        return reservationRepository.findAllByGuestAndHost(hostId, guestId, today) != 0;
+        int count = reservationRepository.findAllByGuestAndHost(hostId, guestId, today);
+
+        return count != 0;
     }
 
     public boolean canReviewAccommodation(Long accommodationId, Long guestId) {
@@ -24,7 +26,9 @@ public class ReviewService {
         LocalDate today = LocalDate.now();
         LocalDate pastSevenDays = today.minusDays(7);
 
-        return reservationRepository.findAllByGuestAndAccommodation(accommodationId, guestId, today, pastSevenDays) != 0;
+        int count = reservationRepository.findAllByGuestAndAccommodation(accommodationId, guestId, today, pastSevenDays);
+
+        return count != 0;
     }
 
 }

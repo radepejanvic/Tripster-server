@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,12 +39,18 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private EmailSender emailSender;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Value(value="${template}")
     private String templatePath;
 
     @Transactional
     @Override
     public Person register(Person person) throws MessagingException {
+
+        String password = person.getUser().getPassword();
+        person.getUser().setPassword(encoder.encode(password));
 
         if (person.getUser().getUserType().equals(UserType.GUEST)){
             person = guestService.save(person);

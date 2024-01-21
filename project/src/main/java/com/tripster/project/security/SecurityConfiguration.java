@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 	public PasswordEncoder passwordEncoder() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode("admin"));
-		return NoOpPasswordEncoder.getInstance();
+		return encoder;
 	}
 
 	@Bean
