@@ -20,7 +20,7 @@ public class CancelReservationTest extends TestBase {
     void test_cancel_reservation() {
         HomePage homePage = new HomePage(driver);
         homePage.login(USERNAME,PASSWORD);
-        homePage.openReservationsPage();
+        homePage.openGuestReservationsPage();
 
         GuestReservationsPage guestReservationsPage = new GuestReservationsPage(driver);
 
