@@ -16,7 +16,7 @@ Insert Into users (email, password, status, user_type) Values ('Kent83@gmail.com
 Insert Into users (email, password, status, user_type) Values ('Richard29@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 0);
 Insert Into users (email, password, status, user_type) Values ('host@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Tammy.Nicolas88@gmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
-Insert Into users (email, password, status, user_type) Values ('Daniel.Orn6@gmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
+Insert Into users (email, password, status, user_type) Values ('testHost@gmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('Clark69@gmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 1);
 Insert Into users (email, password, status, user_type) Values ('admin@hotmail.com', '$2a$10$plkV8LzaMiyd9qDGAKdRf.6XqCbYw3lJB7561Z.17RJ0Jp4deP.T6', 1, 2);
 
@@ -90,6 +90,12 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 -- others
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-08-12', '2025-08-17', 5, 100.0, 4, 4, 3, 'PENDING', false);
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-07-22', '2025-07-26', 4, 120.0, 2, 3, 1, 'ACCEPTED', false);
+-- selenium accept reservation
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-10', '2025-02-20', 10, 500.0, 2, 1, 10, 'PENDING', false);
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-05', '2025-02-15', 10, 500.0, 2, 1, 10, 'PENDING', false);
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-11', '2025-02-16', 8, 400.0, 2, 1, 10, 'PENDING', false);
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-15', '2025-02-25', 10, 500.0, 2, 1, 10, 'PENDING', false);
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-05', '2025-02-25', 20, 1000.0, 2, 1, 10, 'PENDING', false);
 
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Exc of accessory spleen','RESERVATION', 'NEW');
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Remove penetrat FB eye','REVIEW', 'READ');
