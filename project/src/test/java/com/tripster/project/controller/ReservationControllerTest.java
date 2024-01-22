@@ -60,7 +60,7 @@ class ReservationControllerTest {
     public void login() {
         UserDTO dto = new UserDTO();
         dto.setEmail("host@hotmail.com");
-        dto.setPassword("host");
+        dto.setPassword("admin");
         ResponseEntity<TokenDTO> responseEntity = restTemplate.exchange("/api/login",
                 POST,
                 new HttpEntity<>(dto),
@@ -72,7 +72,7 @@ class ReservationControllerTest {
     @BeforeEach
     public void calendarSetup() {
         List<PriceDTO> calendar = new ArrayList<>();
-        calendar.add(new PriceDTO(LocalDate.of(2023, 1, 1), LocalDate.of(2023, 2, 28), 100));
+        calendar.add(new PriceDTO(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 2, 28), 100));
 
         Accommodation accommodation = accommodationService.findOne(1L);
         accommodation.setCalendar(calendarService.getCalendar(calendar));
@@ -98,6 +98,57 @@ class ReservationControllerTest {
                 });
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Accept reservation - accommodation has automatic reservation")
+    void test_accept_reservation_automatic_reservation_on() {
+        long id = 2L;
+        String url = "/api/reservations/accept/" + id;
+
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
+                PUT,
+                new HttpEntity<>(null, getHttpHeaders()),
+                new ParameterizedTypeReference<>() {
+                });
+
+        assertEquals(false, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(ReservationStatus.ACCEPTED, reservationService.findOne(id).getStatus());
+    }
+
+    @Test
+    @DisplayName("Accept reservation - reservation status not PENDING")
+    void test_accept_reservation_status_not_pending() {
+        long id = 12L;
+        String url = "/api/reservations/accept/" + id;
+
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
+                PUT,
+                new HttpEntity<>(null, getHttpHeaders()),
+                new ParameterizedTypeReference<>() {
+                });
+
+        assertEquals(false, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(ReservationStatus.CANCELLED, reservationService.findOne(id).getStatus());
+    }
+
+    @Test
+    @DisplayName("Accept reservation - dates not available")
+    void test_accept_reservation_dates_not_available() {
+        long id = 13L;
+        String url = "/api/reservations/accept/" + id;
+
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(url,
+                PUT,
+                new HttpEntity<>(null, getHttpHeaders()),
+                new ParameterizedTypeReference<>() {
+                });
+
+        assertEquals(false, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(ReservationStatus.PENDING, reservationService.findOne(id).getStatus());
     }
 
     // Reservation with id = 1

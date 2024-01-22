@@ -30,7 +30,10 @@ public class HomePage {
     WebElement hamburger;
 
     @FindBy(css = "[ng-reflect-router-link='/guest/reservation']")
-    WebElement reservations;
+    WebElement guestReservations;
+
+    @FindBy(css = "[ng-reflect-router-link='/host/reservation']")
+    WebElement hostReservations;
 
 
     public HomePage(WebDriver driver){
@@ -51,12 +54,20 @@ public class HomePage {
         addAccommodationButton.click();
     }
 
-    public void openReservationsPage() {
+    public void openGuestReservationsPage() {
         Actions a = new Actions(driver);
         a.moveToElement(hamburger).build().perform();
 
         (new WebDriverWait(driver, Duration.ofSeconds(10)))
-                .until(ExpectedConditions.elementToBeClickable(reservations)).click();
+                .until(ExpectedConditions.elementToBeClickable(guestReservations)).click();
+    }
+
+    public void openHostReservationsPage() {
+        Actions a = new Actions(driver);
+        a.moveToElement(hamburger).build().perform();
+
+        (new WebDriverWait(driver, Duration.ofSeconds(10)))
+                .until(ExpectedConditions.elementToBeClickable(hostReservations)).click();
     }
 
 }
