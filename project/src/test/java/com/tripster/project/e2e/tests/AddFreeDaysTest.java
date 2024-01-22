@@ -12,7 +12,7 @@ public class AddFreeDaysTest extends TestBase{
 
     private  static final String USERNAME = "host@hotmail.com";
     private  static final String PASSWORD = "admin";
-    private  static final String NAME = "Test hotel41";
+    private  static final String NAME = "Test hotel43";
     private  static final String SHORT_DESCRIPTION = "This is good hotel.";
     private  static final String MIN_CAP = "2";
     private  static final String MAX_CAP = "5";
