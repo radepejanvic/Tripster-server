@@ -83,9 +83,11 @@ insert into reservation (start_date, end_date, duration, price, guests_no, guest
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-11', '2025-02-16', 8, 400.0, 2, 1, 1, 'PENDING', false);
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-15', '2025-02-25', 10, 500.0, 2, 1, 1, 'PENDING', false);
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-02-05', '2025-02-25', 20, 1000.0, 2, 1, 1, 'PENDING', false);
--- others
+-- status not PENDING -> id = 12
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-07-22', '2025-07-26', 4, 120.0, 2, 1, 1, 'CANCELLED', false);
-insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-12-03', '2025-12-09', 6, 240.0, 2, 2, 1, 'CANCELLED', false);
+-- dates not available -> id = 13
+insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2026-12-03', '2026-12-09', 6, 240.0, 2, 2, 1, 'PENDING', false);
+-- others
 insert into reservation (start_date, end_date, duration, price, guests_no, guest_id, accommodation_id, status, passed) values ('2025-08-12', '2025-08-17', 5, 100.0, 4, 4, 3, 'PENDING', false);
 
 insert into notification (user_id, title, text, type, status) values (1, 'Title', 'Exc of accessory spleen','RESERVATION', 'NEW');
