@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +24,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -40,13 +44,43 @@ class CalendarServiceTest {
     private CalendarService calendarService;
 
     @Test
-    public void test_getCalendar(){
+    public void test_getCalendar_one_interval(){
         List<PriceDTO> dtos = new ArrayList<>();
         LocalDate now = LocalDate.now();
         dtos.add(new PriceDTO(now,now.plusDays(4),50));
         Set<Day>  days = calendarService.getCalendar(dtos);
+        List<Day> list = new ArrayList<>(days);
+        list.sort(Comparator.comparing(Day::getDate));
+        assertEquals(5,days.size());
+        int i = 1;
+        for (Day day: list){
+            assertEquals(50,day.getPrice());
+            LocalDate date = now.plusDays(i);
+            i++;
+            assertEquals(date,day.getDate());
+
+        }
+        verifyNoInteractions(accommodationService);
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "source_dates_prices_nothing_to_order_more_intervals")
+    public void test_getCalendar_more_interval(LocalDate date,Double price){
+        List<PriceDTO> dtos = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        dtos.add(new PriceDTO(now,now.plusDays(4),50));
+        dtos.add(new PriceDTO(now.plusDays(1),now.plusDays(2),60));
+        Set<Day>  days = calendarService.getCalendar(dtos);
 
         assertEquals(5,days.size());
+        boolean entered = false;
+        for (Day priceList : days) {
+            if(priceList.getDate().equals(date)){
+                assertEquals(price, priceList.getPrice());
+                entered = true;
+                break;
+            }
+        }
         verifyNoInteractions(accommodationService);
     }
     @Test
@@ -130,6 +164,62 @@ class CalendarServiceTest {
         verify(accommodationService).save(accommodation);
     }
 
+    @Test
+    public void test_getPricelists_one_interval(){
+        Accommodation accommodation = new Accommodation();
+        accommodation.setId(VALID_ACCOMMODATION);
+        LocalDate now = LocalDate.now();
+        Set<Day> days = new HashSet<>();
+        days.add(new Day(now,60, DayStatus.AVAILABLE));
+        days.add(new Day(now.plusDays(1),60, DayStatus.AVAILABLE));
+        days.add(new Day(now.plusDays(2),60, DayStatus.AVAILABLE));
+        accommodation.setCalendar(days);
+        List<Day> days1 = new ArrayList<>(days);
+        days1.sort(Comparator.comparing(Day::getDate));
+        when(accommodationService.findCalendar(VALID_ACCOMMODATION)).thenReturn(days1);
+
+        List<PriceDTO> dtos = calendarService.getPricelists(VALID_ACCOMMODATION);
+        assertEquals(1,dtos.size());
+        assertEquals(now.plusDays(2),dtos.get(0).getEnd());
+        assertEquals(now,dtos.get(0).getStart());
+        assertEquals(60,dtos.get(0).getPrice());
+
+        verify(accommodationService).findCalendar(VALID_ACCOMMODATION);
+        verifyNoMoreInteractions(accommodationService);
+
+    }
+
+    @Test
+    public void test_getPricelists_more_interval(){
+        Accommodation accommodation = new Accommodation();
+        accommodation.setId(VALID_ACCOMMODATION);
+        LocalDate now = LocalDate.now();
+        Set<Day> days = new HashSet<>();
+        days.add(new Day(now,60, DayStatus.AVAILABLE));
+        days.add(new Day(now.plusDays(1),60, DayStatus.AVAILABLE));
+        days.add(new Day(now.plusDays(2),70, DayStatus.AVAILABLE));
+        days.add(new Day(now.plusDays(3),70, DayStatus.AVAILABLE));
+        accommodation.setCalendar(days);
+        List<Day> days1 = new ArrayList<>(days);
+        days1.sort(Comparator.comparing(Day::getDate));
+        when(accommodationService.findCalendar(VALID_ACCOMMODATION)).thenReturn(days1);
+
+        List<PriceDTO> dtos = calendarService.getPricelists(VALID_ACCOMMODATION);
+        assertEquals(2,dtos.size());
+
+        assertEquals(now.plusDays(1),dtos.get(0).getEnd());
+        assertEquals(now,dtos.get(0).getStart());
+        assertEquals(60,dtos.get(0).getPrice());
+
+        assertEquals(now.plusDays(3),dtos.get(1).getEnd());
+        assertEquals(now.plusDays(2),dtos.get(1).getStart());
+        assertEquals(70,dtos.get(1).getPrice());
+
+
+        verify(accommodationService).findCalendar(VALID_ACCOMMODATION);
+        verifyNoMoreInteractions(accommodationService);
+
+    }
     @Test
     @DisplayName("Reserve days - invalid dates")
     public void test_reserve_days_invalid_dates() {
@@ -228,5 +318,15 @@ class CalendarServiceTest {
 
         verify(accommodationService).findOne(1L);
         verify(accommodationService).save(accommodation);
+    }
+
+    static Stream<Arguments> source_dates_prices_nothing_to_order_more_intervals() {
+        return Stream.of(
+                arguments(LocalDate.now().plusDays(1), 50.0),
+                arguments(LocalDate.now().plusDays(2), 60.0),
+                arguments(LocalDate.now().plusDays(3), 60.0),
+                arguments(LocalDate.now().plusDays(5), 50.0),
+                arguments(LocalDate.now().plusDays(4), 50.0)
+        );
     }
 }

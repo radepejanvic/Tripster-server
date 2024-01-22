@@ -43,7 +43,7 @@ class AccommodationControllerTest {
     public void login() {
         UserDTO dto = new UserDTO();
         dto.setEmail("host@hotmail.com");
-        dto.setPassword("host");
+        dto.setPassword("admin");
         ResponseEntity<TokenDTO> responseEntity = restTemplate.exchange("/api/login",
                 POST,
                 new HttpEntity<>(dto),
@@ -183,5 +183,19 @@ class AccommodationControllerTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(5, response);
+    }
+
+    @Test
+    @DisplayName("Get list with intevarls")
+    public void test_getPricelist(){
+        ResponseEntity<List<PriceDTO>> responseEntity = restTemplate.exchange("/api/accommodations/pricelists/1",
+                HttpMethod.GET,
+                new HttpEntity<>(getHttpHeaders()),
+                new ParameterizedTypeReference<List<PriceDTO>>() {
+                });
+        List<PriceDTO> response = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
     }
 }
